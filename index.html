@@ -32,1691 +32,347 @@
   --radius-full: 999px;
   --font-main: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(--text-primary); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
+/* ==================== Launch Page ==================== */
+.launch-page { position:fixed; inset:0; z-index:1000; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(160deg,#FFF0F3 0%,#FFE4E1 30%,#FFD1DC 60%,#FFB6C1 100%); overflow:hidden; }
+.launch-page.hidden { display:none; }
+.launch-deco { position:absolute; border-radius:50%; opacity:0.15; pointer-events:none; }
+.launch-deco-1 { width:200px; height:200px; background:var(--pink-primary); top:-60px; right:-40px; animation:floatDeco 6s ease-in-out infinite; }
+.launch-deco-2 { width:140px; height:140px; background:var(--coral); bottom:80px; left:-50px; animation:floatDeco 8s ease-in-out infinite reverse; }
+.launch-deco-3 { width:80px; height:80px; background:var(--pink-pale); top:30%; left:10%; animation:floatDeco 5s ease-in-out infinite 1s; }
+.launch-deco-4 { width:60px; height:60px; background:var(--pink-light); bottom:25%; right:8%; animation:floatDeco 7s ease-in-out infinite 0.5s; }
+@keyframes floatDeco { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-20px) scale(1.05);} }
+.launch-brand { text-align:center; margin-bottom:48px; position:relative; z-index:1; animation:launchFadeIn 0.8s ease; }
+@keyframes launchFadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+.launch-logo { width:88px; height:88px; border-radius:24px; background:linear-gradient(135deg,var(--pink-primary),var(--pink-light)); display:flex; align-items:center; justify-content:center; font-size:42px; margin:0 auto 16px; box-shadow:0 8px 32px rgba(255,107,129,0.3); animation:logoFloat 3s ease-in-out infinite; }
+@keyframes logoFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+.launch-brand h1 { font-size:28px; font-weight:800; color:var(--text-primary); letter-spacing:2px; margin-bottom:6px; }
+.launch-brand p { font-size:13px; color:var(--text-weak); letter-spacing:1px; }
+.launch-cards { display:flex; flex-direction:column; gap:16px; width:100%; max-width:320px; padding:0 24px; position:relative; z-index:1; }
+.launch-card { background:var(--white); border-radius:var(--radius-xl); padding:24px 20px; display:flex; align-items:center; gap:16px; cursor:pointer; box-shadow:0 4px 24px rgba(255,107,129,0.1); transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94); animation:cardSlideUp 0.6s ease backwards; border:2px solid transparent; }
+.launch-card:nth-child(1) { animation-delay:0.2s; }
+.launch-card:nth-child(2) { animation-delay:0.35s; }
+@keyframes cardSlideUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+.launch-card:active { transform:scale(0.97); }
+.launch-card:hover { border-color:var(--pink-pale); box-shadow:0 6px 32px rgba(255,107,129,0.18); }
+.launch-card-icon { width:56px; height:56px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; flex-shrink:0; }
+.launch-card-icon.customer { background:linear-gradient(135deg,#FFF0F3,#FFE4E1); }
+.launch-card-icon.merchant { background:linear-gradient(135deg,#FFF5E6,#FFE8CC); }
+.launch-card-text h3 { font-size:17px; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+.launch-card-text p { font-size:12px; color:var(--text-weak); line-height:1.4; }
+.launch-card-arrow { margin-left:auto; font-size:18px; color:var(--text-weak); flex-shrink:0; transition:transform 0.2s; }
+.launch-card:hover .launch-card-arrow { transform:translateX(3px); }
 
-html, body {
-  font-family: var(--font-main);
-  background: var(--pink-bg);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ==================== Launch / Platform Selection Page ==================== */
-.launch-page {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(160deg, #FFF0F3 0%, #FFE4E1 30%, #FFD1DC 60%, #FFB6C1 100%);
-  overflow: hidden;
-}
-
-.launch-page.hidden {
-  display: none;
-}
-
-/* Decorative floating elements */
-.launch-deco {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.15;
-  pointer-events: none;
-}
-
-.launch-deco-1 {
-  width: 200px;
-  height: 200px;
-  background: var(--pink-primary);
-  top: -60px;
-  right: -40px;
-  animation: floatDeco 6s ease-in-out infinite;
-}
-
-.launch-deco-2 {
-  width: 140px;
-  height: 140px;
-  background: var(--coral);
-  bottom: 80px;
-  left: -50px;
-  animation: floatDeco 8s ease-in-out infinite reverse;
-}
-
-.launch-deco-3 {
-  width: 80px;
-  height: 80px;
-  background: var(--pink-pale);
-  top: 30%;
-  left: 10%;
-  animation: floatDeco 5s ease-in-out infinite 1s;
-}
-
-.launch-deco-4 {
-  width: 60px;
-  height: 60px;
-  background: var(--pink-light);
-  bottom: 25%;
-  right: 8%;
-  animation: floatDeco 7s ease-in-out infinite 0.5s;
-}
-
-@keyframes floatDeco {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
-}
-
-/* Brand area */
-.launch-brand {
-  text-align: center;
-  margin-bottom: 48px;
-  position: relative;
-  z-index: 1;
-  animation: launchFadeIn 0.8s ease;
-}
-
-@keyframes launchFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.launch-logo {
-  width: 88px;
-  height: 88px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 42px;
-  margin: 0 auto 16px;
-  box-shadow: 0 8px 32px rgba(255, 107, 129, 0.3);
-  animation: logoFloat 3s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.launch-brand h1 {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: 2px;
-  margin-bottom: 6px;
-}
-
-.launch-brand p {
-  font-size: 13px;
-  color: var(--text-weak);
-  letter-spacing: 1px;
-}
-
-/* Platform selection cards */
-.launch-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  max-width: 320px;
-  padding: 0 24px;
-  position: relative;
-  z-index: 1;
-}
-
-.launch-card {
-  background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: 24px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  cursor: pointer;
-  box-shadow: 0 4px 24px rgba(255, 107, 129, 0.1);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  animation: cardSlideUp 0.6s ease backwards;
-  border: 2px solid transparent;
-}
-
-.launch-card:nth-child(1) {
-  animation-delay: 0.2s;
-}
-
-.launch-card:nth-child(2) {
-  animation-delay: 0.35s;
-}
-
-@keyframes cardSlideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.launch-card:active {
-  transform: scale(0.97);
-}
-
-.launch-card:hover {
-  border-color: var(--pink-pale);
-  box-shadow: 0 6px 32px rgba(255, 107, 129, 0.18);
-}
-
-.launch-card-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  flex-shrink: 0;
-}
-
-.launch-card-icon.customer {
-  background: linear-gradient(135deg, #FFF0F3, #FFE4E1);
-}
-
-.launch-card-icon.merchant {
-  background: linear-gradient(135deg, #FFF5E6, #FFE8CC);
-}
-
-.launch-card-text h3 {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.launch-card-text p {
-  font-size: 12px;
-  color: var(--text-weak);
-  line-height: 1.4;
-}
-
-.launch-card-arrow {
-  margin-left: auto;
-  font-size: 18px;
-  color: var(--text-weak);
-  flex-shrink: 0;
-  transition: transform 0.2s;
-}
-
-.launch-card:hover .launch-card-arrow {
-  transform: translateX(3px);
-}
-
-/* Invite code modal */
-.invite-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1100;
-  background: rgba(0,0,0,0.4);
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.invite-modal-overlay.show {
-  display: flex;
-  animation: fadeIn 0.2s ease;
-}
-
-.invite-modal {
-  width: 100%;
-  max-width: 340px;
-  background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: 32px 24px 28px;
-  text-align: center;
-  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes modalPop {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.invite-modal .invite-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #FFF5E6, #FFE8CC);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  margin: 0 auto 16px;
-}
-
-.invite-modal h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 6px;
-}
-
-.invite-modal .invite-desc {
-  font-size: 13px;
-  color: var(--text-weak);
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-.invite-input-group {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.invite-input {
-  width: 100%;
-  height: 52px;
-  border: 2px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 0 16px;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  background: var(--pink-ultra-light);
-  outline: none;
-  text-align: center;
-  letter-spacing: 8px;
-  font-family: var(--font-main);
-  transition: border-color 0.2s;
-}
-
-.invite-input:focus {
-  border-color: var(--pink-primary);
-  background: var(--white);
-}
-
-.invite-input::placeholder {
-  letter-spacing: 2px;
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--text-weak);
-}
-
-.invite-error {
-  font-size: 12px;
-  color: var(--red-price);
-  margin-top: 8px;
-  display: none;
-}
-
-.invite-error.show {
-  display: block;
-  animation: shake 0.4s ease;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
-}
-
-.invite-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.invite-btn {
-  flex: 1;
-  height: 46px;
-  border-radius: var(--radius-full);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  font-family: var(--font-main);
-  transition: all 0.2s;
-}
-
-.invite-btn.cancel {
-  background: var(--gray-bg);
-  color: var(--text-secondary);
-}
-
-.invite-btn.cancel:active {
-  background: #EBEBEB;
-}
-
-.invite-btn.submit {
-  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
-  color: var(--white);
-  box-shadow: 0 4px 16px rgba(255, 107, 129, 0.3);
-}
-
-.invite-btn.submit:active {
-  opacity: 0.85;
-  transform: scale(0.97);
-}
+/* ==================== Invite Modal ==================== */
+.invite-modal-overlay { display:none; position:fixed; inset:0; z-index:1100; background:rgba(0,0,0,0.4); align-items:center; justify-content:center; padding:24px; }
+.invite-modal-overlay.show { display:flex; animation:fadeIn 0.2s ease; }
+.invite-modal { width:100%; max-width:340px; background:var(--white); border-radius:var(--radius-xl); padding:32px 24px 28px; text-align:center; animation:modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes modalPop { from{opacity:0;transform:scale(0.85);} to{opacity:1;transform:scale(1);} }
+.invite-modal .invite-icon { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#FFF5E6,#FFE8CC); display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 16px; }
+.invite-modal h3 { font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+.invite-modal .invite-desc { font-size:13px; color:var(--text-weak); margin-bottom:20px; line-height:1.5; }
+.invite-input-group { position:relative; margin-bottom:20px; }
+.invite-input { width:100%; height:52px; border:2px solid var(--border-light); border-radius:var(--radius-md); padding:0 16px; font-size:18px; font-weight:600; color:var(--text-primary); background:var(--pink-ultra-light); outline:none; text-align:center; letter-spacing:8px; font-family:var(--font-main); transition:border-color 0.2s; }
+.invite-input:focus { border-color:var(--pink-primary); background:var(--white); }
+.invite-input::placeholder { letter-spacing:2px; font-weight:400; font-size:14px; color:var(--text-weak); }
+.invite-error { font-size:12px; color:var(--red-price); margin-top:8px; display:none; }
+.invite-error.show { display:block; animation:shake 0.4s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-6px);} 40%,80%{transform:translateX(6px);} }
+.invite-actions { display:flex; gap:10px; }
+.invite-btn { flex:1; height:46px; border-radius:var(--radius-full); font-size:15px; font-weight:600; cursor:pointer; border:none; font-family:var(--font-main); transition:all 0.2s; }
+.invite-btn.cancel { background:var(--gray-bg); color:var(--text-secondary); }
+.invite-btn.cancel:active { background:#EBEBEB; }
+.invite-btn.submit { background:linear-gradient(135deg,var(--pink-primary),var(--pink-light)); color:var(--white); box-shadow:0 4px 16px rgba(255,107,129,0.3); }
+.invite-btn.submit:active { opacity:0.85; transform:scale(0.97); }
 
 /* ==================== App Shell ==================== */
-.app-container {
-  max-width: 430px;
-  margin: 0 auto;
-  min-height: 100vh;
-  background: var(--pink-bg);
-  position: relative;
-  overflow: hidden;
-}
+.app-container { max-width:430px; margin:0 auto; min-height:100vh; background:var(--pink-bg); position:relative; overflow:hidden; }
+.page { display:none; min-height:100vh; padding-bottom:70px; animation:pageIn 0.3s ease; }
+.page.active { display:block; }
+@keyframes pageIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.top-nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:center; height:52px; background:linear-gradient(135deg,var(--pink-primary) 0%,var(--pink-light) 100%); color:var(--white); font-size:17px; font-weight:600; letter-spacing:1px; box-shadow:0 2px 8px rgba(255,107,129,0.2); }
+.top-nav .nav-back { position:absolute; left:16px; font-size:20px; cursor:pointer; opacity:0.9; }
+.top-nav .nav-title { font-size:17px; font-weight:600; }
+.tab-bar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px; height:60px; background:var(--white); display:flex; align-items:center; justify-content:space-around; border-top:1px solid var(--border-light); z-index:200; padding-bottom:env(safe-area-inset-bottom,0); }
+.tab-item { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:6px 12px; transition:all 0.2s; user-select:none; }
+.tab-item svg { width:24px; height:24px; transition:all 0.2s; }
+.tab-item span { font-size:10px; color:var(--text-weak); transition:all 0.2s; }
+.tab-item.active svg { transform:scale(1.1); }
+.tab-item.active span { color:var(--pink-primary); font-weight:600; }
 
-.page {
-  display: none;
-  min-height: 100vh;
-  padding-bottom: 70px;
-  animation: pageIn 0.3s ease;
-}
+/* ==================== Swiper ==================== */
+.swiper-container { width:100%; height:30vh; min-height:180px; max-height:260px; position:relative; overflow:hidden; background:var(--pink-mist); }
+.swiper-track { display:flex; height:100%; transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94); will-change:transform; }
+.swiper-slide { min-width:100%; height:100%; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.swiper-slide .slide-bg { width:100%; height:100%; object-fit:cover; }
+.swiper-slide .slide-content { position:absolute; bottom:0; left:0; right:0; padding:40px 20px 20px; background:linear-gradient(transparent,rgba(0,0,0,0.3)); color:var(--white); }
+.swiper-slide .slide-content h3 { font-size:18px; font-weight:700; margin-bottom:4px; text-shadow:0 1px 4px rgba(0,0,0,0.2); }
+.swiper-slide .slide-content p { font-size:12px; opacity:0.9; }
+.swiper-dots { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:10; }
+.swiper-dot { width:6px; height:6px; border-radius:3px; background:rgba(255,255,255,0.5); transition:all 0.3s; cursor:pointer; }
+.swiper-dot.active { width:18px; background:var(--white); }
 
-.page.active {
-  display: block;
-}
-
-@keyframes pageIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ==================== Top Navigation ==================== */
-.top-nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 52px;
-  background: linear-gradient(135deg, var(--pink-primary) 0%, var(--pink-light) 100%);
-  color: var(--white);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  box-shadow: 0 2px 8px rgba(255, 107, 129, 0.2);
-}
-
-.top-nav .nav-back {
-  position: absolute;
-  left: 16px;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0.9;
-}
-
-.top-nav .nav-title {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-/* ==================== Bottom Tab Bar ==================== */
-.tab-bar {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 430px;
-  height: 60px;
-  background: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  border-top: 1px solid var(--border-light);
-  z-index: 200;
-  padding-bottom: env(safe-area-inset-bottom, 0);
-}
-
-.tab-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  padding: 6px 12px;
-  transition: all 0.2s;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
-
-.tab-item svg {
-  width: 24px;
-  height: 24px;
-  transition: all 0.2s;
-}
-
-.tab-item span {
-  font-size: 10px;
-  color: var(--text-weak);
-  transition: all 0.2s;
-}
-
-.tab-item.active svg {
-  transform: scale(1.1);
-}
-
-.tab-item.active span {
-  color: var(--pink-primary);
-  font-weight: 600;
-}
-
-/* ==================== Swiper / Carousel ==================== */
-.swiper-container {
-  width: 100%;
-  height: 30vh;
-  min-height: 180px;
-  max-height: 260px;
-  position: relative;
-  overflow: hidden;
-  background: var(--pink-mist);
-}
-
-.swiper-track {
-  display: flex;
-  height: 100%;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
-}
-
-.swiper-slide {
-  min-width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.swiper-slide .slide-bg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.swiper-slide .slide-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 40px 20px 20px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.3));
-  color: var(--white);
-}
-
-.swiper-slide .slide-content h3 {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-
-.swiper-slide .slide-content p {
-  font-size: 12px;
-  opacity: 0.9;
-}
-
-.swiper-dots {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  z-index: 10;
-}
-
-.swiper-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(255,255,255,0.5);
-  transition: all 0.3s;
-}
-
-.swiper-dot.active {
-  width: 18px;
-  background: var(--white);
-}
-
-/* ==================== Category Icons ==================== */
-.category-bar {
-  display: flex;
-  justify-content: space-around;
-  padding: 16px 12px;
-  background: var(--white);
-  margin: 0;
-}
-
-.category-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
-.category-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: var(--pink-mist);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  transition: transform 0.2s;
-}
-
-.category-item:active .category-icon {
-  transform: scale(0.92);
-}
-
-.category-item span {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
+/* ==================== Category Bar ==================== */
+.category-bar { display:flex; justify-content:space-around; padding:16px 12px; background:var(--white); margin:0; }
+.category-item { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; }
+.category-icon { width:48px; height:48px; border-radius:14px; background:var(--pink-mist); display:flex; align-items:center; justify-content:center; font-size:22px; transition:all 0.2s; }
+.category-item:active .category-icon { transform:scale(0.92); }
+.category-item.active .category-icon { background:linear-gradient(135deg,var(--pink-primary),var(--pink-light)); box-shadow:0 2px 8px rgba(255,107,129,0.3); }
+.category-item span { font-size:11px; color:var(--text-secondary); transition:color 0.2s; }
+.category-item.active span { color:var(--pink-primary); font-weight:600; }
 
 /* ==================== Section Header ==================== */
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 16px 10px;
-}
-
-.section-header h2 {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  position: relative;
-  padding-left: 12px;
-}
-
-.section-header h2::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 2px;
-  bottom: 2px;
-  width: 3px;
-  border-radius: 2px;
-  background: linear-gradient(180deg, var(--pink-primary), var(--pink-pale));
-}
-
-.section-header .more {
-  font-size: 12px;
-  color: var(--text-weak);
-  cursor: pointer;
-}
+.section-header { display:flex; align-items:center; justify-content:space-between; padding:16px 16px 10px; }
+.section-header h2 { font-size:16px; font-weight:700; color:var(--text-primary); position:relative; padding-left:12px; }
+.section-header h2::before { content:''; position:absolute; left:0; top:2px; bottom:2px; width:3px; border-radius:2px; background:linear-gradient(180deg,var(--pink-primary),var(--pink-pale)); }
+.section-header .more { font-size:12px; color:var(--text-weak); cursor:pointer; }
 
 /* ==================== Product Grid ==================== */
-.product-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 0 12px 16px;
-}
-
-.product-card {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.2s;
-  cursor: pointer;
-}
-
-.product-card:active {
-  transform: scale(0.97);
-}
-
-.product-img {
-  width: 100%;
-  aspect-ratio: 1;
-  background: var(--pink-mist);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-  position: relative;
-  overflow: hidden;
-}
-
-.product-img .tag {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: linear-gradient(135deg, var(--pink-primary), var(--coral));
-  color: var(--white);
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  font-weight: 600;
-}
-
-.product-info {
-  padding: 10px;
-}
-
-.product-name {
-  font-size: 13px;
-  color: var(--text-primary);
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 8px;
-  min-height: 36px;
-}
-
-.product-price-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.product-price {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--red-price);
-}
-
-.product-price .symbol {
-  font-size: 12px;
-}
-
-.product-price-old {
-  font-size: 11px;
-  color: var(--text-weak);
-  text-decoration: line-through;
-  margin-left: 4px;
-}
-
-.product-sales {
-  font-size: 10px;
-  color: var(--text-weak);
-}
-
-.product-buy-btn {
-  display: block;
-  width: 100%;
-  margin-top: 8px;
-  padding: 7px 0;
-  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
-  color: var(--white);
-  border: none;
-  border-radius: var(--radius-full);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.product-buy-btn:active {
-  opacity: 0.85;
-}
-
-/* ==================== Profile Page ==================== */
-.profile-header {
-  background: linear-gradient(135deg, var(--pink-primary) 0%, #FECFEF 100%);
-  padding: 30px 20px 40px;
-  position: relative;
-  overflow: hidden;
-}
-
-.profile-header::after {
-  content: '';
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  right: 0;
-  height: 40px;
-  background: var(--pink-bg);
-  border-radius: 20px 20px 0 0;
-}
-
-.profile-user {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  position: relative;
-  z-index: 1;
-}
-
-.profile-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  flex-shrink: 0;
-}
-
-.profile-info h3 {
-  color: var(--white);
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.profile-info p {
-  color: rgba(255,255,255,0.8);
-  font-size: 12px;
-}
-
-.profile-login-prompt {
-  text-align: center;
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.profile-login-prompt .big-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.3);
-  margin: 0 auto 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-}
-
-.profile-login-prompt p {
-  color: rgba(255,255,255,0.9);
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-
-.btn-login {
-  display: inline-block;
-  padding: 8px 32px;
-  background: var(--white);
-  color: var(--pink-primary);
-  border: none;
-  border-radius: var(--radius-full);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.btn-login:active {
-  transform: scale(0.95);
-}
-
-/* Order Status Tabs */
-.order-tabs {
-  display: flex;
-  background: var(--white);
-  margin: -20px 12px 0;
-  border-radius: var(--radius-lg);
-  padding: 16px 8px;
-  box-shadow: var(--shadow-card);
-  position: relative;
-  z-index: 2;
-}
-
-.order-tab {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  position: relative;
-}
-
-.order-tab .tab-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: var(--pink-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-}
-
-.order-tab span {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-.order-tab .badge {
-  position: absolute;
-  top: -2px;
-  right: calc(50% - 22px);
-  min-width: 16px;
-  height: 16px;
-  background: var(--red-price);
-  color: var(--white);
-  font-size: 10px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
-}
-
-/* Menu List */
-.menu-section {
-  background: var(--white);
-  margin: 12px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  padding: 14px 16px;
-  cursor: pointer;
-  transition: background 0.15s;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.menu-item:last-child {
-  border-bottom: none;
-}
-
-.menu-item:active {
-  background: var(--pink-bg);
-}
-
-.menu-item .menu-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: var(--pink-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.menu-item .menu-text {
-  flex: 1;
-  font-size: 14px;
-  color: var(--text-primary);
-}
-
-.menu-item .menu-arrow {
-  color: var(--text-weak);
-  font-size: 14px;
-}
-
-.menu-item .menu-value {
-  font-size: 13px;
-  color: var(--text-weak);
-  margin-right: 8px;
-}
-
-/* ==================== Order List ==================== */
-.order-list {
-  padding: 0 12px;
-}
-
-.order-card {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 14px;
-  margin-bottom: 10px;
-  box-shadow: var(--shadow-card);
-}
-
-.order-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.order-card-header .order-no {
-  font-size: 12px;
-  color: var(--text-weak);
-}
-
-.order-card-header .order-status {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--pink-primary);
-}
-
-.order-card-body {
-  display: flex;
-  gap: 10px;
-}
-
-.order-thumb {
-  width: 72px;
-  height: 72px;
-  border-radius: var(--radius-sm);
-  background: var(--pink-mist);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  flex-shrink: 0;
-}
-
-.order-detail {
-  flex: 1;
-  min-width: 0;
-}
-
-.order-detail h4 {
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.order-detail .order-spec {
-  font-size: 11px;
-  color: var(--text-weak);
-  margin-bottom: 6px;
-}
-
-.order-detail .order-price {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--red-price);
-}
-
-.order-card-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border-light);
-}
-
-.order-btn {
-  padding: 6px 16px;
-  border-radius: var(--radius-full);
-  font-size: 12px;
-  border: 1px solid var(--border-light);
-  background: var(--white);
-  color: var(--text-secondary);
-  cursor: pointer;
-}
-
-.order-btn.primary {
-  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
-  color: var(--white);
-  border: none;
-}
-
-/* ==================== Login / Register Modal ==================== */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 500;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.modal-overlay.show {
-  display: flex;
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.modal-content {
-  width: 100%;
-  max-width: 430px;
-  background: var(--white);
-  border-radius: 20px 20px 0 0;
-  padding: 24px 20px 40px;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
-
-.modal-header h3 {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.modal-close {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--gray-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  color: var(--text-weak);
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-.form-input {
-  width: 100%;
-  height: 44px;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 0 14px;
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--pink-ultra-light);
-  transition: border-color 0.2s;
-  outline: none;
-  font-family: var(--font-main);
-}
-
-.form-input:focus {
-  border-color: var(--pink-primary);
-  background: var(--white);
-}
-
-.form-input::placeholder {
-  color: var(--text-weak);
-}
-
-.btn-submit {
-  width: 100%;
-  height: 46px;
-  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
-  color: var(--white);
-  border: none;
-  border-radius: var(--radius-full);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: opacity 0.2s;
-  font-family: var(--font-main);
-}
-
-.btn-submit:active {
-  opacity: 0.85;
-}
-
-.form-switch {
-  text-align: center;
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--text-weak);
-}
-
-.form-switch a {
-  color: var(--pink-primary);
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* ==================== Merchant Platform ==================== */
-.merchant-page {
-  display: none;
-  min-height: 100vh;
-  background: var(--gray-bg);
-}
-
-.merchant-page.active {
-  display: block;
-}
-
-.merchant-nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  height: 52px;
-  background: var(--white);
-  padding: 0 16px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.merchant-nav .back-btn {
-  font-size: 20px;
-  cursor: pointer;
-  color: var(--text-primary);
-  margin-right: 12px;
-}
-
-.merchant-nav .nav-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.merchant-nav .nav-action {
-  margin-left: auto;
-  font-size: 14px;
-  color: var(--pink-primary);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* Merchant Stats */
-.merchant-stats {
-  display: flex;
-  gap: 10px;
-  padding: 16px 12px;
-}
-
-.stat-card {
-  flex: 1;
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 14px 12px;
-  text-align: center;
-  box-shadow: var(--shadow-card);
-}
-
-.stat-card .stat-num {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--pink-primary);
-  margin-bottom: 4px;
-}
-
-.stat-card .stat-label {
-  font-size: 11px;
-  color: var(--text-weak);
-}
-
-/* Merchant Product List */
-.merchant-product-item {
-  display: flex;
-  align-items: center;
-  background: var(--white);
-  margin: 0 12px 10px;
-  border-radius: var(--radius-md);
-  padding: 12px;
-  box-shadow: var(--shadow-card);
-  gap: 12px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.merchant-product-item:active {
-  transform: scale(0.98);
-}
-
-.mp-thumb {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-sm);
-  background: var(--pink-mist);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  flex-shrink: 0;
-}
-
-.mp-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.mp-info h4 {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.mp-info .mp-meta {
-  font-size: 11px;
-  color: var(--text-weak);
-  margin-bottom: 4px;
-}
-
-.mp-info .mp-price {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--red-price);
-}
-
-.mp-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.mp-btn {
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  font-size: 11px;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-main);
-}
-
-.mp-btn.edit {
-  background: var(--pink-bg);
-  color: var(--pink-primary);
-}
-
-.mp-btn.off {
-  background: var(--gray-bg);
-  color: var(--text-weak);
-}
-
-.mp-btn.on {
-  background: #E8F8E8;
-  color: var(--green-success);
-}
-
-/* Merchant Edit Form */
-.merchant-edit-form {
-  background: var(--white);
-  margin: 12px;
-  border-radius: var(--radius-lg);
-  padding: 20px 16px;
-  box-shadow: var(--shadow-card);
-}
-
-.edit-section-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.edit-row {
-  margin-bottom: 14px;
-}
-
-.edit-row label {
-  display: block;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.edit-row input,
-.edit-row textarea,
-.edit-row select {
-  width: 100%;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--pink-ultra-light);
-  outline: none;
-  font-family: var(--font-main);
-  transition: border-color 0.2s;
-}
-
-.edit-row input:focus,
-.edit-row textarea:focus,
-.edit-row select:focus {
-  border-color: var(--pink-primary);
-  background: var(--white);
-}
-
-.edit-row textarea {
-  height: 80px;
-  resize: none;
-}
-
-.image-upload-area {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.upload-slot {
-  width: 80px;
-  height: 80px;
-  border-radius: var(--radius-sm);
-  border: 2px dashed var(--pink-pale);
-  background: var(--pink-ultra-light);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.2s;
-  font-size: 11px;
-  color: var(--text-weak);
-  gap: 4px;
-}
-
-.upload-slot:hover {
-  border-color: var(--pink-primary);
-}
-
-.upload-slot .plus {
-  font-size: 24px;
-  color: var(--pink-pale);
-}
-
-.upload-slot.filled {
-  border: none;
-  background: var(--pink-mist);
-  font-size: 32px;
-}
-
-/* Merchant User List */
-.user-item {
-  display: flex;
-  align-items: center;
-  background: var(--white);
-  margin: 0 12px 10px;
-  border-radius: var(--radius-md);
-  padding: 14px 12px;
-  box-shadow: var(--shadow-card);
-  gap: 12px;
-}
-
-.user-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--pink-mist);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.user-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.user-info h4 {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 3px;
-}
-
-.user-info .user-phone {
-  font-size: 12px;
-  color: var(--text-weak);
-}
-
-.user-info .user-address {
-  font-size: 11px;
-  color: var(--text-weak);
-  margin-top: 2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.user-order-count {
-  text-align: center;
-  padding: 4px 12px;
-  background: var(--pink-bg);
-  border-radius: var(--radius-full);
-  font-size: 12px;
-  color: var(--pink-primary);
-  font-weight: 600;
-}
-
-/* Merchant Tab Switch */
-.merchant-tabs {
-  display: flex;
-  background: var(--white);
-  padding: 0 12px;
-  border-bottom: 1px solid var(--border-light);
-  position: sticky;
-  top: 52px;
-  z-index: 50;
-}
-
-.merchant-tab {
-  flex: 1;
-  text-align: center;
-  padding: 12px 0;
-  font-size: 14px;
-  color: var(--text-weak);
-  cursor: pointer;
-  position: relative;
-  transition: color 0.2s;
-}
-
-.merchant-tab.active {
-  color: var(--pink-primary);
-  font-weight: 600;
-}
-
-.merchant-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 3px;
-  border-radius: 2px;
-  background: var(--pink-primary);
-}
-
-/* Switch Toggle */
-.switch-toggle {
-  width: 44px;
-  height: 24px;
-  border-radius: 12px;
-  background: var(--border-light);
-  position: relative;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.switch-toggle.on {
-  background: var(--pink-primary);
-}
-
-.switch-toggle::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--white);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-  transition: transform 0.3s;
-}
-
-.switch-toggle.on::after {
-  transform: translateX(20px);
-}
-
-/* ==================== Floating Action Button ==================== */
-.fab {
-  position: fixed;
-  bottom: 80px;
-  right: calc(50% - 195px);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: var(--shadow-float);
-  cursor: pointer;
-  z-index: 150;
-  transition: transform 0.2s;
-}
-
-.fab:active {
-  transform: scale(0.9);
-}
-
-/* ==================== Empty State ==================== */
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text-weak);
-}
-
-.empty-state .empty-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-  opacity: 0.5;
-}
-
-.empty-state p {
-  font-size: 13px;
-}
-
-/* ==================== Search Bar ==================== */
-.search-bar {
-  margin: 12px;
-  position: relative;
-}
-
-.search-bar input {
-  width: 100%;
-  height: 40px;
-  border-radius: var(--radius-full);
-  border: none;
-  background: var(--white);
-  padding: 0 16px 0 40px;
-  font-size: 13px;
-  color: var(--text-primary);
-  box-shadow: var(--shadow-card);
-  outline: none;
-  font-family: var(--font-main);
-}
-
-.search-bar .search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: var(--text-weak);
-}
-
-/* ==================== Scrollbar Hide ==================== */
-::-webkit-scrollbar {
-  display: none;
-}
-
-/* ==================== Animations ==================== */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.float-anim {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* ==================== Responsive ==================== */
-@media (min-width: 431px) {
-  .app-container {
-    box-shadow: 0 0 40px rgba(0,0,0,0.08);
-  }
-  .fab {
-    right: calc(50% - 195px);
-  }
+.product-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 12px 16px; }
+.product-card { background:var(--white); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-card); transition:transform 0.2s; cursor:pointer; }
+.product-card:active { transform:scale(0.97); }
+.product-img { width:100%; aspect-ratio:1; background:var(--pink-mist); display:flex; align-items:center; justify-content:center; font-size:48px; position:relative; overflow:hidden; }
+.product-img img { width:100%; height:100%; object-fit:cover; }
+.product-img .tag { position:absolute; top:8px; left:8px; background:linear-gradient(135deg,var(--pink-primary),var(--coral)); color:var(--white); font-size:10px; padding:2px 8px; border-radius:var(--radius-full); font-weight:600; }
+.product-info { padding:10px; }
+.product-name { font-size:13px; color:var(--text-primary); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:8px; min-height:36px; }
+.product-price-row { display:flex; align-items:baseline; justify-content:space-between; }
+.product-price { font-size:18px; font-weight:700; color:var(--red-price); }
+.product-price .symbol { font-size:12px; }
+.product-sales { font-size:10px; color:var(--text-weak); }
+.product-buy-btn { display:block; width:100%; margin-top:8px; padding:7px 0; background:linear-gradient(135deg,var(--pink-primary),var(--pink-light)); color:var(--white); border:none; border-radius:var(--radius-full); font-size:12px; font-weight:600; cursor:pointer; transition:opacity 0.2s; }
+.product-buy-btn:active { opacity:0.85; }
+
+/* ==================== Profile ==================== */
+.profile-header { background:linear-gradient(135deg,var(--pink-primary) 0%,#FECFEF 100%); padding:30px 20px 40px; position:relative; overflow:hidden; }
+.profile-header::after { content:''; position:absolute; bottom:-20px; left:0; right:0; height:40px; background:var(--pink-bg); border-radius:20px 20px 0 0; }
+.profile-user { display:flex; align-items:center; gap:14px; position:relative; z-index:1; }
+.profile-avatar { width:64px; height:64px; border-radius:50%; background:var(--white); display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 12px rgba(0,0,0,0.1); flex-shrink:0; overflow:hidden; }
+.profile-avatar img { width:100%; height:100%; object-fit:cover; }
+.profile-info h3 { color:var(--white); font-size:18px; font-weight:700; margin-bottom:4px; }
+.profile-info p { color:rgba(255,255,255,0.8); font-size:12px; }
+.profile-login-prompt { text-align:center; padding:20px; position:relative; z-index:1; }
+.profile-login-prompt .big-avatar { width:72px; height:72px; border-radius:50%; background:rgba(255,255,255,0.3); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:32px; }
+.profile-login-prompt p { color:rgba(255,255,255,0.9); font-size:14px; margin-bottom:14px; }
+.btn-login { display:inline-block; padding:8px 32px; background:var(--white); color:var(--pink-primary); border:none; border-radius:var(--radius-full); font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:transform 0.2s; }
+.btn-login:active { transform:scale(0.95); }
+.order-tabs { display:flex; background:var(--white); margin:-20px 12px 0; border-radius:var(--radius-lg); padding:16px 8px; box-shadow:var(--shadow-card); position:relative; z-index:2; }
+.order-tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; position:relative; }
+.order-tab .tab-icon { width:36px; height:36px; border-radius:10px; background:var(--pink-bg); display:flex; align-items:center; justify-content:center; font-size:18px; }
+.order-tab span { font-size:11px; color:var(--text-secondary); }
+.order-tab .badge { position:absolute; top:-2px; right:calc(50% - 22px); min-width:16px; height:16px; background:var(--red-price); color:var(--white); font-size:10px; border-radius:8px; display:none; align-items:center; justify-content:center; padding:0 4px; }
+.order-tab .badge.show { display:flex; }
+.menu-section { background:var(--white); margin:12px; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-card); }
+.menu-item { display:flex; align-items:center; padding:14px 16px; cursor:pointer; transition:background 0.15s; border-bottom:1px solid var(--border-light); }
+.menu-item:last-child { border-bottom:none; }
+.menu-item:active { background:var(--pink-bg); }
+.menu-item .menu-icon { width:32px; height:32px; border-radius:8px; background:var(--pink-bg); display:flex; align-items:center; justify-content:center; font-size:16px; margin-right:12px; flex-shrink:0; }
+.menu-item .menu-text { flex:1; font-size:14px; color:var(--text-primary); }
+.menu-item .menu-arrow { color:var(--text-weak); font-size:14px; }
+.menu-item .menu-value { font-size:13px; color:var(--text-weak); margin-right:8px; }
+
+/* ==================== Order Card ==================== */
+.order-list { padding:0 12px; }
+.order-card { background:var(--white); border-radius:var(--radius-md); padding:14px; margin-bottom:10px; box-shadow:var(--shadow-card); cursor:pointer; transition:transform 0.2s; }
+.order-card:active { transform:scale(0.98); }
+.order-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border-light); }
+.order-card-header .order-no { font-size:12px; color:var(--text-weak); }
+.order-card-header .order-status { font-size:13px; font-weight:600; color:var(--pink-primary); }
+.order-card-body { display:flex; gap:10px; }
+.order-thumb { width:72px; height:72px; border-radius:var(--radius-sm); background:var(--pink-mist); display:flex; align-items:center; justify-content:center; font-size:32px; flex-shrink:0; overflow:hidden; }
+.order-thumb img { width:100%; height:100%; object-fit:cover; }
+.order-detail { flex:1; min-width:0; }
+.order-detail h4 { font-size:13px; font-weight:500; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.order-detail .order-spec { font-size:11px; color:var(--text-weak); margin-bottom:6px; }
+.order-detail .order-price { font-size:15px; font-weight:700; color:var(--red-price); }
+.order-card-footer { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; padding-top:10px; border-top:1px solid var(--border-light); }
+.order-btn { padding:6px 16px; border-radius:var(--radius-full); font-size:12px; border:1px solid var(--border-light); background:var(--white); color:var(--text-secondary); cursor:pointer; font-family:var(--font-main); transition:opacity 0.2s; }
+.order-btn:active { opacity:0.7; }
+.order-btn.primary { background:linear-gradient(135deg,var(--pink-primary),var(--pink-light)); color:var(--white); border:none; }
+
+/* ==================== Modal ==================== */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:500; align-items:flex-end; justify-content:center; }
+.modal-overlay.show { display:flex; animation:fadeIn 0.2s ease; }
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+.modal-content { width:100%; max-width:430px; background:var(--white); border-radius:20px 20px 0 0; padding:24px 20px 40px; animation:slideUp 0.3s ease; }
+@keyframes slideUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
+.modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+.modal-header h3 { font-size:18px; font-weight:700; }
+.modal-close { width:28px; height:28px; border-radius:50%; background:var(--gray-bg); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; color:var(--text-weak); }
+.form-group { margin-bottom:16px; }
+.form-group label { display:block; font-size:13px; color:var(--text-secondary); margin-bottom:6px; font-weight:500; }
+.form-input { width:100%; height:44px; border:1.5px solid var(--border-light); border-radius:var(--radius-md); padding:0 14px; font-size:14px; color:var(--text-primary); background:var(--pink-ultra-light); transition:border-color 0.2s; outline:none; font-family:var(--font-main); }
+.form-input:focus { border-color:var(--pink-primary); background:var(--white); }
+.form-input::placeholder { color:var(--text-weak); }
+.btn-submit { width:100%; height:46px; background:linear-gradient(135deg,var(--pink-primary),var(--pink-light)); color:var(--white); border:none; border-radius:var(--radius-full); font-size:16px; font-weight:600; cursor:pointer; margin-top:8px; transition:opacity 0.2s; font-family:var(--font-main); }
+.btn-submit:active { opacity:0.85; }
+
+/* ==================== Merchant ==================== */
+.merchant-page { display:none; min-height:100vh; background:var(--gray-bg); }
+.merchant-page.active { display:block; }
+.merchant-nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; height:52px; background:var(--white); padding:0 16px; border-bottom:1px solid var(--border-light); }
+.merchant-nav .back-btn { font-size:20px; cursor:pointer; color:var(--text-primary); margin-right:12px; }
+.merchant-nav .nav-title { font-size:17px; font-weight:600; color:var(--text-primary); }
+.merchant-nav .nav-action { margin-left:auto; font-size:14px; color:var(--pink-primary); font-weight:600; cursor:pointer; }
+.merchant-stats { display:flex; gap:10px; padding:16px 12px; }
+.stat-card { flex:1; background:var(--white); border-radius:var(--radius-md); padding:14px 12px; text-align:center; box-shadow:var(--shadow-card); cursor:pointer; transition:transform 0.2s; }
+.stat-card:active { transform:scale(0.97); }
+.stat-card .stat-num { font-size:22px; font-weight:700; color:var(--pink-primary); margin-bottom:4px; }
+.stat-card .stat-label { font-size:11px; color:var(--text-weak); }
+.merchant-product-item { display:flex; align-items:center; background:var(--white); margin:0 12px 10px; border-radius:var(--radius-md); padding:12px; box-shadow:var(--shadow-card); gap:12px; transition:transform 0.2s; }
+.merchant-product-item:active { transform:scale(0.98); }
+.mp-thumb { width:64px; height:64px; border-radius:var(--radius-sm); background:var(--pink-mist); display:flex; align-items:center; justify-content:center; font-size:28px; flex-shrink:0; overflow:hidden; }
+.mp-thumb img { width:100%; height:100%; object-fit:cover; }
+.mp-info { flex:1; min-width:0; }
+.mp-info h4 { font-size:14px; font-weight:500; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.mp-info .mp-meta { font-size:11px; color:var(--text-weak); margin-bottom:4px; }
+.mp-info .mp-price { font-size:15px; font-weight:700; color:var(--red-price); }
+.mp-actions { display:flex; flex-direction:column; gap:6px; }
+.mp-btn { padding:5px 12px; border-radius:var(--radius-full); font-size:11px; border:none; cursor:pointer; font-family:var(--font-main); transition:opacity 0.2s; }
+.mp-btn:active { opacity:0.7; }
+.mp-btn.edit { background:var(--pink-bg); color:var(--pink-primary); }
+.mp-btn.off { background:var(--gray-bg); color:var(--text-weak); }
+.mp-btn.on { background:#E8F8E8; color:var(--green-success); }
+.edit-section-title { font-size:15px; font-weight:600; color:var(--text-primary); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border-light); }
+.edit-row { margin-bottom:14px; }
+.edit-row label { display:block; font-size:13px; color:var(--text-secondary); margin-bottom:6px; }
+.edit-row input,.edit-row textarea,.edit-row select { width:100%; border:1.5px solid var(--border-light); border-radius:var(--radius-sm); padding:10px 12px; font-size:14px; color:var(--text-primary); background:var(--pink-ultra-light); outline:none; font-family:var(--font-main); transition:border-color 0.2s; }
+.edit-row input:focus,.edit-row textarea:focus,.edit-row select:focus { border-color:var(--pink-primary); background:var(--white); }
+.edit-row textarea { height:80px; resize:none; }
+.image-upload-area { display:flex; gap:10px; flex-wrap:wrap; }
+.upload-slot { width:80px; height:80px; border-radius:var(--radius-sm); border:2px dashed var(--pink-pale); background:var(--pink-ultra-light); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:border-color 0.2s; font-size:11px; color:var(--text-weak); gap:4px; position:relative; overflow:hidden; }
+.upload-slot:hover { border-color:var(--pink-primary); }
+.upload-slot .plus { font-size:24px; color:var(--pink-pale); }
+.upload-slot.filled { border:none; background:var(--pink-mist); font-size:0; }
+.upload-slot.filled img { width:100%; height:100%; object-fit:cover; }
+.upload-slot .delete-img { position:absolute; top:2px; right:2px; width:20px; height:20px; border-radius:50%; background:rgba(0,0,0,0.5); color:white; font-size:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2; }
+.user-item { display:flex; align-items:center; background:var(--white); margin:0 12px 10px; border-radius:var(--radius-md); padding:14px 12px; box-shadow:var(--shadow-card); gap:12px; cursor:pointer; transition:transform 0.2s; }
+.user-item:active { transform:scale(0.98); }
+.user-avatar { width:44px; height:44px; border-radius:50%; background:var(--pink-mist); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; overflow:hidden; }
+.user-avatar img { width:100%; height:100%; object-fit:cover; }
+.user-info { flex:1; min-width:0; }
+.user-info h4 { font-size:14px; font-weight:500; margin-bottom:3px; }
+.user-info .user-phone { font-size:12px; color:var(--text-weak); }
+.user-info .user-address { font-size:11px; color:var(--text-weak); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.user-order-count { text-align:center; padding:4px 12px; background:var(--pink-bg); border-radius:var(--radius-full); font-size:12px; color:var(--pink-primary); font-weight:600; }
+.merchant-tabs { display:flex; background:var(--white); padding:0 12px; border-bottom:1px solid var(--border-light); position:sticky; top:52px; z-index:50; }
+.merchant-tab { flex:1; text-align:center; padding:12px 0; font-size:14px; color:var(--text-weak); cursor:pointer; position:relative; transition:color 0.2s; }
+.merchant-tab.active { color:var(--pink-primary); font-weight:600; }
+.merchant-tab.active::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:24px; height:3px; border-radius:2px; background:var(--pink-primary); }
+.switch-toggle { width:44px; height:24px; border-radius:12px; background:var(--border-light); position:relative; cursor:pointer; transition:background 0.3s; }
+.switch-toggle.on { background:var(--pink-primary); }
+.switch-toggle::after { content:''; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:var(--white); box-shadow:0 1px 3px rgba(0,0,0,0.15); transition:transform 0.3s; }
+.switch-toggle.on::after { transform:translateX(20px); }
+.fab { position:fixed; bottom:80px; right:calc(50% - 195px); width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg,var(--pink-primary),var(--pink-light)); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow:var(--shadow-float); cursor:pointer; z-index:150; transition:transform 0.2s; }
+.fab:active { transform:scale(0.9); }
+.empty-state { text-align:center; padding:40px 20px; color:var(--text-weak); }
+.empty-state .empty-icon { font-size:48px; margin-bottom:12px; opacity:0.5; }
+.empty-state p { font-size:13px; }
+.search-bar { margin:12px; position:relative; }
+.search-bar input { width:100%; height:40px; border-radius:var(--radius-full); border:none; background:var(--white); padding:0 16px 0 40px; font-size:13px; color:var(--text-primary); box-shadow:var(--shadow-card); outline:none; font-family:var(--font-main); }
+.search-bar .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:16px; color:var(--text-weak); }
+
+/* ==================== Full Screen Overlay ==================== */
+.fullscreen-overlay { display:none; position:fixed; inset:0; z-index:400; background:var(--pink-bg); max-width:430px; margin:0 auto; overflow-y:auto; animation:pageIn 0.3s ease; }
+.fullscreen-overlay.show { display:block; }
+.order-filter-tabs { display:flex; overflow-x:auto; background:var(--white); padding:0 12px; border-bottom:1px solid var(--border-light); position:sticky; top:0; z-index:10; -webkit-overflow-scrolling:touch; }
+.order-filter-tab { flex-shrink:0; padding:12px 16px; font-size:14px; color:var(--text-weak); cursor:pointer; position:relative; white-space:nowrap; transition:color 0.2s; }
+.order-filter-tab.active { color:var(--pink-primary); font-weight:600; }
+.order-filter-tab.active::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:24px; height:3px; border-radius:2px; background:var(--pink-primary); }
+.order-filter-tab .filter-badge { display:inline-block; min-width:16px; height:16px; line-height:16px; background:var(--red-price); color:var(--white); font-size:10px; border-radius:8px; text-align:center; padding:0 4px; margin-left:4px; vertical-align:top; }
+
+/* ==================== Order Detail ==================== */
+.order-detail-section { background:var(--white); margin:10px 12px; border-radius:var(--radius-md); padding:14px; box-shadow:var(--shadow-card); }
+.order-detail-section .section-title { font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border-light); }
+.order-status-big { text-align:center; padding:24px 16px; background:var(--white); margin:10px 12px; border-radius:var(--radius-md); box-shadow:var(--shadow-card); }
+.order-status-big .status-icon { font-size:48px; margin-bottom:8px; }
+.order-status-big .status-text { font-size:18px; font-weight:700; color:var(--pink-primary); margin-bottom:4px; }
+.order-status-big .status-desc { font-size:13px; color:var(--text-weak); }
+.order-detail-item { display:flex; gap:10px; padding:8px 0; }
+.order-detail-item + .order-detail-item { border-top:1px solid var(--border-light); }
+.detail-info-row { display:flex; justify-content:space-between; padding:4px 0; font-size:13px; }
+.detail-info-row .label { color:var(--text-weak); }
+.detail-info-row .value { color:var(--text-primary); }
+.order-detail-footer { position:sticky; bottom:0; background:var(--white); padding:12px 16px; display:flex; justify-content:flex-end; gap:8px; border-top:1px solid var(--border-light); box-shadow:0 -2px 8px rgba(0,0,0,0.05); }
+
+/* ==================== User Detail Modal ==================== */
+.user-detail-modal { display:none; position:fixed; inset:0; z-index:600; background:rgba(0,0,0,0.4); align-items:flex-end; justify-content:center; }
+.user-detail-modal.show { display:flex; animation:fadeIn 0.2s ease; }
+.user-detail-content { width:100%; max-width:430px; background:var(--white); border-radius:20px 20px 0 0; padding:24px 20px 40px; max-height:80vh; overflow-y:auto; animation:slideUp 0.3s ease; }
+.user-detail-header { display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border-light); }
+.user-detail-header .ud-avatar { width:56px; height:56px; border-radius:50%; background:var(--pink-mist); display:flex; align-items:center; justify-content:center; font-size:28px; flex-shrink:0; overflow:hidden; }
+.user-detail-header .ud-avatar img { width:100%; height:100%; object-fit:cover; }
+.user-detail-header .ud-info h4 { font-size:16px; font-weight:600; margin-bottom:4px; }
+.user-detail-header .ud-info p { font-size:12px; color:var(--text-weak); }
+.user-detail-section { margin-bottom:16px; }
+.user-detail-section h5 { font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:8px; }
+.user-detail-section .ud-row { display:flex; justify-content:space-between; padding:6px 0; font-size:13px; }
+.user-detail-section .ud-row .ud-label { color:var(--text-weak); }
+.user-detail-section .ud-row .ud-value { color:var(--text-primary); }
+.user-order-mini { background:var(--pink-bg); border-radius:var(--radius-sm); padding:8px 10px; margin-bottom:6px; font-size:12px; display:flex; justify-content:space-between; align-items:center; }
+.user-order-mini .uo-no { color:var(--text-weak); }
+.user-order-mini .uo-amount { color:var(--red-price); font-weight:600; }
+
+/* ==================== Toast ==================== */
+.toast { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.75); color:white; padding:10px 24px; border-radius:var(--radius-md); font-size:14px; z-index:9999; pointer-events:none; animation:toastAnim 1.8s ease forwards; }
+@keyframes toastAnim { 0%{opacity:0;transform:translate(-50%,-50%) scale(0.8);} 15%{opacity:1;transform:translate(-50%,-50%) scale(1);} 75%{opacity:1;} 100%{opacity:0;} }
+
+/* ==================== Carousel Manage ==================== */
+.carousel-manage-item { display:flex; align-items:center; background:var(--white); margin:0 0 10px; border-radius:var(--radius-md); padding:10px 12px; box-shadow:var(--shadow-card); gap:10px; }
+.carousel-manage-item .cm-thumb { width:60px; height:60px; border-radius:var(--radius-sm); background:var(--pink-mist); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; overflow:hidden; }
+.carousel-manage-item .cm-thumb img { width:100%; height:100%; object-fit:cover; }
+.carousel-manage-item .cm-info { flex:1; min-width:0; }
+.carousel-manage-item .cm-info h4 { font-size:13px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cm-btn { padding:4px 10px; border-radius:var(--radius-full); font-size:11px; border:none; cursor:pointer; font-family:var(--font-main); }
+.cm-btn.del { background:#FFF0F0; color:var(--red-price); }
+
+/* ==================== Stat Edit ==================== */
+.stat-edit-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border-light); }
+.stat-edit-row:last-child { border-bottom:none; }
+.stat-edit-row label { font-size:14px; color:var(--text-primary); font-weight:500; }
+.stat-edit-row input { width:120px; height:36px; border:1.5px solid var(--border-light); border-radius:var(--radius-sm); padding:0 10px; font-size:14px; text-align:right; color:var(--pink-primary); font-weight:600; outline:none; font-family:var(--font-main); }
+.stat-edit-row input:focus { border-color:var(--pink-primary); }
+
+/* ==================== Scrollbar & Responsive ==================== */
+::-webkit-scrollbar { display:none; }
+@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+.float-anim { animation:float 3s ease-in-out infinite; }
+@media (min-width:431px) {
+  .app-container { box-shadow:0 0 40px rgba(0,0,0,0.08); }
+  .fab { right:calc(50% - 195px); }
 }
 </style>
 </head>
 <body>
 
-<!-- ==================== LAUNCH / PLATFORM SELECTION PAGE ==================== -->
+<!-- 启动页 -->
 <div class="launch-page" id="launchPage">
-  <!-- Decorative floating circles -->
   <div class="launch-deco launch-deco-1"></div>
   <div class="launch-deco launch-deco-2"></div>
   <div class="launch-deco launch-deco-3"></div>
   <div class="launch-deco launch-deco-4"></div>
-
-  <!-- Brand -->
   <div class="launch-brand">
     <div class="launch-logo">🧸</div>
     <h1>玩偶城</h1>
     <p>发现你的专属玩偶伙伴</p>
   </div>
-
-  <!-- Platform Selection -->
   <div class="launch-cards">
     <div class="launch-card" onclick="enterCustomerPlatform()" role="button" tabindex="0">
       <div class="launch-card-icon customer">🛍️</div>
-      <div class="launch-card-text">
-        <h3>客户平台</h3>
-        <p>浏览商品、下单购买、管理订单</p>
-      </div>
+      <div class="launch-card-text"><h3>客户平台</h3><p>浏览商品、下单购买、管理订单</p></div>
       <span class="launch-card-arrow">›</span>
     </div>
-
     <div class="launch-card" onclick="showInviteModal()" role="button" tabindex="0">
       <div class="launch-card-icon merchant">🏪</div>
-      <div class="launch-card-text">
-        <h3>商家平台</h3>
-        <p>管理商品、处理订单、查看数据</p>
-      </div>
+      <div class="launch-card-text"><h3>商家平台</h3><p>管理商品、处理订单、查看数据</p></div>
       <span class="launch-card-arrow">🔒</span>
     </div>
   </div>
 </div>
 
-<!-- ==================== INVITE CODE MODAL ==================== -->
+<!-- 邀请码弹窗 -->
 <div class="invite-modal-overlay" id="inviteModal">
   <div class="invite-modal">
     <div class="invite-icon">🔑</div>
@@ -1735,963 +391,774 @@ html, body {
 
 <div class="app-container" id="app">
 
-  <!-- ==================== CUSTOMER: HOME PAGE ==================== -->
+  <!-- 客户首页 -->
   <div class="page active" id="page-home">
-    <div class="top-nav">
-      <span class="nav-title">🎀 玩偶城</span>
-    </div>
-
-    <!-- Swiper / Banner -->
+    <div class="top-nav"><span class="nav-title">🎀 玩偶城</span></div>
     <div class="swiper-container" id="swiper">
-      <div class="swiper-track" id="swiperTrack">
-        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFB6C1, #FF9A9E);">
-          <div class="slide-content">
-            <h3>🌸 新品上架</h3>
-            <p>春季限定 · 萌系玩偶系列</p>
-          </div>
-        </div>
-        <div class="swiper-slide" style="background: linear-gradient(135deg, #FECFEF, #FFD1DC);">
-          <div class="slide-content">
-            <h3>🎁 满减活动</h3>
-            <p>全场满99减20 · 限时特惠</p>
-          </div>
-        </div>
-        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFD1DC, #FFC0CB);">
-          <div class="slide-content">
-            <h3>⭐ 人气爆款</h3>
-            <p>累计销量10万+ · 好评如潮</p>
-          </div>
-        </div>
-        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFE4E1, #FFDAB9);">
-          <div class="slide-content">
-            <h3>🧸 会员专享</h3>
-            <p>注册即享新人8折优惠</p>
-          </div>
-        </div>
-        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFC0CB, #FFB6C1);">
-          <div class="slide-content">
-            <h3>🎀 品质保证</h3>
-            <p>精选材质 · 安全放心</p>
-          </div>
-        </div>
-      </div>
+      <div class="swiper-track" id="swiperTrack"></div>
       <div class="swiper-dots" id="swiperDots"></div>
     </div>
-
-    <!-- Category Bar -->
-    <div class="category-bar">
-      <div class="category-item">
-        <div class="category-icon">🧸</div>
-        <span>毛绒玩偶</span>
-      </div>
-      <div class="category-item">
-        <div class="category-icon">🐰</div>
-        <span>动物系列</span>
-      </div>
-      <div class="category-item">
-        <div class="category-icon">🌸</div>
-        <span>花卉系列</span>
-      </div>
-      <div class="category-item">
-        <div class="category-icon">👑</div>
-        <span>公主系列</span>
-      </div>
-      <div class="category-item">
-        <div class="category-icon">🎁</div>
-        <span>新品推荐</span>
-      </div>
-    </div>
-
-    <!-- Hot Products -->
-    <div class="section-header">
-      <h2>热门推荐</h2>
-      <span class="more">查看全部 ›</span>
-    </div>
-
-    <div class="product-grid">
-      <div class="product-card">
-        <div class="product-img">
-          🧸
-          <span class="tag">热卖</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">超柔软小熊毛绒玩偶 抱枕靠垫可爱公仔</div>
-          <div class="product-price-row">
-            <div>
-              <span class="product-price"><span class="symbol">¥</span>39.9</span>
-              <span class="product-price-old">¥79.9</span>
-            </div>
-            <span class="product-sales">已售2.1万</span>
-          </div>
-          <button class="product-buy-btn">立即购买</button>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img">
-          🐰
-          <span class="tag">新品</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">垂耳兔毛绒公仔 柔软可拥抱 生日礼物</div>
-          <div class="product-price-row">
-            <div>
-              <span class="product-price"><span class="symbol">¥</span>29.9</span>
-              <span class="product-price-old">¥59.9</span>
-            </div>
-            <span class="product-sales">已售8,600</span>
-          </div>
-          <button class="product-buy-btn">立即购买</button>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img">
-          🌸
-        </div>
-        <div class="product-info">
-          <div class="product-name">樱花兔季节限定款 高颜值桌面摆件</div>
-          <div class="product-price-row">
-            <div>
-              <span class="product-price"><span class="symbol">¥</span>49.9</span>
-              <span class="product-price-old">¥89.9</span>
-            </div>
-            <span class="product-sales">已售5,200</span>
-          </div>
-          <button class="product-buy-btn">立即购买</button>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img">
-          🦊
-          <span class="tag">限时</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">小狐狸布偶 可爱动物系列 儿童礼物</div>
-          <div class="product-price-row">
-            <div>
-              <span class="product-price"><span class="symbol">¥</span>35.9</span>
-              <span class="product-price-old">¥69.9</span>
-            </div>
-            <span class="product-sales">已售3,800</span>
-          </div>
-          <button class="product-buy-btn">立即购买</button>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img">
-          🐼
-        </div>
-        <div class="product-info">
-          <div class="product-name">国宝熊猫玩偶 加大号抱枕 办公室午休</div>
-          <div class="product-price-row">
-            <div>
-              <span class="product-price"><span class="symbol">¥</span>59.9</span>
-              <span class="product-price-old">¥119</span>
-            </div>
-            <span class="product-sales">已售1.5万</span>
-          </div>
-          <button class="product-buy-btn">立即购买</button>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img">
-          🦄
-          <span class="tag">热卖</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">独角兽梦幻系列 彩虹尾巴毛绒公仔</div>
-          <div class="product-price-row">
-            <div>
-              <span class="product-price"><span class="symbol">¥</span>45.9</span>
-              <span class="product-price-old">¥89.9</span>
-            </div>
-            <span class="product-sales">已售6,700</span>
-          </div>
-          <button class="product-buy-btn">立即购买</button>
-        </div>
-      </div>
-    </div>
+    <div class="category-bar" id="categoryBar"></div>
+    <div class="section-header"><h2>热门推荐</h2><span class="more">查看全部 ›</span></div>
+    <div class="product-grid" id="productGrid"></div>
   </div>
 
-  <!-- ==================== CUSTOMER: PROFILE PAGE ==================== -->
+  <!-- 客户个人中心 -->
   <div class="page" id="page-profile">
-    <div class="top-nav">
-      <span class="nav-title">我的</span>
-    </div>
-
-    <!-- Profile Header (40% of visible area) -->
+    <div class="top-nav"><span class="nav-title">我的</span></div>
     <div class="profile-header" id="profileHeader">
-      <!-- Logged out state -->
       <div class="profile-login-prompt" id="loginPrompt">
         <div class="big-avatar">👤</div>
         <p>登录后享受更多优惠</p>
         <button class="btn-login" onclick="showModal('loginModal')">登录 / 注册</button>
       </div>
-      <!-- Logged in state (hidden by default) -->
       <div class="profile-user" id="loggedInUser" style="display:none;">
-        <div class="profile-avatar">🧸</div>
-        <div class="profile-info">
-          <h3>小仙女</h3>
-          <p>会员等级：普通会员</p>
-        </div>
+        <div class="profile-avatar" id="profileAvatar">🧸</div>
+        <div class="profile-info"><h3 id="profileNickname">用户</h3><p>会员等级：普通会员</p></div>
       </div>
     </div>
-
-    <!-- Order Tabs -->
-    <div class="order-tabs">
-      <div class="order-tab">
-        <div class="tab-icon">💳</div>
-        <span>待付款</span>
-        <div class="badge">2</div>
-      </div>
-      <div class="order-tab">
-        <div class="tab-icon">📦</div>
-        <span>待发货</span>
-        <div class="badge">1</div>
-      </div>
-      <div class="order-tab">
-        <div class="tab-icon">🚚</div>
-        <span>待收货</span>
-      </div>
-      <div class="order-tab">
-        <div class="tab-icon">⭐</div>
-        <span>待评价</span>
-        <div class="badge">3</div>
-      </div>
-      <div class="order-tab">
-        <div class="tab-icon">🔄</div>
-        <span>退款</span>
-      </div>
-    </div>
-
-    <!-- Personal Info Menu -->
-    <div class="menu-section" style="margin-top: 12px;">
+    <div class="order-tabs" id="orderTabs"></div>
+    <div class="menu-section" style="margin-top:12px;">
       <div class="menu-item" onclick="showModal('addressModal')">
-        <div class="menu-icon">📍</div>
-        <span class="menu-text">收货地址</span>
-        <span class="menu-value">3个地址</span>
-        <span class="menu-arrow">›</span>
+        <div class="menu-icon">📍</div><span class="menu-text">收货地址</span>
+        <span class="menu-value" id="addressCount">0个地址</span><span class="menu-arrow">›</span>
       </div>
       <div class="menu-item" onclick="showModal('phoneModal')">
-        <div class="menu-icon">📱</div>
-        <span class="menu-text">手机号</span>
-        <span class="menu-value">138****8888</span>
-        <span class="menu-arrow">›</span>
+        <div class="menu-icon">📱</div><span class="menu-text">手机号</span>
+        <span class="menu-value" id="phoneDisplay">未绑定</span><span class="menu-arrow">›</span>
       </div>
-      <div class="menu-item">
-        <div class="menu-icon">🎫</div>
-        <span class="menu-text">优惠券</span>
-        <span class="menu-value" style="color: var(--red-price);">5张可用</span>
-        <span class="menu-arrow">›</span>
-      </div>
-      <div class="menu-item">
-        <div class="menu-icon">❤️</div>
-        <span class="menu-text">我的收藏</span>
-        <span class="menu-value">12件</span>
-        <span class="menu-arrow">›</span>
+      <div class="menu-item" onclick="doLogout()">
+        <div class="menu-icon">🚪</div><span class="menu-text">退出登录</span><span class="menu-arrow">›</span>
       </div>
     </div>
-
-    <!-- Order List (bottom section) -->
-    <div class="section-header" style="margin-top: 8px;">
+    <div class="section-header" style="margin-top:8px;">
       <h2>我的订单</h2>
-      <span class="more">全部订单 ›</span>
+      <span class="more" onclick="openOrderListPage('all')">全部订单 ›</span>
     </div>
-
-    <div class="order-list">
-      <div class="order-card">
-        <div class="order-card-header">
-          <span class="order-no">订单号：WD20260518001</span>
-          <span class="order-status">待发货</span>
-        </div>
-        <div class="order-card-body">
-          <div class="order-thumb">🧸</div>
-          <div class="order-detail">
-            <h4>超柔软小熊毛绒玩偶</h4>
-            <div class="order-spec">粉色 · 大号 × 1</div>
-            <div class="order-price"><span class="symbol">¥</span>39.9</div>
-          </div>
-        </div>
-        <div class="order-card-footer">
-          <button class="order-btn">查看详情</button>
-          <button class="order-btn primary">提醒发货</button>
-        </div>
-      </div>
-
-      <div class="order-card">
-        <div class="order-card-header">
-          <span class="order-no">订单号：WD20260515002</span>
-          <span class="order-status">已完成</span>
-        </div>
-        <div class="order-card-body">
-          <div class="order-thumb">🐰</div>
-          <div class="order-detail">
-            <h4>垂耳兔毛绒公仔</h4>
-            <div class="order-spec">白色 · 中号 × 2</div>
-            <div class="order-price"><span class="symbol">¥</span>59.8</div>
-          </div>
-        </div>
-        <div class="order-card-footer">
-          <button class="order-btn">再次购买</button>
-          <button class="order-btn primary">去评价</button>
-        </div>
-      </div>
-
-      <div class="order-card">
-        <div class="order-card-header">
-          <span class="order-no">订单号：WD20260510003</span>
-          <span class="order-status">待收货</span>
-        </div>
-        <div class="order-card-body">
-          <div class="order-thumb">🦊</div>
-          <div class="order-detail">
-            <h4>小狐狸布偶</h4>
-            <div class="order-spec">橙色 · 小号 × 1</div>
-            <div class="order-price"><span class="symbol">¥</span>35.9</div>
-          </div>
-        </div>
-        <div class="order-card-footer">
-          <button class="order-btn">查看物流</button>
-          <button class="order-btn primary">确认收货</button>
-        </div>
-      </div>
-    </div>
+    <div class="order-list" id="profileOrderList"></div>
   </div>
 
-  <!-- ==================== MERCHANT: DASHBOARD ==================== -->
+  <!-- 订单列表页 -->
+  <div class="fullscreen-overlay" id="orderListPage">
+    <div class="top-nav"><span class="nav-back" onclick="closeOrderListPage()">←</span><span class="nav-title">我的订单</span></div>
+    <div class="order-filter-tabs" id="orderFilterTabs"></div>
+    <div class="order-list" id="orderListContent" style="padding-top:10px;"></div>
+  </div>
+
+  <!-- 订单详情页 -->
+  <div class="fullscreen-overlay" id="orderDetailPage">
+    <div class="top-nav"><span class="nav-back" onclick="closeOrderDetailPage()">←</span><span class="nav-title">订单详情</span></div>
+    <div id="orderDetailContent" style="padding-bottom:70px;"></div>
+    <div class="order-detail-footer" id="orderDetailFooter"></div>
+  </div>
+
+  <!-- 商家后台 -->
   <div class="merchant-page" id="page-merchant">
     <div class="merchant-nav">
       <span class="back-btn" onclick="switchToCustomer()">←</span>
       <span class="nav-title">玩偶城 · 商家后台</span>
       <span class="nav-action" onclick="switchToCustomer()">切换客户</span>
     </div>
-
-    <!-- Stats -->
-    <div class="merchant-stats">
-      <div class="stat-card">
-        <div class="stat-num">128</div>
-        <div class="stat-label">商品总数</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">2,456</div>
-        <div class="stat-label">累计订单</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">¥38.6万</div>
-        <div class="stat-label">总销售额</div>
-      </div>
-    </div>
-
-    <!-- Merchant Tabs -->
+    <div class="merchant-stats" id="merchantStats"></div>
     <div class="merchant-tabs">
-      <div class="merchant-tab active" onclick="switchMerchantTab(this, 'merchant-products')">商品管理</div>
-      <div class="merchant-tab" onclick="switchMerchantTab(this, 'merchant-users')">用户管理</div>
-      <div class="merchant-tab" onclick="switchMerchantTab(this, 'merchant-orders')">订单管理</div>
+      <div class="merchant-tab active" onclick="switchMerchantTab(this,'merchant-products')">商品管理</div>
+      <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-users')">用户管理</div>
+      <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-orders')">订单管理</div>
+      <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-carousel')">轮播图</div>
     </div>
-
-    <!-- Products Section -->
     <div id="merchant-products" class="merchant-section">
-      <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="搜索商品名称...">
-      </div>
-
-      <div class="merchant-product-item" onclick="showModal('editProductModal')">
-        <div class="mp-thumb">🧸</div>
-        <div class="mp-info">
-          <h4>超柔软小熊毛绒玩偶</h4>
-          <div class="mp-meta">库存: 356 · 已售: 21,000</div>
-          <div class="mp-price">¥39.9</div>
-        </div>
-        <div class="mp-actions">
-          <button class="mp-btn edit">编辑</button>
-          <button class="mp-btn on">上架中</button>
-        </div>
-      </div>
-
-      <div class="merchant-product-item">
-        <div class="mp-thumb">🐰</div>
-        <div class="mp-info">
-          <h4>垂耳兔毛绒公仔</h4>
-          <div class="mp-meta">库存: 128 · 已售: 8,600</div>
-          <div class="mp-price">¥29.9</div>
-        </div>
-        <div class="mp-actions">
-          <button class="mp-btn edit">编辑</button>
-          <button class="mp-btn on">上架中</button>
-        </div>
-      </div>
-
-      <div class="merchant-product-item">
-        <div class="mp-thumb">🌸</div>
-        <div class="mp-info">
-          <h4>樱花兔季节限定款</h4>
-          <div class="mp-meta">库存: 0 · 已售: 5,200</div>
-          <div class="mp-price">¥49.9</div>
-        </div>
-        <div class="mp-actions">
-          <button class="mp-btn edit">编辑</button>
-          <button class="mp-btn off">已售罄</button>
-        </div>
-      </div>
-
-      <div class="merchant-product-item">
-        <div class="mp-thumb">🦊</div>
-        <div class="mp-info">
-          <h4>小狐狸布偶</h4>
-          <div class="mp-meta">库存: 89 · 已售: 3,800</div>
-          <div class="mp-price">¥35.9</div>
-        </div>
-        <div class="mp-actions">
-          <button class="mp-btn edit">编辑</button>
-          <button class="mp-btn on">上架中</button>
-        </div>
-      </div>
-
-      <div class="merchant-product-item">
-        <div class="mp-thumb">🐼</div>
-        <div class="mp-info">
-          <h4>国宝熊猫玩偶</h4>
-          <div class="mp-meta">库存: 210 · 已售: 15,000</div>
-          <div class="mp-price">¥59.9</div>
-        </div>
-        <div class="mp-actions">
-          <button class="mp-btn edit">编辑</button>
-          <button class="mp-btn on">上架中</button>
-        </div>
-      </div>
-
-      <div class="merchant-product-item">
-        <div class="mp-thumb">🦄</div>
-        <div class="mp-info">
-          <h4>独角兽梦幻系列</h4>
-          <div class="mp-meta">库存: 45 · 已售: 6,700</div>
-          <div class="mp-price">¥45.9</div>
-        </div>
-        <div class="mp-actions">
-          <button class="mp-btn edit">编辑</button>
-          <button class="mp-btn on">上架中</button>
-        </div>
-      </div>
+      <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="搜索商品名称..." id="merchantProductSearch" oninput="renderMerchantProducts()"></div>
+      <div id="merchantProductList"></div>
     </div>
-
-    <!-- Users Section -->
     <div id="merchant-users" class="merchant-section" style="display:none;">
-      <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="搜索用户昵称/手机号...">
-      </div>
-
-      <div class="user-item">
-        <div class="user-avatar">👧</div>
-        <div class="user-info">
-          <h4>小仙女</h4>
-          <div class="user-phone">138****8888</div>
-          <div class="user-address">📍 上海市浦东新区陆家嘴环路1000号</div>
-        </div>
-        <div class="user-order-count">8单</div>
-      </div>
-
-      <div class="user-item">
-        <div class="user-avatar">👩</div>
-        <div class="user-info">
-          <h4>甜甜圈</h4>
-          <div class="user-phone">159****6666</div>
-          <div class="user-address">📍 北京市朝阳区三里屯太古里</div>
-        </div>
-        <div class="user-order-count">5单</div>
-      </div>
-
-      <div class="user-item">
-        <div class="user-avatar">💁‍♀️</div>
-        <div class="user-info">
-          <h4>奶茶少女</h4>
-          <div class="user-phone">177****3333</div>
-          <div class="user-address">📍 广州市天河区天河路385号</div>
-        </div>
-        <div class="user-order-count">12单</div>
-      </div>
-
-      <div class="user-item">
-        <div class="user-avatar">👩‍🦰</div>
-        <div class="user-info">
-          <h4>草莓酱</h4>
-          <div class="user-phone">186****9999</div>
-          <div class="user-address">📍 深圳市南山区科技园南区</div>
-        </div>
-        <div class="user-order-count">3单</div>
-      </div>
-
-      <div class="user-item">
-        <div class="user-avatar">🧑</div>
-        <div class="user-info">
-          <h4>小太阳</h4>
-          <div class="user-phone">135****2222</div>
-          <div class="user-address">📍 杭州市西湖区文三路478号</div>
-        </div>
-        <div class="user-order-count">1单</div>
-      </div>
+      <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="搜索用户昵称/手机号..." id="merchantUserSearch" oninput="renderMerchantUsers()"></div>
+      <div id="merchantUserList"></div>
     </div>
-
-    <!-- Orders Section -->
     <div id="merchant-orders" class="merchant-section" style="display:none;">
-      <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="搜索订单号...">
-      </div>
-
-      <div class="order-card">
-        <div class="order-card-header">
-          <span class="order-no">WD20260518001</span>
-          <span class="order-status" style="color: var(--orange-warm);">待发货</span>
-        </div>
-        <div class="order-card-body">
-          <div class="order-thumb">🧸</div>
-          <div class="order-detail">
-            <h4>超柔软小熊毛绒玩偶</h4>
-            <div class="order-spec">买家：小仙女 · 粉色大号 ×1</div>
-            <div class="order-price"><span class="symbol">¥</span>39.9</div>
-          </div>
-        </div>
-        <div class="order-card-footer">
-          <button class="order-btn">查看详情</button>
-          <button class="order-btn primary">去发货</button>
-        </div>
-      </div>
-
-      <div class="order-card">
-        <div class="order-card-header">
-          <span class="order-no">WD20260517004</span>
-          <span class="order-status" style="color: var(--green-success);">已完成</span>
-        </div>
-        <div class="order-card-body">
-          <div class="order-thumb">🦄</div>
-          <div class="order-detail">
-            <h4>独角兽梦幻系列</h4>
-            <div class="order-spec">买家：奶茶少女 · 彩虹款 ×2</div>
-            <div class="order-price"><span class="symbol">¥</span>91.8</div>
-          </div>
-        </div>
-        <div class="order-card-footer">
-          <button class="order-btn">查看详情</button>
-        </div>
-      </div>
-
-      <div class="order-card">
-        <div class="order-card-header">
-          <span class="order-no">WD20260516005</span>
-          <span class="order-status" style="color: var(--red-price);">待处理</span>
-        </div>
-        <div class="order-card-body">
-          <div class="order-thumb">🐰</div>
-          <div class="order-detail">
-            <h4>垂耳兔毛绒公仔</h4>
-            <div class="order-spec">买家：甜甜圈 · 白色中号 ×1</div>
-            <div class="order-price"><span class="symbol">¥</span>29.9</div>
-          </div>
-        </div>
-        <div class="order-card-footer">
-          <button class="order-btn">查看详情</button>
-          <button class="order-btn primary">处理退款</button>
-        </div>
+      <div class="order-filter-tabs" id="merchantOrderFilterTabs"></div>
+      <div class="order-list" id="merchantOrderList" style="padding-top:10px;"></div>
+    </div>
+    <div id="merchant-carousel" class="merchant-section" style="display:none;">
+      <div style="padding:12px;">
+        <button class="btn-submit" style="margin-bottom:12px;" onclick="openCarouselAddModal()">+ 添加轮播图</button>
+        <div id="carouselManageList"></div>
       </div>
     </div>
-
-    <!-- FAB for adding product -->
-    <div class="fab" onclick="showModal('editProductModal')" title="添加商品">+</div>
+    <div class="fab" onclick="openProductEditModal(null)" title="添加商品">+</div>
   </div>
 
-  <!-- ==================== BOTTOM TAB BAR ==================== -->
+  <!-- 底部Tab Bar -->
   <div class="tab-bar" id="tabBar">
-    <div class="tab-item active" onclick="switchTab('home', this)" role="button" tabindex="0">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
+    <div class="tab-item active" onclick="switchTab('home',this)" role="button" tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>首页</span>
     </div>
-    <div class="tab-item" onclick="switchTab('profile', this)" role="button" tabindex="0">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
+    <div class="tab-item" onclick="switchTab('profile',this)" role="button" tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>我的</span>
     </div>
   </div>
 
-  <!-- ==================== MODALS ==================== -->
-
-  <!-- Login Modal -->
+  <!-- 登录弹窗 -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3>登录 / 注册</h3>
-        <div class="modal-close" onclick="hideModal('loginModal')">✕</div>
-      </div>
-      <div class="form-group">
-        <label>手机号</label>
-        <input class="form-input" type="tel" placeholder="请输入手机号" maxlength="11">
-      </div>
-      <div class="form-group">
-        <label>验证码</label>
-        <input class="form-input" type="text" placeholder="请输入验证码" maxlength="6">
-      </div>
-      <button class="btn-submit" onclick="doLogin()">登录 / 注册</button>
-      <div class="form-switch">
-        首次登录将自动注册 · <a>查看用户协议</a>
-      </div>
+      <div class="modal-header"><h3>登录 / 注册</h3><div class="modal-close" onclick="hideModal('loginModal')">✕</div></div>
+      <div class="form-group"><label>手机号</label><input class="form-input" type="tel" placeholder="请输入手机号" maxlength="11" id="loginPhone"></div>
+      <div class="form-group"><label>密码</label><input class="form-input" type="password" placeholder="请输入密码" id="loginPassword"></div>
+      <button class="btn-submit" onclick="doLogin()">登录</button>
+      <button class="btn-submit" style="background:linear-gradient(135deg,var(--coral),var(--orange-warm));margin-top:8px;" onclick="doRegister()">注册新账号</button>
     </div>
   </div>
 
-  <!-- Address Modal -->
+  <!-- 地址弹窗 -->
   <div class="modal-overlay" id="addressModal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3>收货地址管理</h3>
-        <div class="modal-close" onclick="hideModal('addressModal')">✕</div>
+      <div class="modal-header"><h3>收货地址管理</h3><div class="modal-close" onclick="hideModal('addressModal')">✕</div></div>
+      <div id="addressList"></div>
+      <div style="border-top:1px solid var(--border-light);padding-top:16px;margin-top:12px;">
+        <div class="edit-section-title">添加新地址</div>
+        <div class="edit-row"><label>收货人</label><input type="text" placeholder="请输入收货人姓名" id="addrName"></div>
+        <div class="edit-row"><label>手机号</label><input type="tel" placeholder="请输入手机号" id="addrPhone" maxlength="11"></div>
+        <div class="edit-row"><label>详细地址</label><input type="text" placeholder="省/市/区 + 街道门牌号" id="addrDetail"></div>
+        <button class="btn-submit" onclick="saveAddress()">保存地址</button>
       </div>
-      <div class="form-group">
-        <label>收货人</label>
-        <input class="form-input" type="text" placeholder="请输入收货人姓名" value="小仙女">
-      </div>
-      <div class="form-group">
-        <label>手机号</label>
-        <input class="form-input" type="tel" placeholder="请输入手机号" value="13888888888">
-      </div>
-      <div class="form-group">
-        <label>所在地区</label>
-        <input class="form-input" type="text" placeholder="省/市/区" value="上海市 浦东新区">
-      </div>
-      <div class="form-group">
-        <label>详细地址</label>
-        <input class="form-input" type="text" placeholder="街道、楼栋、门牌号" value="陆家嘴环路1000号">
-      </div>
-      <button class="btn-submit" onclick="hideModal('addressModal')">保存地址</button>
     </div>
   </div>
 
-  <!-- Phone Modal -->
+  <!-- 手机号弹窗 -->
   <div class="modal-overlay" id="phoneModal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3>修改手机号</h3>
-        <div class="modal-close" onclick="hideModal('phoneModal')">✕</div>
-      </div>
-      <div class="form-group">
-        <label>当前手机号</label>
-        <input class="form-input" type="tel" value="138****8888" disabled>
-      </div>
-      <div class="form-group">
-        <label>新手机号</label>
-        <input class="form-input" type="tel" placeholder="请输入新手机号" maxlength="11">
-      </div>
-      <div class="form-group">
-        <label>验证码</label>
-        <input class="form-input" type="text" placeholder="请输入验证码" maxlength="6">
-      </div>
-      <button class="btn-submit" onclick="hideModal('phoneModal')">确认修改</button>
+      <div class="modal-header"><h3>修改手机号</h3><div class="modal-close" onclick="hideModal('phoneModal')">✕</div></div>
+      <div class="form-group"><label>当前手机号</label><input class="form-input" type="tel" id="phoneCurrent" disabled></div>
+      <div class="form-group"><label>新手机号</label><input class="form-input" type="tel" placeholder="请输入新手机号" maxlength="11" id="phoneNew"></div>
+      <button class="btn-submit" onclick="updatePhone()">确认修改</button>
     </div>
   </div>
 
-  <!-- Edit Product Modal -->
+  <!-- 商品编辑弹窗 -->
   <div class="modal-overlay" id="editProductModal">
-    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
-      <div class="modal-header">
-        <h3>编辑商品</h3>
-        <div class="modal-close" onclick="hideModal('editProductModal')">✕</div>
-      </div>
+    <div class="modal-content" style="max-height:85vh;overflow-y:auto;">
+      <div class="modal-header"><h3 id="editProductTitle">编辑商品</h3><div class="modal-close" onclick="hideModal('editProductModal')">✕</div></div>
       <div class="edit-section-title">商品信息</div>
-      <div class="edit-row">
-        <label>商品名称</label>
-        <input type="text" placeholder="请输入商品名称" value="超柔软小熊毛绒玩偶">
-      </div>
-      <div class="edit-row">
-        <label>商品描述</label>
-        <textarea placeholder="请输入商品描述">精选优质面料，手感柔软亲肤，适合拥抱和陪伴。多种颜色可选，送礼自用两相宜。</textarea>
-      </div>
-      <div class="edit-row">
-        <label>商品价格 (¥)</label>
-        <input type="number" placeholder="请输入价格" value="39.9">
-      </div>
-      <div class="edit-row">
-        <label>库存数量</label>
-        <input type="number" placeholder="请输入库存" value="356">
-      </div>
-      <div class="edit-row">
-        <label>商品分类</label>
-        <select>
-          <option>毛绒玩偶</option>
-          <option>动物系列</option>
-          <option>花卉系列</option>
-          <option>公主系列</option>
+      <div class="edit-row"><label>商品名称</label><input type="text" placeholder="请输入商品名称" id="editProductName"></div>
+      <div class="edit-row"><label>商品描述</label><textarea placeholder="请输入商品描述" id="editProductDesc"></textarea></div>
+      <div class="edit-row"><label>商品价格 (¥)</label><input type="number" placeholder="请输入价格" id="editProductPrice" step="0.1"></div>
+      <div class="edit-row"><label>库存数量</label><input type="number" placeholder="请输入库存" id="editProductStock"></div>
+      <div class="edit-row"><label>商品分类</label>
+        <select id="editProductCategory">
+          <option value="毛绒玩偶">毛绒玩偶</option><option value="季节限定">季节限定</option>
+          <option value="精品系列">精品系列</option><option value="新品上市">新品上市</option>
         </select>
       </div>
-      <div class="edit-row">
-        <label>商品状态</label>
-        <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
-          <div class="switch-toggle on" onclick="this.classList.toggle('on')"></div>
-          <span style="font-size:13px; color:var(--text-secondary);">上架中</span>
+      <div class="edit-row"><label>商品状态</label>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+          <div class="switch-toggle" id="editProductStatus" onclick="this.classList.toggle('on')"></div>
+          <span style="font-size:13px;color:var(--text-secondary);" id="editProductStatusText">上架中</span>
         </div>
       </div>
-
       <div class="edit-section-title" style="margin-top:20px;">商品图片 (最多5张)</div>
-      <div class="image-upload-area">
-        <div class="upload-slot filled">🧸</div>
-        <div class="upload-slot filled">🧸</div>
-        <div class="upload-slot filled">🧸</div>
-        <div class="upload-slot">
-          <span class="plus">+</span>
-          <span>上传图片</span>
-        </div>
-      </div>
+      <div class="image-upload-area" id="editProductImages"></div>
+      <input type="file" id="productImageInput" accept="image/*" style="display:none;" onchange="handleProductImageUpload(event)">
+      <button class="btn-submit" style="margin-top:20px;" onclick="saveProduct()">保存商品</button>
+    </div>
+  </div>
 
-      <button class="btn-submit" style="margin-top:20px;" onclick="hideModal('editProductModal')">保存商品</button>
+  <!-- 发货弹窗 -->
+  <div class="modal-overlay" id="shipModal">
+    <div class="modal-content">
+      <div class="modal-header"><h3>订单发货</h3><div class="modal-close" onclick="hideModal('shipModal')">✕</div></div>
+      <div class="form-group"><label>物流公司</label>
+        <select class="form-input" id="shipCompany" style="height:44px;">
+          <option value="顺丰速运">顺丰速运</option><option value="中通快递">中通快递</option>
+          <option value="圆通速递">圆通速递</option><option value="韵达快递">韵达快递</option>
+          <option value="申通快递">申通快递</option><option value="京东物流">京东物流</option><option value="极兔速递">极兔速递</option>
+        </select>
+      </div>
+      <div class="form-group"><label>物流单号</label><input class="form-input" type="text" placeholder="请输入物流单号" id="shipTrackingNo"></div>
+      <button class="btn-submit" onclick="confirmShip()">确认发货</button>
+    </div>
+  </div>
+
+  <!-- 退款弹窗 -->
+  <div class="modal-overlay" id="refundModal">
+    <div class="modal-content">
+      <div class="modal-header"><h3>处理退款</h3><div class="modal-close" onclick="hideModal('refundModal')">✕</div></div>
+      <div class="form-group"><label>处理方式</label>
+        <select class="form-input" id="refundAction" style="height:44px;"><option value="agree">同意退款</option><option value="reject">拒绝退款</option></select>
+      </div>
+      <div class="form-group"><label>处理原因</label><textarea class="form-input" placeholder="请输入处理原因" id="refundReason" style="height:80px;resize:none;padding:10px 14px;"></textarea></div>
+      <button class="btn-submit" onclick="confirmRefund()">确认处理</button>
+    </div>
+  </div>
+
+  <!-- 用户详情弹窗 -->
+  <div class="user-detail-modal" id="userDetailModal">
+    <div class="user-detail-content">
+      <div class="modal-header"><h3>用户详情</h3><div class="modal-close" onclick="hideUserDetailModal()">✕</div></div>
+      <div id="userDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- 统计编辑弹窗 -->
+  <div class="modal-overlay" id="statEditModal">
+    <div class="modal-content">
+      <div class="modal-header"><h3>编辑统计数据</h3><div class="modal-close" onclick="hideModal('statEditModal')">✕</div></div>
+      <div class="stat-edit-row"><label>商品总数</label><input type="number" id="statProductCount"></div>
+      <div class="stat-edit-row"><label>累计订单</label><input type="number" id="statOrderCount"></div>
+      <div class="stat-edit-row"><label>销售总额 (¥)</label><input type="number" id="statTotalSales" step="0.01"></div>
+      <button class="btn-submit" style="margin-top:16px;" onclick="saveStatEdit()">保存</button>
+    </div>
+  </div>
+
+  <!-- 轮播图添加弹窗 -->
+  <div class="modal-overlay" id="carouselAddModal">
+    <div class="modal-content">
+      <div class="modal-header"><h3>添加轮播图</h3><div class="modal-close" onclick="hideModal('carouselAddModal')">✕</div></div>
+      <div class="form-group"><label>选择商品</label><select class="form-input" id="carouselProductSelect" style="height:44px;"></select></div>
+      <button class="btn-submit" onclick="addCarouselItem()">添加</button>
+    </div>
+  </div>
+
+  <!-- 商家订单详情弹窗 -->
+  <div class="modal-overlay" id="merchantOrderDetailModal">
+    <div class="modal-content" style="max-height:85vh;overflow-y:auto;">
+      <div class="modal-header"><h3>订单详情</h3><div class="modal-close" onclick="hideModal('merchantOrderDetailModal')">✕</div></div>
+      <div id="merchantOrderDetailBody"></div>
     </div>
   </div>
 
 </div>
 
 <script>
-// ==================== Launch Page Logic ====================
-const VALID_INVITE_CODES = ['WDC888', 'WD2026', 'MERCHANT'];
+// ==================== 默认数据 ====================
+var DEFAULT_PRODUCTS = [
+  {id:'p1',name:'超柔软小熊毛绒玩偶 抱枕靠垫可爱公仔',price:39.9,stock:356,sold:21000,category:'毛绒玩偶',description:'精选优质面料，手感柔软亲肤，适合拥抱和陪伴。',images:[],emoji:'🧸',status:'on',createdAt:'2026-01-15'},
+  {id:'p2',name:'垂耳兔毛绒公仔 柔软可拥抱 生日礼物',price:29.9,stock:128,sold:8600,category:'毛绒玩偶',description:'超萌垂耳兔造型，柔软PP棉填充，手感极佳。',images:[],emoji:'🐰',status:'on',createdAt:'2026-02-20'},
+  {id:'p3',name:'樱花兔季节限定款 高颜值桌面摆件',price:49.9,stock:0,sold:5200,category:'季节限定',description:'春季限定樱花主题，粉色系配色，限量发售。',images:[],emoji:'🌸',status:'off',createdAt:'2026-03-01'},
+  {id:'p4',name:'小狐狸布偶 可爱动物系列 儿童礼物',price:35.9,stock:89,sold:3800,category:'精品系列',description:'可爱小狐狸造型，采用环保面料，安全无毒。',images:[],emoji:'🦊',status:'on',createdAt:'2026-03-15'},
+  {id:'p5',name:'国宝熊猫玩偶 加大号抱枕 办公室午休',price:59.9,stock:210,sold:15000,category:'精品系列',description:'国宝熊猫主题，加大号设计，适合午休靠枕。',images:[],emoji:'🐼',status:'on',createdAt:'2026-04-01'},
+  {id:'p6',name:'独角兽梦幻系列 彩虹尾巴毛绒公仔',price:45.9,stock:45,sold:6700,category:'新品上市',description:'梦幻独角兽主题，彩虹尾巴设计，少女心满满。',images:[],emoji:'🦄',status:'on',createdAt:'2026-05-01'}
+];
+var DEFAULT_USERS = [
+  {id:'u1',nickname:'小仙女',phone:'13888888888',password:'123456',avatar:'',addresses:[{name:'小仙女',phone:'13888888888',detail:'上海市浦东新区陆家嘴环路1000号',isDefault:true}],createdAt:'2026-01-20'},
+  {id:'u2',nickname:'甜甜圈',phone:'15966666666',password:'123456',avatar:'',addresses:[{name:'甜甜圈',phone:'15966666666',detail:'北京市朝阳区三里屯太古里',isDefault:true}],createdAt:'2026-02-10'},
+  {id:'u3',nickname:'奶茶少女',phone:'17733333333',password:'123456',avatar:'',addresses:[{name:'奶茶少女',phone:'17733333333',detail:'广州市天河区天河路385号',isDefault:true}],createdAt:'2026-02-28'},
+  {id:'u4',nickname:'草莓酱',phone:'18699999999',password:'123456',avatar:'',addresses:[{name:'草莓酱',phone:'18699999999',detail:'深圳市南山区科技园南区',isDefault:true}],createdAt:'2026-03-15'},
+  {id:'u5',nickname:'小太阳',phone:'13522222222',password:'123456',avatar:'',addresses:[{name:'小太阳',phone:'13522222222',detail:'杭州市西湖区文三路478号',isDefault:true}],createdAt:'2026-04-20'}
+];
+var DEFAULT_ORDERS = [
+  {id:'o1',orderNo:'WD20260518001',userId:'u1',userName:'小仙女',userPhone:'138****8888',userAddress:'上海市浦东新区陆家嘴环路1000号',items:[{productId:'p1',name:'超柔软小熊毛绒玩偶',price:39.9,qty:1,spec:'粉色 · 大号',image:'',emoji:'🧸'}],totalAmount:39.9,status:'paid',logistics:{company:'',trackingNo:''},createdAt:'2026-05-18 10:30',paidAt:'2026-05-18 10:32',shippedAt:'',completedAt:''},
+  {id:'o2',orderNo:'WD20260515002',userId:'u1',userName:'小仙女',userPhone:'138****8888',userAddress:'上海市浦东新区陆家嘴环路1000号',items:[{productId:'p2',name:'垂耳兔毛绒公仔',price:29.9,qty:2,spec:'白色 · 中号',image:'',emoji:'🐰'}],totalAmount:59.8,status:'completed',logistics:{company:'顺丰速运',trackingNo:'SF1234567890'},createdAt:'2026-05-15 14:20',paidAt:'2026-05-15 14:22',shippedAt:'2026-05-16 09:00',completedAt:'2026-05-17 16:30'},
+  {id:'o3',orderNo:'WD20260510003',userId:'u1',userName:'小仙女',userPhone:'138****8888',userAddress:'上海市浦东新区陆家嘴环路1000号',items:[{productId:'p4',name:'小狐狸布偶',price:35.9,qty:1,spec:'橙色 · 小号',image:'',emoji:'🦊'}],totalAmount:35.9,status:'shipped',logistics:{company:'中通快递',trackingNo:'ZT9876543210'},createdAt:'2026-05-10 08:15',paidAt:'2026-05-10 08:18',shippedAt:'2026-05-11 10:00',completedAt:''},
+  {id:'o4',orderNo:'WD20260517004',userId:'u3',userName:'奶茶少女',userPhone:'177****3333',userAddress:'广州市天河区天河路385号',items:[{productId:'p6',name:'独角兽梦幻系列',price:45.9,qty:2,spec:'彩虹款',image:'',emoji:'🦄'}],totalAmount:91.8,status:'completed',logistics:{company:'圆通速递',trackingNo:'YT111222333'},createdAt:'2026-05-17 11:00',paidAt:'2026-05-17 11:05',shippedAt:'2026-05-17 15:00',completedAt:'2026-05-19 10:00'},
+  {id:'o5',orderNo:'WD20260516005',userId:'u2',userName:'甜甜圈',userPhone:'159****6666',userAddress:'北京市朝阳区三里屯太古里',items:[{productId:'p2',name:'垂耳兔毛绒公仔',price:29.9,qty:1,spec:'白色 · 中号',image:'',emoji:'🐰'}],totalAmount:29.9,status:'refunding',logistics:{company:'',trackingNo:''},createdAt:'2026-05-16 20:00',paidAt:'2026-05-16 20:02',shippedAt:'',completedAt:''}
+];
+var DEFAULT_CAROUSEL = ['p1','p2','p4','p5','p6'];
+var DEFAULT_STATS = {productCount:128,orderCount:2456,totalSales:386000};
 
-function enterCustomerPlatform() {
-  document.getElementById('launchPage').classList.add('hidden');
-  // Show customer home page
-  switchTab('home', document.querySelectorAll('.tab-item')[0]);
+// ==================== 数据管理 ====================
+function loadData(){
+  try{
+    var saved=localStorage.getItem('wanoucheng_data');
+    if(saved){
+      var p=JSON.parse(saved);
+      window.AppData={products:p.products||JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),orders:p.orders||JSON.parse(JSON.stringify(DEFAULT_ORDERS)),users:p.users||JSON.parse(JSON.stringify(DEFAULT_USERS)),currentUser:p.currentUser||null,carousel:p.carousel||DEFAULT_CAROUSEL.slice(),stats:p.stats||{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales}};
+    }else{
+      window.AppData={products:JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),orders:JSON.parse(JSON.stringify(DEFAULT_ORDERS)),users:JSON.parse(JSON.stringify(DEFAULT_USERS)),currentUser:null,carousel:DEFAULT_CAROUSEL.slice(),stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales}};
+      saveData();
+    }
+  }catch(e){window.AppData={products:JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),orders:JSON.parse(JSON.stringify(DEFAULT_ORDERS)),users:JSON.parse(JSON.stringify(DEFAULT_USERS)),currentUser:null,carousel:DEFAULT_CAROUSEL.slice(),stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales}};}
 }
+function saveData(){try{localStorage.setItem('wanoucheng_data',JSON.stringify(window.AppData));}catch(e){showToast('存储空间不足');}}
+function genId(){return 'id_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);}
+function genOrderNo(){var d=new Date();return 'WD'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+String(Math.floor(Math.random()*10000)).padStart(4,'0');}
+function nowStr(){return new Date().toLocaleString('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).replace(/\//g,'-');}
+function showToast(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove();},2000);}
+function getCurrentUser(){if(!window.AppData.currentUser)return null;return window.AppData.users.find(function(u){return u.id===window.AppData.currentUser;})||null;}
+function getMyOrders(){var u=getCurrentUser();return u?window.AppData.orders.filter(function(o){return o.userId===u.id;}):[];}
+function maskPhone(p){return p?p.replace(/(\d{3})\d{4}(\d{4})/,'$1****$2'):'未绑定';}
+function formatSales(n){return n>=10000?(n/10000).toFixed(1)+'万':n>=1000?n.toLocaleString():String(n);}
 
-function showInviteModal() {
-  document.getElementById('inviteModal').classList.add('show');
-  document.getElementById('inviteError').classList.remove('show');
-  document.getElementById('inviteCodeInput').value = '';
-  setTimeout(() => {
-    document.getElementById('inviteCodeInput').focus();
-  }, 300);
+var ORDER_STATUS_MAP={pending:'待付款',paid:'待发货',shipped:'待收货',completed:'已完成',cancelled:'已取消',refunding:'退款中',refunded:'已退款'};
+var ORDER_STATUS_COLOR={pending:'var(--orange-warm)',paid:'var(--orange-warm)',shipped:'var(--pink-primary)',completed:'var(--green-success)',cancelled:'var(--text-weak)',refunding:'var(--red-price)',refunded:'var(--text-weak)'};
+var ORDER_STATUS_ICON={pending:'💳',paid:'📦',shipped:'🚚',completed:'✅',cancelled:'❌',refunding:'🔄',refunded:'💰'};
+var ORDER_STATUS_DESC={pending:'请尽快完成支付',paid:'商家正在准备发货',shipped:'商品正在配送中',completed:'感谢您的购买',cancelled:'订单已取消',refunding:'退款申请处理中',refunded:'退款已完成'};
+
+// ==================== 启动页 ====================
+var VALID_INVITE_CODES=['WDC888','WD2026','MERCHANT'];
+function enterCustomerPlatform(){document.getElementById('launchPage').classList.add('hidden');switchTab('home',document.querySelectorAll('.tab-item')[0]);}
+function showInviteModal(){document.getElementById('inviteModal').classList.add('show');document.getElementById('inviteError').classList.remove('show');document.getElementById('inviteCodeInput').value='';setTimeout(function(){document.getElementById('inviteCodeInput').focus();},300);}
+function hideInviteModal(){document.getElementById('inviteModal').classList.remove('show');}
+function verifyInviteCode(){
+  var code=document.getElementById('inviteCodeInput').value.trim().toUpperCase();
+  if(!code.length){document.getElementById('inviteError').textContent='请输入邀请码';document.getElementById('inviteError').classList.add('show');return;}
+  if(VALID_INVITE_CODES.indexOf(code)>=0){hideInviteModal();document.getElementById('launchPage').classList.add('hidden');switchToMerchant();}
+  else{document.getElementById('inviteError').textContent='邀请码错误，请重新输入';document.getElementById('inviteError').classList.add('show');document.getElementById('inviteCodeInput').value='';document.getElementById('inviteCodeInput').focus();}
 }
+document.getElementById('inviteCodeInput').addEventListener('keydown',function(e){if(e.key==='Enter')verifyInviteCode();});
+document.getElementById('inviteModal').addEventListener('click',function(e){if(e.target===this)hideInviteModal();});
 
-function hideInviteModal() {
-  document.getElementById('inviteModal').classList.remove('show');
-}
-
-function verifyInviteCode() {
-  const input = document.getElementById('inviteCodeInput');
-  const code = input.value.trim().toUpperCase();
-
-  if (code.length === 0) {
-    document.getElementById('inviteError').textContent = '请输入邀请码';
-    document.getElementById('inviteError').classList.add('show');
-    return;
-  }
-
-  if (VALID_INVITE_CODES.includes(code)) {
-    hideInviteModal();
-    // Hide launch page and enter merchant
-    document.getElementById('launchPage').classList.add('hidden');
-    switchToMerchant();
-  } else {
-    document.getElementById('inviteError').textContent = '邀请码错误，请重新输入';
-    document.getElementById('inviteError').classList.add('show');
-    input.value = '';
-    input.focus();
-  }
-}
-
-// Enter key support for invite code input
-document.getElementById('inviteCodeInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    verifyInviteCode();
-  }
-});
-
-// Close invite modal on overlay click
-document.getElementById('inviteModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    hideInviteModal();
-  }
-});
-
-// ==================== Tab Switching ====================
-function switchTab(tabName, el) {
-  // Hide all customer pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show target page
-  document.getElementById('page-' + tabName).classList.add('active');
-  // Update tab bar
-  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-  if (el) el.classList.add('active');
-  // Show tab bar
-  document.getElementById('tabBar').style.display = 'flex';
-  // Hide merchant page
+// ==================== Tab切换 ====================
+function switchTab(name,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.tab-item').forEach(function(t){t.classList.remove('active');});
+  if(el)el.classList.add('active');
+  document.getElementById('tabBar').style.display='flex';
   document.getElementById('page-merchant').classList.remove('active');
-  // Scroll to top
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
+  if(name==='profile')renderProfile();
+  if(name==='home')renderHomePage();
 }
-
-function switchToMerchant() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+function switchToMerchant(){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-merchant').classList.add('active');
-  // Hide customer tab bar in merchant mode
-  document.getElementById('tabBar').style.display = 'none';
-  window.scrollTo(0, 0);
+  document.getElementById('tabBar').style.display='none';
+  window.scrollTo(0,0);
+  renderMerchantPage();
 }
-
-function switchToCustomer() {
+function switchToCustomer(){
   document.getElementById('page-merchant').classList.remove('active');
-  // Show customer tab bar
-  document.getElementById('tabBar').style.display = 'flex';
-  switchTab('home', document.querySelectorAll('.tab-item')[0]);
+  document.getElementById('tabBar').style.display='flex';
+  switchTab('home',document.querySelectorAll('.tab-item')[0]);
 }
-
-// ==================== Merchant Tab Switching ====================
-function switchMerchantTab(el, sectionId) {
-  document.querySelectorAll('.merchant-tab').forEach(t => t.classList.remove('active'));
+function switchMerchantTab(el,id){
+  document.querySelectorAll('.merchant-tab').forEach(function(t){t.classList.remove('active');});
   el.classList.add('active');
-  document.querySelectorAll('.merchant-section').forEach(s => s.style.display = 'none');
-  document.getElementById(sectionId).style.display = 'block';
+  document.querySelectorAll('.merchant-section').forEach(function(s){s.style.display='none';});
+  document.getElementById(id).style.display='block';
 }
 
-// ==================== Modal ====================
-function showModal(id) {
+// ==================== 弹窗 ====================
+function showModal(id){
   document.getElementById(id).classList.add('show');
+  if(id==='addressModal')renderAddressList();
+  if(id==='phoneModal'){var u=getCurrentUser();document.getElementById('phoneCurrent').value=u?u.phone:'';document.getElementById('phoneNew').value='';}
+}
+function hideModal(id){document.getElementById(id).classList.remove('show');}
+document.querySelectorAll('.modal-overlay').forEach(function(o){o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});});
+
+// ==================== 登录/注册 ====================
+function doLogin(){
+  var phone=document.getElementById('loginPhone').value.trim(),pwd=document.getElementById('loginPassword').value.trim();
+  if(!phone||phone.length<11){showToast('请输入正确的手机号');return;}
+  if(!pwd){showToast('请输入密码');return;}
+  var u=window.AppData.users.find(function(x){return x.phone===phone&&x.password===pwd;});
+  if(!u){showToast('手机号或密码错误');return;}
+  window.AppData.currentUser=u.id;saveData();hideModal('loginModal');showToast('登录成功');renderProfile();
+}
+function doRegister(){
+  var phone=document.getElementById('loginPhone').value.trim(),pwd=document.getElementById('loginPassword').value.trim();
+  if(!phone||phone.length<11){showToast('请输入正确的手机号');return;}
+  if(!pwd||pwd.length<4){showToast('密码至少4位');return;}
+  if(window.AppData.users.find(function(x){return x.phone===phone;})){showToast('该手机号已注册');return;}
+  var nu={id:genId(),nickname:'用户'+phone.slice(-4),phone:phone,password:pwd,avatar:'',addresses:[],createdAt:new Date().toISOString().split('T')[0]};
+  window.AppData.users.push(nu);window.AppData.currentUser=nu.id;saveData();hideModal('loginModal');showToast('注册成功');renderProfile();
+}
+function doLogout(){window.AppData.currentUser=null;saveData();renderProfile();showToast('已退出登录');}
+
+// ==================== 首页渲染 ====================
+var currentCategory='全部';
+function renderHomePage(){renderSwiper();renderCategoryBar();renderProductGrid();}
+
+// 轮播图
+var swiperState={current:0,total:0,timer:null};
+function renderSwiper(){
+  if(swiperState.timer)clearInterval(swiperState.timer);
+  var track=document.getElementById('swiperTrack'),dots=document.getElementById('swiperDots');
+  var carousel=window.AppData.carousel||[];
+  var slides=[];
+  carousel.forEach(function(pid){var p=window.AppData.products.find(function(x){return x.id===pid;});if(p)slides.push(p);});
+  if(!slides.length)slides.push(null,null,null);
+  var html='';
+  for(var si=0;si<slides.length;si++){
+    var p=slides[si];
+    if(p){
+      var hasImg=p.images&&p.images.length>0;
+      var bgStyle=hasImg?'':'background:linear-gradient(135deg,#FFB6C1,#FF9A9E);';
+      var imgHtml=hasImg?'<img src="'+p.images[0]+'" alt="" style="width:100%;height:100%;object-fit:cover;">':'';
+      var emojiHtml=hasImg?'':'<div style="font-size:64px;">'+(p.emoji||'🧸')+'</div>';
+      var nm=p.name.length>15?p.name.substring(0,15)+'...':p.name;
+      html+='<div class="swiper-slide" style="'+bgStyle+'">'+imgHtml+emojiHtml+'<div class="slide-content"><h3>'+nm+'</h3><p>¥'+p.price+'</p></div></div>';
+    }else{
+      var defs=[['linear-gradient(135deg,#FFB6C1,#FF9A9E)','🌸 新品上架','春季限定 · 萌系玩偶系列'],['linear-gradient(135deg,#FECFEF,#FFD1DC)','🎁 满减活动','全场满99减20 · 限时特惠'],['linear-gradient(135deg,#FFD1DC,#FFC0CB)','⭐ 人气爆款','累计销量10万+ · 好评如潮']];
+      var di=si%defs.length;
+      html+='<div class="swiper-slide" style="background:'+defs[di][0]+';"><div class="slide-content"><h3>'+defs[di][1]+'</h3><p>'+defs[di][2]+'</p></div></div>';
+    }
+  }
+  track.innerHTML=html;
+  dots.innerHTML='';
+  for(var di=0;di<slides.length;di++){var d=document.createElement('div');d.className='swiper-dot'+(di===0?' active':'');(function(idx){d.addEventListener('click',function(){goToSlide(idx);});})(di);dots.appendChild(d);}
+  swiperState.total=slides.length;swiperState.current=0;
+  swiperState.timer=setInterval(function(){swiperState.current=(swiperState.current+1)%swiperState.total;goToSlide(swiperState.current);},3500);
+  var c=document.getElementById('swiper');var sx=0,drag=false;
+  c.ontouchstart=function(e){sx=e.touches[0].clientX;drag=true;clearInterval(swiperState.timer);};
+  c.ontouchend=function(e){if(!drag)return;drag=false;var diff=sx-e.changedTouches[0].clientX;if(Math.abs(diff)>50){if(diff>0)swiperState.current=Math.min(swiperState.current+1,swiperState.total-1);else swiperState.current=Math.max(swiperState.current-1,0);goToSlide(swiperState.current);}swiperState.timer=setInterval(function(){swiperState.current=(swiperState.current+1)%swiperState.total;goToSlide(swiperState.current);},3500);};
+}
+function goToSlide(i){document.getElementById('swiperTrack').style.transform='translateX(-'+i*100+'%)';document.querySelectorAll('#swiperDots .swiper-dot').forEach(function(d,j){d.classList.toggle('active',j===i);});}
+
+// 分类栏
+function renderCategoryBar(){
+  var cats=['全部','毛绒玩偶','季节限定','精品系列','新品上市'],icons=['🧸','🧸','🌸','👑','🎁'];
+  var html='';
+  for(var i=0;i<cats.length;i++){
+    html+='<div class="category-item '+(currentCategory===cats[i]?'active':'')+'" onclick="selectCategory(\''+cats[i]+'\')"><div class="category-icon">'+icons[i]+'</div><span>'+cats[i]+'</span></div>';
+  }
+  document.getElementById('categoryBar').innerHTML=html;
+}
+function selectCategory(c){currentCategory=c;renderCategoryBar();renderProductGrid();}
+
+// 商品列表
+function renderProductGrid(){
+  var ps=window.AppData.products.filter(function(p){return p.status==='on';});
+  if(currentCategory!=='全部')ps=ps.filter(function(p){return p.category===currentCategory;});
+  var g=document.getElementById('productGrid');
+  if(!ps.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">🛒</div><p>暂无该分类商品</p></div>';return;}
+  var html='';
+  for(var i=0;i<ps.length;i++){
+    var p=ps[i];
+    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="'+p.name+'">':(p.emoji||'🧸');
+    var tag=p.sold>10000?'<span class="tag">热卖</span>':p.category==='新品上市'?'<span class="tag">新品</span>':p.category==='季节限定'?'<span class="tag">限定</span>':'';
+    html+='<div class="product-card" onclick="buyProduct(\''+p.id+'\')"><div class="product-img">'+img+tag+'</div><div class="product-info"><div class="product-name">'+p.name+'</div><div class="product-price-row"><div><span class="product-price"><span class="symbol">¥</span>'+p.price+'</span></div><span class="product-sales">已售'+formatSales(p.sold)+'</span></div><button class="product-buy-btn" onclick="event.stopPropagation();buyProduct(\''+p.id+'\')">立即购买</button></div></div>';
+  }
+  g.innerHTML=html;
 }
 
-function hideModal(id) {
-  document.getElementById(id).classList.remove('show');
+// 购买
+function buyProduct(pid){
+  var u=getCurrentUser();if(!u){showToast('请先登录');showModal('loginModal');return;}
+  var p=window.AppData.products.find(function(x){return x.id===pid;});if(!p)return;
+  var addr=u.addresses.find(function(a){return a.isDefault;})||u.addresses[0];
+  if(!addr){showToast('请先添加收货地址');showModal('addressModal');return;}
+  var o={id:genId(),orderNo:genOrderNo(),userId:u.id,userName:u.nickname,userPhone:maskPhone(u.phone),userAddress:addr.detail,
+    items:[{productId:p.id,name:p.name.length>20?p.name.substring(0,20)+'...':p.name,price:p.price,qty:1,spec:'默认规格',image:p.images&&p.images[0]?p.images[0]:'',emoji:p.emoji||'🧸'}],
+    totalAmount:p.price,status:'pending',logistics:{company:'',trackingNo:''},createdAt:nowStr(),paidAt:'',shippedAt:'',completedAt:''};
+  window.AppData.orders.push(o);p.sold+=1;saveData();showToast('下单成功，请去支付');renderProfile();
 }
 
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.classList.remove('show');
-    }
-  });
-});
-
-// ==================== Login Simulation ====================
-function doLogin() {
-  hideModal('loginModal');
-  document.getElementById('loginPrompt').style.display = 'none';
-  document.getElementById('loggedInUser').style.display = 'flex';
+// ==================== 个人中心 ====================
+function renderProfile(){
+  var u=getCurrentUser(),lp=document.getElementById('loginPrompt'),lu=document.getElementById('loggedInUser');
+  if(u){lp.style.display='none';lu.style.display='flex';document.getElementById('profileNickname').textContent=u.nickname;
+    var av=document.getElementById('profileAvatar');av.innerHTML=u.avatar?'<img src="'+u.avatar+'" alt="">':'🧸';
+    document.getElementById('phoneDisplay').textContent=maskPhone(u.phone);document.getElementById('addressCount').textContent=u.addresses.length+'个地址';
+  }else{lp.style.display='block';lu.style.display='none';document.getElementById('phoneDisplay').textContent='未绑定';document.getElementById('addressCount').textContent='0个地址';}
+  renderOrderTabs();renderProfileOrders();
 }
 
-// ==================== Swiper ====================
-(function() {
-  const track = document.getElementById('swiperTrack');
-  const dotsContainer = document.getElementById('swiperDots');
-  const slides = track.querySelectorAll('.swiper-slide');
-  const totalSlides = slides.length;
-  let currentSlide = 0;
-  let startX = 0;
-  let isDragging = false;
-  let autoPlayTimer;
-
-  // Create dots
-  for (let i = 0; i < totalSlides; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'swiper-dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => goToSlide(i));
-    dotsContainer.appendChild(dot);
+function renderOrderTabs(){
+  var orders=getMyOrders();
+  var tabs=[{k:'pending',i:'💳',l:'待付款'},{k:'paid',i:'📦',l:'待发货'},{k:'shipped',i:'🚚',l:'待收货'},{k:'completed',i:'⭐',l:'待评价'},{k:'refunding',i:'🔄',l:'退款'}];
+  var html='';
+  for(var i=0;i<tabs.length;i++){
+    var t=tabs[i];
+    var c=orders.filter(function(o){return o.status===t.k;}).length;
+    html+='<div class="order-tab" onclick="openOrderListPage(\''+t.k+'\')"><div class="tab-icon">'+t.i+'</div><span>'+t.l+'</span>'+(c>0?'<div class="badge show">'+c+'</div>':'<div class="badge"></div>')+'</div>';
   }
+  document.getElementById('orderTabs').innerHTML=html;
+}
 
-  function goToSlide(index) {
-    currentSlide = index;
-    track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    updateDots();
+function renderProfileOrders(){
+  var orders=getMyOrders().slice(-3).reverse();
+  var c=document.getElementById('profileOrderList');
+  if(!orders.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>暂无订单</p></div>';return;}
+  var html='';
+  for(var i=0;i<orders.length;i++)html+=renderOrderCard(orders[i],true);
+  c.innerHTML=html;
+}
+
+function renderOrderCard(o,isCustomer){
+  var item=o.items[0];
+  var img=item.image?'<img src="'+item.image+'" alt="">':(item.emoji||'🧸');
+  var st=ORDER_STATUS_MAP[o.status]||o.status,sc=ORDER_STATUS_COLOR[o.status]||'var(--pink-primary)';
+  var fb='';
+  if(isCustomer){
+    if(o.status==='pending')fb='<button class="order-btn" onclick="event.stopPropagation();cancelOrder(\''+o.id+'\')">取消订单</button><button class="order-btn primary" onclick="event.stopPropagation();payOrder(\''+o.id+'\')">去支付</button>';
+    else if(o.status==='paid')fb='<button class="order-btn" onclick="event.stopPropagation();">提醒发货</button>';
+    else if(o.status==='shipped')fb='<button class="order-btn" onclick="event.stopPropagation();">查看物流</button><button class="order-btn primary" onclick="event.stopPropagation();confirmReceive(\''+o.id+'\')">确认收货</button>';
+    else if(o.status==='completed')fb='<button class="order-btn" onclick="event.stopPropagation();">再次购买</button><button class="order-btn primary" onclick="event.stopPropagation();">去评价</button>';
+    else if(o.status==='cancelled')fb='<button class="order-btn" onclick="event.stopPropagation();">再次购买</button>';
   }
+  return '<div class="order-card" onclick="openOrderDetail(\''+o.id+'\')"><div class="order-card-header"><span class="order-no">订单号：'+o.orderNo+'</span><span class="order-status" style="color:'+sc+';">'+st+'</span></div><div class="order-card-body"><div class="order-thumb">'+img+'</div><div class="order-detail"><h4>'+item.name+'</h4><div class="order-spec">'+item.spec+' × '+item.qty+'</div><div class="order-price"><span class="symbol">¥</span>'+o.totalAmount+'</div></div></div>'+(fb?'<div class="order-card-footer">'+fb+'</div>':'')+'</div>';
+}
 
-  function updateDots() {
-    dotsContainer.querySelectorAll('.swiper-dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentSlide);
-    });
+// ==================== 订单列表页 ====================
+var orderListFilter='all';
+function openOrderListPage(f){orderListFilter=f||'all';document.getElementById('orderListPage').classList.add('show');renderOrderListPage();}
+function closeOrderListPage(){document.getElementById('orderListPage').classList.remove('show');}
+function renderOrderListPage(){
+  var tabs=[{k:'all',l:'全部'},{k:'pending',l:'待付款'},{k:'paid',l:'待发货'},{k:'shipped',l:'待收货'},{k:'completed',l:'已完成'},{k:'refunding',l:'退款中'}];
+  var orders=getMyOrders();
+  var thtml='';
+  for(var i=0;i<tabs.length;i++){
+    var t=tabs[i];
+    var c=t.k==='all'?orders.length:orders.filter(function(o){return o.status===t.k;}).length;
+    thtml+='<div class="order-filter-tab '+(orderListFilter===t.k?'active':'')+'" onclick="setOrderFilter(\''+t.k+'\')">'+t.l+(c>0?'<span class="filter-badge">'+c+'</span>':'')+'</div>';
   }
+  document.getElementById('orderFilterTabs').innerHTML=thtml;
+  var filtered=orderListFilter==='all'?orders:orders.filter(function(o){return o.status===orderListFilter;});
+  filtered=filtered.slice().reverse();
+  var c=document.getElementById('orderListContent');
+  if(!filtered.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>暂无相关订单</p></div>';return;}
+  var html='';for(var i=0;i<filtered.length;i++)html+=renderOrderCard(filtered[i],true);
+  c.innerHTML=html;
+}
+function setOrderFilter(f){orderListFilter=f;renderOrderListPage();}
 
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    goToSlide(currentSlide);
+// ==================== 订单详情页 ====================
+function openOrderDetail(oid){
+  var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;
+  var st=ORDER_STATUS_MAP[o.status]||o.status,si=ORDER_STATUS_ICON[o.status]||'📋',sd=ORDER_STATUS_DESC[o.status]||'';
+  var h='<div class="order-status-big"><div class="status-icon">'+si+'</div><div class="status-text">'+st+'</div><div class="status-desc">'+sd+'</div></div>';
+  if(o.logistics&&o.logistics.company)h+='<div class="order-detail-section"><div class="section-title">物流信息</div><div class="detail-info-row"><span class="label">物流公司</span><span class="value">'+o.logistics.company+'</span></div><div class="detail-info-row"><span class="label">物流单号</span><span class="value">'+o.logistics.trackingNo+'</span></div></div>';
+  h+='<div class="order-detail-section"><div class="section-title">收货信息</div><div class="detail-info-row"><span class="label">收货人</span><span class="value">'+o.userName+'</span></div><div class="detail-info-row"><span class="label">联系电话</span><span class="value">'+o.userPhone+'</span></div><div class="detail-info-row"><span class="label">收货地址</span><span class="value">'+o.userAddress+'</span></div></div>';
+  h+='<div class="order-detail-section"><div class="section-title">商品信息</div>';
+  for(var ii=0;ii<o.items.length;ii++){
+    var item=o.items[ii];
+    var img=item.image?'<img src="'+item.image+'" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">':'<div style="width:60px;height:60px;border-radius:8px;background:var(--pink-mist);display:flex;align-items:center;justify-content:center;font-size:28px;">'+(item.emoji||'🧸')+'</div>';
+    h+='<div class="order-detail-item">'+img+'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">'+item.name+'</div><div style="font-size:11px;color:var(--text-weak);">'+item.spec+' × '+item.qty+'</div></div><div style="font-size:15px;font-weight:700;color:var(--red-price);">¥'+(item.price*item.qty).toFixed(1)+'</div></div>';
   }
+  h+='</div>';
+  h+='<div class="order-detail-section"><div class="section-title">订单信息</div><div class="detail-info-row"><span class="label">订单编号</span><span class="value">'+o.orderNo+'</span></div><div class="detail-info-row"><span class="label">下单时间</span><span class="value">'+(o.createdAt||'--')+'</span></div><div class="detail-info-row"><span class="label">支付时间</span><span class="value">'+(o.paidAt||'--')+'</span></div><div class="detail-info-row"><span class="label">发货时间</span><span class="value">'+(o.shippedAt||'--')+'</span></div><div class="detail-info-row"><span class="label">完成时间</span><span class="value">'+(o.completedAt||'--')+'</span></div><div class="detail-info-row"><span class="label">支付方式</span><span class="value">在线支付</span></div><div class="detail-info-row" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-light);"><span class="label" style="font-weight:600;">订单总额</span><span class="value" style="font-size:18px;font-weight:700;color:var(--red-price);">¥'+o.totalAmount+'</span></div></div>';
+  document.getElementById('orderDetailContent').innerHTML=h;
+  var fb='';
+  if(o.status==='pending')fb='<button class="order-btn" onclick="cancelOrder(\''+o.id+'\');closeOrderDetailPage();">取消订单</button><button class="order-btn primary" onclick="payOrder(\''+o.id+'\');closeOrderDetailPage();">去支付</button>';
+  else if(o.status==='paid')fb='<button class="order-btn">提醒发货</button>';
+  else if(o.status==='shipped')fb='<button class="order-btn">查看物流</button><button class="order-btn primary" onclick="confirmReceive(\''+o.id+'\');closeOrderDetailPage();">确认收货</button>';
+  else if(o.status==='completed')fb='<button class="order-btn">再次购买</button><button class="order-btn primary">去评价</button>';
+  document.getElementById('orderDetailFooter').innerHTML=fb;
+  document.getElementById('orderDetailPage').classList.add('show');
+}
+function closeOrderDetailPage(){document.getElementById('orderDetailPage').classList.remove('show');}
 
-  // Auto play
-  function startAutoPlay() {
-    autoPlayTimer = setInterval(nextSlide, 3500);
+// ==================== 订单操作 ====================
+function payOrder(oid){var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;o.status='paid';o.paidAt=nowStr();saveData();showToast('支付成功');renderProfile();renderOrderListPage();}
+function cancelOrder(oid){var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;o.status='cancelled';saveData();showToast('订单已取消');renderProfile();renderOrderListPage();}
+function confirmReceive(oid){var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;o.status='completed';o.completedAt=nowStr();saveData();showToast('已确认收货');renderProfile();renderOrderListPage();}
+
+// ==================== 地址管理 ====================
+function renderAddressList(){
+  var u=getCurrentUser(),c=document.getElementById('addressList');
+  if(!u||!u.addresses.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📍</div><p>暂无收货地址</p></div>';return;}
+  var html='';
+  for(var i=0;i<u.addresses.length;i++){
+    var a=u.addresses[i];
+    html+='<div style="background:var(--pink-bg);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:14px;font-weight:500;">'+a.name+' <span style="color:var(--text-weak);font-weight:400;font-size:12px;margin-left:8px;">'+a.phone+'</span></div><div style="font-size:12px;color:var(--text-weak);margin-top:4px;">'+a.detail+'</div></div><div style="display:flex;gap:8px;">'+(a.isDefault?'<span style="font-size:11px;color:var(--pink-primary);font-weight:600;">默认</span>':'<span style="font-size:11px;color:var(--pink-primary);cursor:pointer;" onclick="setDefaultAddress('+i+')">设为默认</span>')+'<span style="font-size:11px;color:var(--red-price);cursor:pointer;" onclick="deleteAddress('+i+')">删除</span></div></div>';
   }
+  c.innerHTML=html;
+}
+function saveAddress(){
+  var u=getCurrentUser();if(!u){showToast('请先登录');return;}
+  var n=document.getElementById('addrName').value.trim(),p=document.getElementById('addrPhone').value.trim(),d=document.getElementById('addrDetail').value.trim();
+  if(!n||!p||!d){showToast('请填写完整地址信息');return;}
+  u.addresses.push({name:n,phone:p,detail:d,isDefault:u.addresses.length===0});
+  saveData();document.getElementById('addrName').value='';document.getElementById('addrPhone').value='';document.getElementById('addrDetail').value='';
+  renderAddressList();renderProfile();showToast('地址添加成功');
+}
+function deleteAddress(i){var u=getCurrentUser();if(!u)return;u.addresses.splice(i,1);saveData();renderAddressList();renderProfile();showToast('地址已删除');}
+function setDefaultAddress(i){var u=getCurrentUser();if(!u)return;u.addresses.forEach(function(a,j){a.isDefault=(j===i);});saveData();renderAddressList();showToast('已设为默认地址');}
+function updatePhone(){
+  var u=getCurrentUser();if(!u){showToast('请先登录');return;}
+  var np=document.getElementById('phoneNew').value.trim();if(!np||np.length<11){showToast('请输入正确的手机号');return;}
+  u.phone=np;saveData();hideModal('phoneModal');renderProfile();showToast('手机号修改成功');
+}
 
-  function stopAutoPlay() {
-    clearInterval(autoPlayTimer);
+// ==================== 商家平台 ====================
+function renderMerchantPage(){renderMerchantStats();renderMerchantProducts();renderMerchantUsers();renderMerchantOrders();renderCarouselManage();}
+
+function renderMerchantStats(){
+  var s=window.AppData.stats;
+  var salesDisplay=s.totalSales>=10000?(s.totalSales/10000).toFixed(1)+'万':s.totalSales;
+  document.getElementById('merchantStats').innerHTML='<div class="stat-card" onclick="openStatEdit()"><div class="stat-num">'+s.productCount+'</div><div class="stat-label">商品总数</div></div><div class="stat-card" onclick="openStatEdit()"><div class="stat-num">'+s.orderCount+'</div><div class="stat-label">累计订单</div></div><div class="stat-card" onclick="openStatEdit()"><div class="stat-num">¥'+salesDisplay+'</div><div class="stat-label">总销售额</div></div>';
+}
+function openStatEdit(){document.getElementById('statProductCount').value=window.AppData.stats.productCount;document.getElementById('statOrderCount').value=window.AppData.stats.orderCount;document.getElementById('statTotalSales').value=window.AppData.stats.totalSales;showModal('statEditModal');}
+function saveStatEdit(){window.AppData.stats.productCount=parseInt(document.getElementById('statProductCount').value)||0;window.AppData.stats.orderCount=parseInt(document.getElementById('statOrderCount').value)||0;window.AppData.stats.totalSales=parseFloat(document.getElementById('statTotalSales').value)||0;saveData();hideModal('statEditModal');renderMerchantStats();showToast('统计数据已更新');}
+
+function renderMerchantProducts(){
+  var search=(document.getElementById('merchantProductSearch')?document.getElementById('merchantProductSearch').value:'').toLowerCase();
+  var ps=window.AppData.products;if(search)ps=ps.filter(function(p){return p.name.toLowerCase().indexOf(search)>=0;});
+  var c=document.getElementById('merchantProductList');
+  if(!ps.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📦</div><p>暂无商品</p></div>';return;}
+  var html='';
+  for(var i=0;i<ps.length;i++){
+    var p=ps[i];
+    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="">':(p.emoji||'🧸');
+    html+='<div class="merchant-product-item"><div class="mp-thumb">'+img+'</div><div class="mp-info"><h4>'+p.name+'</h4><div class="mp-meta">库存: '+p.stock+' · 已售: '+formatSales(p.sold)+'</div><div class="mp-price">¥'+p.price+'</div></div><div class="mp-actions"><button class="mp-btn edit" onclick="event.stopPropagation();openProductEditModal(\''+p.id+'\')">编辑</button><button class="mp-btn '+(p.status==='on'?'on':'off')+'" onclick="event.stopPropagation();toggleProductStatus(\''+p.id+'\')">'+(p.status==='on'?'上架中':'已下架')+'</button></div></div>';
   }
+  c.innerHTML=html;
+}
+function toggleProductStatus(pid){var p=window.AppData.products.find(function(x){return x.id===pid;});if(!p)return;p.status=p.status==='on'?'off':'on';saveData();renderMerchantProducts();showToast(p.status==='on'?'已上架':'已下架');}
 
-  startAutoPlay();
+// 商品编辑
+var editingProductId=null,editingImages=[];
+function openProductEditModal(pid){
+  editingProductId=pid;var p=pid?window.AppData.products.find(function(x){return x.id===pid;}):null;
+  document.getElementById('editProductTitle').textContent=p?'编辑商品':'新增商品';
+  document.getElementById('editProductName').value=p?p.name:'';
+  document.getElementById('editProductDesc').value=p?p.description:'';
+  document.getElementById('editProductPrice').value=p?p.price:'';
+  document.getElementById('editProductStock').value=p?p.stock:'';
+  document.getElementById('editProductCategory').value=p?p.category:'毛绒玩偶';
+  var st=document.getElementById('editProductStatus'),stt=document.getElementById('editProductStatusText');
+  if(p&&p.status==='on'){st.classList.add('on');stt.textContent='上架中';}else{st.classList.remove('on');stt.textContent='已下架';}
+  editingImages=p&&p.images?p.images.slice():[];renderEditImages();showModal('editProductModal');
+}
+function renderEditImages(){
+  var c=document.getElementById('editProductImages');var html='';
+  for(var i=0;i<editingImages.length;i++){html+='<div class="upload-slot filled"><img src="'+editingImages[i]+'" alt=""><div class="delete-img" onclick="removeEditImage('+i+')">✕</div></div>';}
+  if(editingImages.length<5)html+='<div class="upload-slot" onclick="document.getElementById(\'productImageInput\').click()"><span class="plus">+</span><span>上传图片</span></div>';
+  c.innerHTML=html;
+}
+function removeEditImage(i){editingImages.splice(i,1);renderEditImages();}
+function handleProductImageUpload(e){
+  var f=e.target.files[0];if(!f)return;if(editingImages.length>=5){showToast('最多上传5张图片');return;}
+  var r=new FileReader();r.onload=function(ev){editingImages.push(ev.target.result);renderEditImages();};r.readAsDataURL(f);e.target.value='';
+}
+function saveProduct(){
+  var name=document.getElementById('editProductName').value.trim(),desc=document.getElementById('editProductDesc').value.trim(),price=parseFloat(document.getElementById('editProductPrice').value),stock=parseInt(document.getElementById('editProductStock').value),cat=document.getElementById('editProductCategory').value,status=document.getElementById('editProductStatus').classList.contains('on')?'on':'off';
+  if(!name){showToast('请输入商品名称');return;}if(isNaN(price)||price<=0){showToast('请输入正确的价格');return;}if(isNaN(stock)||stock<0){showToast('请输入正确的库存');return;}
+  if(editingProductId){
+    var p=window.AppData.products.find(function(x){return x.id===editingProductId;});
+    if(p){p.name=name;p.description=desc;p.price=price;p.stock=stock;p.category=cat;p.status=status;p.images=editingImages.slice();}
+    showToast('商品已更新');
+  }else{
+    var emojis=['🧸','🐰','🌸','🦊','🐼','🦄','🎀','💝'];
+    window.AppData.products.push({id:genId(),name:name,price:price,stock:stock,sold:0,category:cat,description:desc,images:editingImages.slice(),emoji:emojis[Math.floor(Math.random()*emojis.length)],status:status,createdAt:new Date().toISOString().split('T')[0]});
+    showToast('商品已添加');
+  }
+  saveData();hideModal('editProductModal');renderMerchantProducts();
+}
 
-  // Touch events
-  const container = document.getElementById('swiper');
+// 用户管理
+function renderMerchantUsers(){
+  var search=(document.getElementById('merchantUserSearch')?document.getElementById('merchantUserSearch').value:'').toLowerCase();
+  var us=window.AppData.users;if(search)us=us.filter(function(u){return u.nickname.toLowerCase().indexOf(search)>=0||u.phone.indexOf(search)>=0;});
+  var c=document.getElementById('merchantUserList');
+  if(!us.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div><p>暂无用户</p></div>';return;}
+  var html='';
+  for(var i=0;i<us.length;i++){
+    var u=us[i];
+    var oc=window.AppData.orders.filter(function(o){return o.userId===u.id;}).length;
+    var da=u.addresses.find(function(a){return a.isDefault;})||u.addresses[0];
+    html+='<div class="user-item" onclick="openUserDetail(\''+u.id+'\')"><div class="user-avatar">'+(u.avatar?'<img src="'+u.avatar+'" alt="">':'👤')+'</div><div class="user-info"><h4>'+u.nickname+'</h4><div class="user-phone">'+maskPhone(u.phone)+'</div><div class="user-address">📍 '+(da?da.detail:'未设置地址')+'</div></div><div class="user-order-count">'+oc+'单</div></div>';
+  }
+  c.innerHTML=html;
+}
 
-  container.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    stopAutoPlay();
-  }, { passive: true });
+function openUserDetail(uid){
+  var u=window.AppData.users.find(function(x){return x.id===uid;});if(!u)return;
+  var uo=window.AppData.orders.filter(function(o){return o.userId===uid;});
+  var ts=0;for(var i=0;i<uo.length;i++){if(uo[i].status==='completed'||uo[i].status==='shipped'||uo[i].status==='paid')ts+=uo[i].totalAmount;}
+  var h='<div class="user-detail-header"><div class="ud-avatar">'+(u.avatar?'<img src="'+u.avatar+'" alt="">':'👤')+'</div><div class="ud-info"><h4>'+u.nickname+'</h4><p>'+u.phone+' · 注册于 '+u.createdAt+'</p></div></div>';
+  h+='<div class="user-detail-section"><h5>基本信息</h5><div class="ud-row"><span class="ud-label">手机号</span><span class="ud-value">'+u.phone+'</span></div><div class="ud-row"><span class="ud-label">注册时间</span><span class="ud-value">'+u.createdAt+'</span></div><div class="ud-row"><span class="ud-label">消费总额</span><span class="ud-value" style="color:var(--red-price);font-weight:600;">¥'+ts.toFixed(1)+'</span></div><div class="ud-row"><span class="ud-label">订单数量</span><span class="ud-value">'+uo.length+'单</span></div></div>';
+  h+='<div class="user-detail-section"><h5>收货地址 ('+u.addresses.length+')</h5>';
+  if(!u.addresses.length)h+='<div style="font-size:12px;color:var(--text-weak);">暂无地址</div>';
+  else for(var i=0;i<u.addresses.length;i++){var a=u.addresses[i];h+='<div style="background:var(--pink-bg);border-radius:var(--radius-sm);padding:8px 10px;margin-bottom:6px;font-size:12px;"><div style="font-weight:500;">'+a.name+' '+a.phone+'</div><div style="color:var(--text-weak);margin-top:2px;">'+a.detail+'</div></div>';}
+  h+='</div><div class="user-detail-section"><h5>历史订单 ('+uo.length+')</h5>';
+  if(!uo.length)h+='<div style="font-size:12px;color:var(--text-weak);">暂无订单</div>';
+  else{var rev=uo.slice().reverse();for(var i=0;i<rev.length;i++){var o=rev[i];h+='<div class="user-order-mini"><span class="uo-no">'+o.orderNo+' · '+(ORDER_STATUS_MAP[o.status]||o.status)+'</span><span class="uo-amount">¥'+o.totalAmount+'</span></div>';}}
+  h+='</div>';
+  document.getElementById('userDetailBody').innerHTML=h;
+  document.getElementById('userDetailModal').classList.add('show');
+}
+function hideUserDetailModal(){document.getElementById('userDetailModal').classList.remove('show');}
+document.getElementById('userDetailModal').addEventListener('click',function(e){if(e.target===this)hideUserDetailModal();});
 
-  container.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-  }, { passive: true });
+// 商家订单管理
+var merchantOrderFilter='all',shippingOrderId=null,refundingOrderId=null;
+function renderMerchantOrders(){
+  var tabs=[{k:'all',l:'全部'},{k:'paid',l:'待发货'},{k:'shipped',l:'待收货'},{k:'completed',l:'已完成'},{k:'refunding',l:'退款中'}];
+  var thtml='';
+  for(var i=0;i<tabs.length;i++){var t=tabs[i];thtml+='<div class="order-filter-tab '+(merchantOrderFilter===t.k?'active':'')+'" onclick="setMerchantOrderFilter(\''+t.k+'\')">'+t.l+'</div>';}
+  document.getElementById('merchantOrderFilterTabs').innerHTML=thtml;
+  var orders=window.AppData.orders;
+  if(merchantOrderFilter!=='all')orders=orders.filter(function(o){return o.status===merchantOrderFilter;});
+  orders=orders.slice().reverse();
+  var c=document.getElementById('merchantOrderList');
+  if(!orders.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>暂无订单</p></div>';return;}
+  var html='';
+  for(var i=0;i<orders.length;i++){
+    var o=orders[i];var item=o.items[0];
+    var img=item.image?'<img src="'+item.image+'" alt="">':(item.emoji||'🧸');
+    var st=ORDER_STATUS_MAP[o.status]||o.status,sc=ORDER_STATUS_COLOR[o.status]||'var(--pink-primary)';
+    var fb='<button class="order-btn" onclick="event.stopPropagation();openMerchantOrderDetail(\''+o.id+'\')">查看详情</button>';
+    if(o.status==='paid')fb+='<button class="order-btn primary" onclick="event.stopPropagation();openShipModal(\''+o.id+'\')">去发货</button>';
+    if(o.status==='refunding')fb+='<button class="order-btn primary" onclick="event.stopPropagation();openRefundModal(\''+o.id+'\')">处理退款</button>';
+    html+='<div class="order-card"><div class="order-card-header"><span class="order-no">'+o.orderNo+'</span><span class="order-status" style="color:'+sc+';">'+st+'</span></div><div class="order-card-body"><div class="order-thumb">'+img+'</div><div class="order-detail"><h4>'+item.name+'</h4><div class="order-spec">买家：'+o.userName+' · '+item.spec+' ×'+item.qty+'</div><div class="order-price"><span class="symbol">¥</span>'+o.totalAmount+'</div></div></div>'+(fb?'<div class="order-card-footer">'+fb+'</div>':'')+'</div>';
+  }
+  c.innerHTML=html;
+}
+function setMerchantOrderFilter(f){merchantOrderFilter=f;renderMerchantOrders();}
 
-  container.addEventListener('touchend', (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
+function openShipModal(oid){shippingOrderId=oid;document.getElementById('shipCompany').value='顺丰速运';document.getElementById('shipTrackingNo').value='';showModal('shipModal');}
+function confirmShip(){
+  var co=document.getElementById('shipCompany').value,tn=document.getElementById('shipTrackingNo').value.trim();
+  if(!tn){showToast('请输入物流单号');return;}
+  var o=window.AppData.orders.find(function(x){return x.id===shippingOrderId;});if(!o)return;
+  o.status='shipped';o.logistics={company:co,trackingNo:tn};o.shippedAt=nowStr();saveData();hideModal('shipModal');renderMerchantOrders();showToast('发货成功');
+}
+function openRefundModal(oid){refundingOrderId=oid;document.getElementById('refundAction').value='agree';document.getElementById('refundReason').value='';showModal('refundModal');}
+function confirmRefund(){
+  var action=document.getElementById('refundAction').value;
+  var o=window.AppData.orders.find(function(x){return x.id===refundingOrderId;});if(!o)return;
+  if(action==='agree'){o.status='refunded';o.completedAt=nowStr();showToast('已同意退款');}
+  else{o.status='paid';showToast('已拒绝退款');}
+  saveData();hideModal('refundModal');renderMerchantOrders();
+}
 
-    if (Math.abs(diff) > 50) {
-      if (diff > 0 && currentSlide < totalSlides - 1) {
-        goToSlide(currentSlide + 1);
-      } else if (diff < 0 && currentSlide > 0) {
-        goToSlide(currentSlide - 1);
-      }
-    }
-    startAutoPlay();
-  });
+function openMerchantOrderDetail(oid){
+  var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;
+  var st=ORDER_STATUS_MAP[o.status]||o.status,sc=ORDER_STATUS_COLOR[o.status]||'var(--pink-primary)';
+  var h='<div style="text-align:center;padding:16px;margin-bottom:12px;background:var(--pink-bg);border-radius:var(--radius-md);"><div style="font-size:36px;margin-bottom:8px;">'+(ORDER_STATUS_ICON[o.status]||'📋')+'</div><div style="font-size:16px;font-weight:700;color:'+sc+';">'+st+'</div></div>';
+  h+='<div style="margin-bottom:12px;"><div style="font-size:13px;color:var(--text-weak);margin-bottom:4px;">订单号：'+o.orderNo+'</div><div style="font-size:13px;color:var(--text-weak);">下单时间：'+(o.createdAt||'--')+'</div></div>';
+  h+='<div style="font-size:14px;font-weight:600;margin-bottom:8px;">买家信息</div><div style="background:var(--pink-bg);border-radius:var(--radius-sm);padding:10px;margin-bottom:12px;font-size:13px;"><div>'+o.userName+' '+o.userPhone+'</div><div style="color:var(--text-weak);margin-top:4px;">'+o.userAddress+'</div></div>';
+  for(var ii=0;ii<o.items.length;ii++){
+    var item=o.items[ii];
+    var img=item.image?'<img src="'+item.image+'" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">':'<div style="width:50px;height:50px;border-radius:8px;background:var(--pink-mist);display:flex;align-items:center;justify-content:center;font-size:24px;">'+(item.emoji||'🧸')+'</div>';
+    h+='<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-light);">'+img+'<div style="flex:1;"><div style="font-size:13px;">'+item.name+'</div><div style="font-size:11px;color:var(--text-weak);">'+item.spec+' × '+item.qty+'</div></div><div style="font-size:14px;font-weight:700;color:var(--red-price);">¥'+(item.price*item.qty).toFixed(1)+'</div></div>';
+  }
+  if(o.logistics&&o.logistics.company)h+='<div style="margin-top:12px;font-size:13px;"><div style="color:var(--text-weak);">物流：'+o.logistics.company+' '+o.logistics.trackingNo+'</div></div>';
+  h+='<div style="text-align:right;margin-top:12px;font-size:16px;font-weight:700;color:var(--red-price);">合计：¥'+o.totalAmount+'</div>';
+  document.getElementById('merchantOrderDetailBody').innerHTML=h;
+  showModal('merchantOrderDetailModal');
+}
 
-  // Mouse events for desktop
-  container.addEventListener('mousedown', (e) => {
-    startX = e.clientX;
-    isDragging = true;
-    stopAutoPlay();
-    e.preventDefault();
-  });
+// 轮播图管理
+function renderCarouselManage(){
+  var c=document.getElementById('carouselManageList');
+  var carousel=window.AppData.carousel||[];
+  if(!carousel.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">🖼️</div><p>暂无轮播图，点击上方按钮添加</p></div>';return;}
+  var html='';
+  for(var i=0;i<carousel.length;i++){
+    var pid=carousel[i];
+    var p=window.AppData.products.find(function(x){return x.id===pid;});
+    if(!p)continue;
+    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="">':(p.emoji||'🧸');
+    html+='<div class="carousel-manage-item"><div class="cm-thumb">'+img+'</div><div class="cm-info"><h4>'+p.name+'</h4><div style="font-size:11px;color:var(--text-weak);">¥'+p.price+'</div></div><div class="cm-actions"><button class="cm-btn del" onclick="removeCarouselItem('+i+')">删除</button></div></div>';
+  }
+  c.innerHTML=html;
+}
+function openCarouselAddModal(){
+  var sel=document.getElementById('carouselProductSelect');
+  var html='';
+  var ps=window.AppData.products.filter(function(p){return p.status==='on';});
+  for(var i=0;i<ps.length;i++){html+='<option value="'+ps[i].id+'">'+ps[i].name+' (¥'+ps[i].price+')</option>';}
+  sel.innerHTML=html;
+  showModal('carouselAddModal');
+}
+function addCarouselItem(){
+  var pid=document.getElementById('carouselProductSelect').value;
+  if(!pid){showToast('请选择商品');return;}
+  if(!window.AppData.carousel)window.AppData.carousel=[];
+  if(window.AppData.carousel.indexOf(pid)>=0){showToast('该商品已在轮播图中');return;}
+  window.AppData.carousel.push(pid);saveData();hideModal('carouselAddModal');renderCarouselManage();showToast('轮播图已添加');
+}
+function removeCarouselItem(i){window.AppData.carousel.splice(i,1);saveData();renderCarouselManage();showToast('轮播图已删除');}
 
-  container.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-  });
-
-  container.addEventListener('mouseup', (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    const endX = e.clientX;
-    const diff = startX - endX;
-
-    if (Math.abs(diff) > 50) {
-      if (diff > 0 && currentSlide < totalSlides - 1) {
-        goToSlide(currentSlide + 1);
-      } else if (diff < 0 && currentSlide > 0) {
-        goToSlide(currentSlide - 1);
-      }
-    }
-    startAutoPlay();
-  });
-
-  container.addEventListener('mouseleave', () => {
-    if (isDragging) {
-      isDragging = false;
-      startAutoPlay();
-    }
-  });
-})();
+// ==================== 初始化 ====================
+loadData();
+renderHomePage();
+renderProfile();
 </script>
-
 </body>
 </html>
