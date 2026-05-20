@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>玩偶城 · UI 设计预览</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --pink: #FF6B81;
+    --pink-light: #FF8E9E;
+    --pink-pale: #FFB6C1;
+    --pink-mist: #FFE4E1;
+    --pink-bg: #FFF0F3;
+    --coral: #FF7F50;
+    --text: #1a1a2e;
+    --text-secondary: #555;
+    --text-weak: #999;
+    --bg: #fafafa;
+    --white: #fff;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 30px rgba(0,0,0,0.08);
+    --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+    --shadow-pink: 0 8px 30px rgba(255,107,129,0.2);
+    --radius: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ==================== HERO ==================== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #fff 0%, var(--pink-bg) 40%, var(--pink-mist) 70%, var(--pink-pale) 100%);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,107,129,0.08) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,127,80,0.06) 0%, transparent 70%);
+    bottom: -80px;
+    left: -80px;
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: var(--white);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--pink);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.6s ease;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--pink);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  .hero-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-pink);
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.6s ease 0.1s backwards;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 7vw, 72px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.6s ease 0.2s backwards;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--pink), var(--coral));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.6s ease 0.3s backwards;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-pink);
+    transition: all 0.3s;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.6s ease 0.4s backwards;
+  }
+
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(255,107,129,0.3);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-weak);
+    font-size: 12px;
+    animation: bounce 2s ease infinite;
+  }
+
+  .hero-scroll-line {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--pink-pale), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ==================== SECTION COMMON ==================== */
+  .section {
+    padding: 100px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--pink);
+    margin-bottom: 16px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: var(--pink);
+    border-radius: 1px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  /* ==================== SCREENS SHOWCASE ==================== */
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+  }
+
+  .screen-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .screen-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .screen-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .screen-mockup {
+    background: linear-gradient(135deg, var(--pink-bg), var(--pink-mist));
+    aspect-ratio: 9 / 16;
+    max-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .screen-card.featured .screen-mockup {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 480px;
+  }
+
+  .phone-frame {
+    width: 220px;
+    height: 440px;
+    background: var(--white);
+    border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15), inset 0 0 0 2px rgba(0,0,0,0.06);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.4s;
+  }
+
+  .screen-card:hover .phone-frame {
+    transform: scale(1.02);
+  }
+
+  .phone-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 24px;
+    background: #1a1a2e;
+    border-radius: 0 0 16px 16px;
+    z-index: 10;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ===== Screen: Launch ===== */
+  .screen-launch .phone-screen {
+    background: linear-gradient(160deg, #FFF0F3, #FFD1DC, #FFB6C1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .sl-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 16px rgba(255,107,129,0.3);
+  }
+
+  .sl-brand {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .sl-tagline {
+    font-size: 7px;
+    color: var(--text-weak);
+    margin-bottom: 20px;
+  }
+
+  .sl-cards {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sl-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .sl-card-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .sl-card-icon.c1 { background: #FFF0F3; }
+  .sl-card-icon.c2 { background: #FFF5E6; }
+
+  .sl-card-text h4 {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .sl-card-text p {
+    font-size: 5.5px;
+    color: var(--text-weak);
+    margin-top: 1px;
+  }
+
+  /* ===== Screen: Home ===== */
+  .screen-home .phone-screen {
+    background: var(--pink-bg);
+  }
+
+  .sh-nav {
+    height: 28px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .sh-banner {
+    height: 70px;
+    background: linear-gradient(135deg, #FFB6C1, #FF9A9E);
+    margin: 6px;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sh-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.15));
+  }
+
+  .sh-banner-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .sh-banner-text h4 {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .sh-banner-text p {
+    font-size: 6px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .sh-dots {
+    display: flex;
+    gap: 3px;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    z-index: 2;
+  }
+
+  .sh-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .sh-dot.active {
+    width: 10px;
+    background: var(--white);
+  }
+
+  .sh-cats {
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 4px;
+    background: var(--white);
+    margin: 0 6px;
+    border-radius: 8px;
+  }
+
+  .sh-cat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .sh-cat-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--pink-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .sh-cat span {
+    font-size: 5px;
+    color: var(--text-secondary);
+  }
+
+  .sh-section-title {
+    font-size: 8px;
+    font-weight: 700;
+    padding: 8px 8px 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .sh-section-title::before {
+    content: '';
+    width: 2px;
+    height: 10px;
+    background: var(--pink);
+    border-radius: 1px;
+  }
+
+  .sh-products {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 0 6px 6px;
+  }
+
+  .sh-product {
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .sh-product-img {
+    aspect-ratio: 1;
+    background: var(--pink-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    position: relative;
+  }
+
+  .sh-product-img .sh-tag {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    font-size: 5px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--pink), var(--coral));
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .sh-product-info {
+    padding: 5px 6px 6px;
+  }
+
+  .sh-product-name {
+    font-size: 6px;
+    line-height: 1.3;
+    color: var(--text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 4px;
+    height: 16px;
+  }
+
+  .sh-product-price {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF4D4F;
+  }
+
+  .sh-product-price-old {
+    font-size: 5.5px;
+    color: var(--text-weak);
+    text-decoration: line-through;
+    margin-left: 2px;
+  }
+
+  .sh-tab-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .sh-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .sh-tab-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: var(--pink);
+  }
+
+  .sh-tab-dot.inactive {
+    background: #ccc;
+  }
+
+  .sh-tab span {
+    font-size: 5px;
+    color: var(--pink);
+  }
+
+  .sh-tab span.inactive {
+    color: #999;
+  }
+
+  /* ===== Screen: Profile ===== */
+  .screen-profile .phone-screen {
+    background: var(--pink-bg);
+  }
+
+  .sp-header {
+    background: linear-gradient(135deg, var(--pink), #FECFEF);
+    padding: 28px 14px 24px;
+    text-align: center;
+    position: relative;
+  }
+
+  .sp-header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: var(--pink-bg);
+    border-radius: 12px 12px 0 0;
+  }
+
+  .sp-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    margin: 0 auto 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .sp-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .sp-level {
+    font-size: 6px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .sp-login-btn {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 14px;
+    background: var(--white);
+    color: var(--pink);
+    border-radius: 10px;
+    font-size: 6px;
+    font-weight: 600;
+  }
+
+  .sp-orders {
+    display: flex;
+    background: var(--white);
+    margin: -8px 8px 0;
+    border-radius: 10px;
+    padding: 8px 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    position: relative;
+    z-index: 2;
+    justify-content: space-around;
+  }
+
+  .sp-order-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    position: relative;
+  }
+
+  .sp-order-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background: var(--pink-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+  }
+
+  .sp-order-tab span {
+    font-size: 5px;
+    color: var(--text-secondary);
+  }
+
+  .sp-order-badge {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    min-width: 10px;
+    height: 10px;
+    background: #FF4D4F;
+    color: var(--white);
+    font-size: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sp-menu {
+    background: var(--white);
+    margin: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .sp-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 7px 8px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .sp-menu-item:last-child {
+    border-bottom: none;
+  }
+
+  .sp-menu-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: var(--pink-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    margin-right: 6px;
+  }
+
+  .sp-menu-text {
+    flex: 1;
+    font-size: 7px;
+    color: var(--text);
+  }
+
+  .sp-menu-arrow {
+    font-size: 8px;
+    color: #ccc;
+  }
+
+  .sp-order-list {
+    padding: 0 8px;
+  }
+
+  .sp-order-card {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .sp-order-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 5.5px;
+    color: var(--text-weak);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .sp-order-header .status {
+    color: var(--pink);
+    font-weight: 600;
+  }
+
+  .sp-order-body {
+    display: flex;
+    gap: 6px;
+  }
+
+  .sp-order-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    background: var(--pink-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .sp-order-detail h5 {
+    font-size: 6.5px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .sp-order-detail .spec {
+    font-size: 5px;
+    color: var(--text-weak);
+    margin-bottom: 3px;
+  }
+
+  .sp-order-detail .price {
+    font-size: 8px;
+    font-weight: 700;
+    color: #FF4D4F;
+  }
+
+  /* ===== Screen: Merchant ===== */
+  .screen-merchant .phone-screen {
+    background: #f5f5f5;
+  }
+
+  .sm-nav {
+    height: 28px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 6px;
+  }
+
+  .sm-back {
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .sm-nav-title {
+    font-size: 9px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sm-nav-action {
+    font-size: 7px;
+    color: var(--pink);
+    font-weight: 600;
+  }
+
+  .sm-stats {
+    display: flex;
+    gap: 6px;
+    padding: 8px 6px;
+  }
+
+  .sm-stat {
+    flex: 1;
+    background: var(--white);
+    border-radius: 8px;
+    padding: 8px 4px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .sm-stat-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pink);
+  }
+
+  .sm-stat-label {
+    font-size: 5px;
+    color: var(--text-weak);
+  }
+
+  .sm-tabs {
+    display: flex;
+    background: var(--white);
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 6px;
+  }
+
+  .sm-tab {
+    flex: 1;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 7px;
+    color: var(--text-weak);
+    position: relative;
+  }
+
+  .sm-tab.active {
+    color: var(--pink);
+    font-weight: 600;
+  }
+
+  .sm-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--pink);
+  }
+
+  .sm-search {
+    margin: 6px;
+    height: 22px;
+    background: var(--white);
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 6px;
+    color: var(--text-weak);
+    gap: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .sm-product {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    margin: 0 6px 6px;
+    border-radius: 8px;
+    padding: 8px;
+    gap: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .sm-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--pink-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .sm-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sm-info h5 {
+    font-size: 7px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sm-info .meta {
+    font-size: 5px;
+    color: var(--text-weak);
+    margin-bottom: 2px;
+  }
+
+  .sm-info .price {
+    font-size: 8px;
+    font-weight: 700;
+    color: #FF4D4F;
+  }
+
+  .sm-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .sm-btn {
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 5px;
+    border: none;
+    font-weight: 600;
+  }
+
+  .sm-btn.edit {
+    background: var(--pink-bg);
+    color: var(--pink);
+  }
+
+  .sm-btn.on {
+    background: #E8F8E8;
+    color: #52C41A;
+  }
+
+  .sm-fab {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(255,107,129,0.3);
+  }
+
+  /* ===== Screen: Invite ===== */
+  .screen-invite .phone-screen {
+    background: linear-gradient(160deg, #FFF0F3, #FFD1DC, #FFB6C1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .si-modal {
+    width: 160px;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 16px 12px 14px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  .si-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFF5E6, #FFE8CC);
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .si-modal h4 {
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .si-modal p {
+    font-size: 5.5px;
+    color: var(--text-weak);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .si-input {
+    width: 100%;
+    height: 24px;
+    border: 1.5px solid #f0f0f0;
+    border-radius: 6px;
+    font-size: 8px;
+    text-align: center;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    background: var(--pink-bg);
+    color: var(--text);
+    outline: none;
+    font-family: inherit;
+  }
+
+  .si-btns {
+    display: flex;
+    gap: 4px;
+  }
+
+  .si-btn {
+    flex: 1;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .si-btn.cancel {
+    background: #f5f5f5;
+    color: var(--text-secondary);
+  }
+
+  .si-btn.submit {
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    color: var(--white);
+  }
+
+  /* ===== Screen Info ===== */
+  .screen-info {
+    padding: 24px;
+  }
+
+  .screen-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .screen-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .screen-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  .screen-tag {
+    padding: 4px 12px;
+    background: var(--pink-bg);
+    color: var(--pink);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* ==================== FEATURE SECTION ==================== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+
+  .feature-card {
+    padding: 28px 24px;
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: var(--pink-pale);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .feature-icon.pink { background: var(--pink-bg); }
+  .feature-icon.orange { background: #FFF5E6; }
+  .feature-icon.green { background: #E8F8E8; }
+  .feature-icon.blue { background: #E8F0FE; }
+
+  .feature-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ==================== COLOR PALETTE ==================== */
+  .palette-section {
+    background: var(--white);
+    padding: 80px 24px;
+  }
+
+  .palette-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .palette-item {
+    text-align: center;
+  }
+
+  .palette-swatch {
+    height: 80px;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s;
+  }
+
+  .palette-swatch:hover {
+    transform: scale(1.05);
+  }
+
+  .palette-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .palette-hex {
+    font-size: 12px;
+    color: var(--text-weak);
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* ==================== FLOW SECTION ==================== */
+  .flow-steps {
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 180px;
+    padding: 0 16px;
+  }
+
+  .flow-step-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-pink);
+  }
+
+  .flow-step h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .flow-step p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .flow-arrow {
+    font-size: 20px;
+    color: var(--pink-pale);
+    padding-top: 10px;
+  }
+
+  /* ==================== FOOTER ==================== */
+  .footer {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--text-weak);
+    font-size: 13px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .footer-logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .footer a {
+    color: var(--pink);
+    text-decoration: none;
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 768px) {
+    .screen-card.featured {
+      grid-template-columns: 1fr;
+    }
+
+    .flow-arrow {
+      transform: rotate(90deg);
+    }
+
+    .section {
+      padding: 60px 20px;
+    }
+  }
+
+  /* ==================== REVEAL ANIMATION ==================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="hero-badge">UI Design Preview</div>
+  <div class="hero-logo">🧸</div>
+  <h1><span>玩偶城</span><br>UI 设计预览</h1>
+  <p class="hero-sub">一款面向女性用户的玩偶电商平台，采用暖粉色主色调，移动端优先的小程序风格设计。双系统架构，客户平台与商家平台独立运行。</p>
+  <a class="hero-cta" href="#screens">查看设计稿 ↓</a>
+  <div class="hero-scroll">
+    <span>向下滚动</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ==================== SCREENS ==================== -->
+<section class="section" id="screens">
+  <div class="section-label">Core Screens</div>
+  <h2 class="section-title">核心页面设计</h2>
+  <p class="section-desc">共 5 个核心页面，覆盖启动选择、商品浏览、个人中心、商家验证与管理后台全流程。</p>
+
+  <div class="screens-grid">
+
+    <!-- Launch Page -->
+    <div class="screen-card reveal">
+      <div class="screen-mockup screen-launch">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="sl-logo">🧸</div>
+            <div class="sl-brand">玩偶城</div>
+            <div class="sl-tagline">发现你的专属玩偶伙伴</div>
+            <div class="sl-cards">
+              <div class="sl-card">
+                <div class="sl-card-icon c1">🛍️</div>
+                <div class="sl-card-text">
+                  <h4>客户平台</h4>
+                  <p>浏览商品、下单购买、管理订单</p>
+                </div>
+              </div>
+              <div class="sl-card">
+                <div class="sl-card-icon c2">🏪</div>
+                <div class="sl-card-text">
+                  <h4>商家平台</h4>
+                  <p>管理商品、处理订单、查看数据</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <h3>启动选择页</h3>
+        <p>品牌展示 + 双系统入口，商家平台需邀请码验证方可进入。</p>
+        <div class="screen-tags">
+          <span class="screen-tag">平台选择</span>
+          <span class="screen-tag">品牌展示</span>
+          <span class="screen-tag">邀请码验证</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invite Modal -->
+    <div class="screen-card reveal">
+      <div class="screen-mockup screen-invite">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="si-modal">
+              <div class="si-icon">🔑</div>
+              <h4>商家入驻验证</h4>
+              <p>请输入商家邀请码以进入管理后台</p>
+              <input class="si-input" type="text" placeholder="请输入邀请码" readonly>
+              <div class="si-btns">
+                <button class="si-btn cancel">取消</button>
+                <button class="si-btn submit">验证进入</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <h3>邀请码验证</h3>
+        <p>商家平台安全入口，错误时触发抖动提示动画。</p>
+        <div class="screen-tags">
+          <span class="screen-tag">安全验证</span>
+          <span class="screen-tag">错误提示</span>
+          <span class="screen-tag">键盘支持</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Home Page (Featured) -->
+    <div class="screen-card featured reveal">
+      <div class="screen-mockup screen-home">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="sh-nav">🎀 玩偶城</div>
+            <div class="sh-banner">
+              <div class="sh-banner-text">
+                <h4>🌸 新品上架</h4>
+                <p>春季限定 · 萌系玩偶系列</p>
+              </div>
+              <div class="sh-dots">
+                <div class="sh-dot active"></div>
+                <div class="sh-dot"></div>
+                <div class="sh-dot"></div>
+                <div class="sh-dot"></div>
+                <div class="sh-dot"></div>
+              </div>
+            </div>
+            <div class="sh-cats">
+              <div class="sh-cat"><div class="sh-cat-icon">🧸</div><span>毛绒玩偶</span></div>
+              <div class="sh-cat"><div class="sh-cat-icon">🐰</div><span>动物系列</span></div>
+              <div class="sh-cat"><div class="sh-cat-icon">🌸</div><span>花卉系列</span></div>
+              <div class="sh-cat"><div class="sh-cat-icon">👑</div><span>公主系列</span></div>
+              <div class="sh-cat"><div class="sh-cat-icon">🎁</div><span>新品推荐</span></div>
+            </div>
+            <div class="sh-section-title">热门推荐</div>
+            <div class="sh-products">
+              <div class="sh-product">
+                <div class="sh-product-img">🧸<span class="sh-tag">热卖</span></div>
+                <div class="sh-product-info">
+                  <div class="sh-product-name">超柔软小熊毛绒玩偶 抱枕靠垫可爱公仔</div>
+                  <div><span class="sh-product-price">¥39.9</span><span class="sh-product-price-old">¥79.9</span></div>
+                </div>
+              </div>
+              <div class="sh-product">
+                <div class="sh-product-img">🐰<span class="sh-tag">新品</span></div>
+                <div class="sh-product-info">
+                  <div class="sh-product-name">垂耳兔毛绒公仔 柔软可拥抱 生日礼物</div>
+                  <div><span class="sh-product-price">¥29.9</span><span class="sh-product-price-old">¥59.9</span></div>
+                </div>
+              </div>
+              <div class="sh-product">
+                <div class="sh-product-img">🌸</div>
+                <div class="sh-product-info">
+                  <div class="sh-product-name">樱花兔季节限定款 高颜值桌面摆件</div>
+                  <div><span class="sh-product-price">¥49.9</span><span class="sh-product-price-old">¥89.9</span></div>
+                </div>
+              </div>
+              <div class="sh-product">
+                <div class="sh-product-img">🦊<span class="sh-tag">限时</span></div>
+                <div class="sh-product-info">
+                  <div class="sh-product-name">小狐狸布偶 可爱动物系列 儿童礼物</div>
+                  <div><span class="sh-product-price">¥35.9</span><span class="sh-product-price-old">¥69.9</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="sh-tab-bar">
+              <div class="sh-tab"><div class="sh-tab-dot"></div><span>首页</span></div>
+              <div class="sh-tab"><div class="sh-tab-dot inactive"></div><span class="inactive">我的</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <h3>客户首页</h3>
+        <p>轮播图占屏幕 30%，支持手势滑动与自动轮播（最多 5 张，商家后台管理）。双列商品瀑布流展示，突出价格与销量信息。</p>
+        <div class="screen-tags">
+          <span class="screen-tag">轮播图</span>
+          <span class="screen-tag">分类导航</span>
+          <span class="screen-tag">商品瀑布流</span>
+          <span class="screen-tag">双列布局</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div class="screen-card reveal">
+      <div class="screen-mockup screen-profile">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="sp-header">
+              <div class="sp-avatar">👤</div>
+              <div class="sp-name">登录 / 注册</div>
+              <div class="sp-level">登录后享受更多优惠</div>
+              <div class="sp-login-btn">立即登录</div>
+            </div>
+            <div class="sp-orders">
+              <div class="sp-order-tab"><div class="sp-order-icon">💳</div><span>待付款</span><div class="sp-order-badge">2</div></div>
+              <div class="sp-order-tab"><div class="sp-order-icon">📦</div><span>待发货</span><div class="sp-order-badge">1</div></div>
+              <div class="sp-order-tab"><div class="sp-order-icon">🚚</div><span>待收货</span></div>
+              <div class="sp-order-tab"><div class="sp-order-icon">⭐</div><span>待评价</span><div class="sp-order-badge">3</div></div>
+              <div class="sp-order-tab"><div class="sp-order-icon">🔄</div><span>退款</span></div>
+            </div>
+            <div class="sp-menu">
+              <div class="sp-menu-item"><div class="sp-menu-icon">📍</div><span class="sp-menu-text">收货地址</span><span class="sp-menu-arrow">›</span></div>
+              <div class="sp-menu-item"><div class="sp-menu-icon">📱</div><span class="sp-menu-text">手机号</span><span class="sp-menu-arrow">›</span></div>
+              <div class="sp-menu-item"><div class="sp-menu-icon">🎫</div><span class="sp-menu-text">优惠券</span><span class="sp-menu-arrow">›</span></div>
+            </div>
+            <div style="padding:6px 8px 2px;font-size:7px;font-weight:700;">我的订单</div>
+            <div class="sp-order-list">
+              <div class="sp-order-card">
+                <div class="sp-order-header"><span>WD20260518001</span><span class="status">待发货</span></div>
+                <div class="sp-order-body">
+                  <div class="sp-order-thumb">🧸</div>
+                  <div class="sp-order-detail"><h5>超柔软小熊毛绒玩偶</h5><div class="spec">粉色 · 大号 ×1</div><div class="price">¥39.9</div></div>
+                </div>
+              </div>
+              <div class="sp-order-card">
+                <div class="sp-order-header"><span>WD20260515002</span><span class="status">已完成</span></div>
+                <div class="sp-order-body">
+                  <div class="sp-order-thumb">🐰</div>
+                  <div class="sp-order-detail"><h5>垂耳兔毛绒公仔</h5><div class="spec">白色 · 中号 ×2</div><div class="price">¥59.8</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <h3>个人中心</h3>
+        <p>上部 40% 为登录注册及个人信息管理，下部为订单信息列表。支持收货地址、手机号编辑。</p>
+        <div class="screen-tags">
+          <span class="screen-tag">登录注册</span>
+          <span class="screen-tag">订单管理</span>
+          <span class="screen-tag">地址管理</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Merchant Dashboard -->
+    <div class="screen-card reveal">
+      <div class="screen-mockup screen-merchant">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="sm-nav"><span class="sm-back">←</span><span class="sm-nav-title">玩偶城 · 商家后台</span><span class="sm-nav-action">切换客户</span></div>
+            <div class="sm-stats">
+              <div class="sm-stat"><div class="sm-stat-num">128</div><div class="sm-stat-label">商品总数</div></div>
+              <div class="sm-stat"><div class="sm-stat-num">2,456</div><div class="sm-stat-label">累计订单</div></div>
+              <div class="sm-stat"><div class="sm-stat-num">¥38.6万</div><div class="sm-stat-label">总销售额</div></div>
+            </div>
+            <div class="sm-tabs">
+              <div class="sm-tab active">商品管理</div>
+              <div class="sm-tab">用户管理</div>
+              <div class="sm-tab">订单管理</div>
+            </div>
+            <div class="sm-search">🔍 搜索商品名称...</div>
+            <div class="sm-product"><div class="sm-thumb">🧸</div><div class="sm-info"><h5>超柔软小熊毛绒玩偶</h5><div class="meta">库存: 356 · 已售: 21,000</div><div class="price">¥39.9</div></div><div class="sm-actions"><button class="sm-btn edit">编辑</button><button class="sm-btn on">上架中</button></div></div>
+            <div class="sm-product"><div class="sm-thumb">🐰</div><div class="sm-info"><h5>垂耳兔毛绒公仔</h5><div class="meta">库存: 128 · 已售: 8,600</div><div class="price">¥29.9</div></div><div class="sm-actions"><button class="sm-btn edit">编辑</button><button class="sm-btn on">上架中</button></div></div>
+            <div class="sm-product"><div class="sm-thumb">🌸</div><div class="sm-info"><h5>樱花兔季节限定款</h5><div class="meta">库存: 0 · 已售: 5,200</div><div class="price">¥49.9</div></div><div class="sm-actions"><button class="sm-btn edit">编辑</button><button class="sm-btn" style="background:#f5f5f5;color:#999;">已售罄</button></div></div>
+            <div class="sm-fab">+</div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <h3>商家后台</h3>
+        <p>数据概览 + 三栏管理（商品/用户/订单），支持商品编辑、图片上传（最多 5 张）及上下架操作。</p>
+        <div class="screen-tags">
+          <span class="screen-tag">数据概览</span>
+          <span class="screen-tag">商品管理</span>
+          <span class="screen-tag">用户管理</span>
+          <span class="screen-tag">订单管理</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== USER FLOW ==================== -->
+<section class="section">
+  <div class="section-label">User Flow</div>
+  <h2 class="section-title">用户操作流程</h2>
+  <p class="section-desc">双系统独立运行，客户与商家通过启动页分流进入各自平台。</p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-step-num">1</div>
+      <h4>打开应用</h4>
+      <p>展示品牌启动页，选择平台入口</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-step-num">2</div>
+      <h4>身份验证</h4>
+      <p>客户直接进入，商家需输入邀请码</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-step-num">3</div>
+      <h4>浏览操作</h4>
+      <p>客户浏览下单，商家管理后台</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-step-num">4</div>
+      <h4>订单流转</h4>
+      <p>下单 → 发货 → 收货 → 评价</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FEATURES ==================== -->
+<section class="section">
+  <div class="section-label">Design Features</div>
+  <h2 class="section-title">设计亮点</h2>
+  <p class="section-desc">参考微信小程序拼团 UI 风格，结合暖粉色女性向设计语言。</p>
+
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon pink">🎨</div>
+      <h3>暖粉色主色调</h3>
+      <p>以 #FF6B81 为核心色，搭配淡粉渐变背景，营造温馨柔和的视觉氛围，面向女性用户群体。</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon orange">📱</div>
+      <h3>移动端优先</h3>
+      <p>采用小程序风格设计，三段式布局（导航 + 内容 + TabBar），适配手机竖屏浏览体验。</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon green">🔒</div>
+      <h3>双系统隔离</h3>
+      <p>客户平台与商家平台完全独立，通过启动页分流，商家端需邀请码验证，确保数据安全。</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon blue">✨</div>
+      <h3>精致动效</h3>
+      <p>页面切换淡入、Logo 浮动、卡片上滑入场、错误抖动提示等微动效，提升交互品质感。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COLOR PALETTE ==================== -->
+<section class="palette-section">
+  <div class="palette-inner">
+    <div class="section-label">Color System</div>
+    <h2 class="section-title">色彩体系</h2>
+    <p class="section-desc">暖粉色系配色方案，主色 + 辅助色 + 功能色，整体协调统一。</p>
+
+    <div class="palette-grid">
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #FF6B81;"></div>
+        <div class="palette-name">主色 · 暖粉</div>
+        <div class="palette-hex">#FF6B81</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #FF8E9E;"></div>
+        <div class="palette-name">主色 · 浅粉</div>
+        <div class="palette-hex">#FF8E9E</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #FFB6C1;"></div>
+        <div class="palette-name">辅助 · 淡粉</div>
+        <div class="palette-hex">#FFB6C1</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #FFE4E1;"></div>
+        <div class="palette-name">辅助 · 薄荷粉</div>
+        <div class="palette-hex">#FFE4E1</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #FFF0F3;"></div>
+        <div class="palette-name">背景 · 极淡粉</div>
+        <div class="palette-hex">#FFF0F3</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #FF7F50;"></div>
+        <div class="palette-name">点缀 · 珊瑚</div>
+        <div class="palette-hex">#FF7F50</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #FF4D4F;"></div>
+        <div class="palette-name">功能 · 价格红</div>
+        <div class="palette-hex">#FF4D4F</div>
+      </div>
+      <div class="palette-item">
+        <div class="palette-swatch" style="background: #52C41A;"></div>
+        <div class="palette-name">功能 · 成功绿</div>
+        <div class="palette-hex">#52C41A</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="footer-logo">🧸 玩偶城</div>
+  <p>UI Design Preview · 2026</p>
+  <p style="margin-top: 8px;">暖粉色 · 移动端优先 · 双系统架构</p>
+</footer>
+
+<!-- ==================== SCROLL REVEAL ==================== -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
