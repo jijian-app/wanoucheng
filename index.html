@@ -1,0 +1,2697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>玩偶城</title>
+<style>
+/* ==================== CSS Reset & Variables ==================== */
+:root {
+  --pink-primary: #FF6B81;
+  --pink-light: #FF8E9E;
+  --pink-pale: #FFB6C1;
+  --pink-mist: #FFE4E1;
+  --pink-bg: #FFF0F3;
+  --pink-ultra-light: #FFF8FA;
+  --coral: #FF7F50;
+  --orange-warm: #FF9933;
+  --red-price: #FF4D4F;
+  --green-success: #52C41A;
+  --white: #FFFFFF;
+  --gray-bg: #F5F5F5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-weak: #999999;
+  --border-light: #F0F0F0;
+  --shadow-card: 0 2px 12px rgba(255, 107, 129, 0.08);
+  --shadow-float: 0 4px 20px rgba(255, 107, 129, 0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+  --font-main: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  font-family: var(--font-main);
+  background: var(--pink-bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==================== Launch / Platform Selection Page ==================== */
+.launch-page {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #FFF0F3 0%, #FFE4E1 30%, #FFD1DC 60%, #FFB6C1 100%);
+  overflow: hidden;
+}
+
+.launch-page.hidden {
+  display: none;
+}
+
+/* Decorative floating elements */
+.launch-deco {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.launch-deco-1 {
+  width: 200px;
+  height: 200px;
+  background: var(--pink-primary);
+  top: -60px;
+  right: -40px;
+  animation: floatDeco 6s ease-in-out infinite;
+}
+
+.launch-deco-2 {
+  width: 140px;
+  height: 140px;
+  background: var(--coral);
+  bottom: 80px;
+  left: -50px;
+  animation: floatDeco 8s ease-in-out infinite reverse;
+}
+
+.launch-deco-3 {
+  width: 80px;
+  height: 80px;
+  background: var(--pink-pale);
+  top: 30%;
+  left: 10%;
+  animation: floatDeco 5s ease-in-out infinite 1s;
+}
+
+.launch-deco-4 {
+  width: 60px;
+  height: 60px;
+  background: var(--pink-light);
+  bottom: 25%;
+  right: 8%;
+  animation: floatDeco 7s ease-in-out infinite 0.5s;
+}
+
+@keyframes floatDeco {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Brand area */
+.launch-brand {
+  text-align: center;
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 1;
+  animation: launchFadeIn 0.8s ease;
+}
+
+@keyframes launchFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.launch-logo {
+  width: 88px;
+  height: 88px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 32px rgba(255, 107, 129, 0.3);
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.launch-brand h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.launch-brand p {
+  font-size: 13px;
+  color: var(--text-weak);
+  letter-spacing: 1px;
+}
+
+/* Platform selection cards */
+.launch-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.launch-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 24px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(255, 107, 129, 0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation: cardSlideUp 0.6s ease backwards;
+  border: 2px solid transparent;
+}
+
+.launch-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.launch-card:nth-child(2) {
+  animation-delay: 0.35s;
+}
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.launch-card:active {
+  transform: scale(0.97);
+}
+
+.launch-card:hover {
+  border-color: var(--pink-pale);
+  box-shadow: 0 6px 32px rgba(255, 107, 129, 0.18);
+}
+
+.launch-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.launch-card-icon.customer {
+  background: linear-gradient(135deg, #FFF0F3, #FFE4E1);
+}
+
+.launch-card-icon.merchant {
+  background: linear-gradient(135deg, #FFF5E6, #FFE8CC);
+}
+
+.launch-card-text h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.launch-card-text p {
+  font-size: 12px;
+  color: var(--text-weak);
+  line-height: 1.4;
+}
+
+.launch-card-arrow {
+  margin-left: auto;
+  font-size: 18px;
+  color: var(--text-weak);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.launch-card:hover .launch-card-arrow {
+  transform: translateX(3px);
+}
+
+/* Invite code modal */
+.invite-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(0,0,0,0.4);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.invite-modal-overlay.show {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+.invite-modal {
+  width: 100%;
+  max-width: 340px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 32px 24px 28px;
+  text-align: center;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.invite-modal .invite-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFF5E6, #FFE8CC);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 16px;
+}
+
+.invite-modal h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.invite-modal .invite-desc {
+  font-size: 13px;
+  color: var(--text-weak);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.invite-input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.invite-input {
+  width: 100%;
+  height: 52px;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--pink-ultra-light);
+  outline: none;
+  text-align: center;
+  letter-spacing: 8px;
+  font-family: var(--font-main);
+  transition: border-color 0.2s;
+}
+
+.invite-input:focus {
+  border-color: var(--pink-primary);
+  background: var(--white);
+}
+
+.invite-input::placeholder {
+  letter-spacing: 2px;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--text-weak);
+}
+
+.invite-error {
+  font-size: 12px;
+  color: var(--red-price);
+  margin-top: 8px;
+  display: none;
+}
+
+.invite-error.show {
+  display: block;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.invite-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.invite-btn {
+  flex: 1;
+  height: 46px;
+  border-radius: var(--radius-full);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-main);
+  transition: all 0.2s;
+}
+
+.invite-btn.cancel {
+  background: var(--gray-bg);
+  color: var(--text-secondary);
+}
+
+.invite-btn.cancel:active {
+  background: #EBEBEB;
+}
+
+.invite-btn.submit {
+  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
+  color: var(--white);
+  box-shadow: 0 4px 16px rgba(255, 107, 129, 0.3);
+}
+
+.invite-btn.submit:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+/* ==================== App Shell ==================== */
+.app-container {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--pink-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+  padding-bottom: 70px;
+  animation: pageIn 0.3s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================== Top Navigation ==================== */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  background: linear-gradient(135deg, var(--pink-primary) 0%, var(--pink-light) 100%);
+  color: var(--white);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(255, 107, 129, 0.2);
+}
+
+.top-nav .nav-back {
+  position: absolute;
+  left: 16px;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.top-nav .nav-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* ==================== Bottom Tab Bar ==================== */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 60px;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid var(--border-light);
+  z-index: 200;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.tab-item svg {
+  width: 24px;
+  height: 24px;
+  transition: all 0.2s;
+}
+
+.tab-item span {
+  font-size: 10px;
+  color: var(--text-weak);
+  transition: all 0.2s;
+}
+
+.tab-item.active svg {
+  transform: scale(1.1);
+}
+
+.tab-item.active span {
+  color: var(--pink-primary);
+  font-weight: 600;
+}
+
+/* ==================== Swiper / Carousel ==================== */
+.swiper-container {
+  width: 100%;
+  height: 30vh;
+  min-height: 180px;
+  max-height: 260px;
+  position: relative;
+  overflow: hidden;
+  background: var(--pink-mist);
+}
+
+.swiper-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.swiper-slide {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.swiper-slide .slide-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper-slide .slide-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 20px 20px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.3));
+  color: var(--white);
+}
+
+.swiper-slide .slide-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.swiper-slide .slide-content p {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.swiper-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.swiper-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.5);
+  transition: all 0.3s;
+}
+
+.swiper-dot.active {
+  width: 18px;
+  background: var(--white);
+}
+
+/* ==================== Category Icons ==================== */
+.category-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 16px 12px;
+  background: var(--white);
+  margin: 0;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--pink-mist);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: transform 0.2s;
+}
+
+.category-item:active .category-icon {
+  transform: scale(0.92);
+}
+
+.category-item span {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ==================== Section Header ==================== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 10px;
+}
+
+.section-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  padding-left: 12px;
+}
+
+.section-header h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--pink-primary), var(--pink-pale));
+}
+
+.section-header .more {
+  font-size: 12px;
+  color: var(--text-weak);
+  cursor: pointer;
+}
+
+/* ==================== Product Grid ==================== */
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 12px 16px;
+}
+
+.product-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.product-card:active {
+  transform: scale(0.97);
+}
+
+.product-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--pink-mist);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-img .tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: linear-gradient(135deg, var(--pink-primary), var(--coral));
+  color: var(--white);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+
+.product-info {
+  padding: 10px;
+}
+
+.product-name {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 8px;
+  min-height: 36px;
+}
+
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.product-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--red-price);
+}
+
+.product-price .symbol {
+  font-size: 12px;
+}
+
+.product-price-old {
+  font-size: 11px;
+  color: var(--text-weak);
+  text-decoration: line-through;
+  margin-left: 4px;
+}
+
+.product-sales {
+  font-size: 10px;
+  color: var(--text-weak);
+}
+
+.product-buy-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 7px 0;
+  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.product-buy-btn:active {
+  opacity: 0.85;
+}
+
+/* ==================== Profile Page ==================== */
+.profile-header {
+  background: linear-gradient(135deg, var(--pink-primary) 0%, #FECFEF 100%);
+  padding: 30px 20px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-header::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: var(--pink-bg);
+  border-radius: 20px 20px 0 0;
+}
+
+.profile-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.profile-info h3 {
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.profile-info p {
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+}
+
+.profile-login-prompt {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-login-prompt .big-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.profile-login-prompt p {
+  color: rgba(255,255,255,0.9);
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.btn-login {
+  display: inline-block;
+  padding: 8px 32px;
+  background: var(--white);
+  color: var(--pink-primary);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.btn-login:active {
+  transform: scale(0.95);
+}
+
+/* Order Status Tabs */
+.order-tabs {
+  display: flex;
+  background: var(--white);
+  margin: -20px 12px 0;
+  border-radius: var(--radius-lg);
+  padding: 16px 8px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  z-index: 2;
+}
+
+.order-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  position: relative;
+}
+
+.order-tab .tab-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--pink-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.order-tab span {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.order-tab .badge {
+  position: absolute;
+  top: -2px;
+  right: calc(50% - 22px);
+  min-width: 16px;
+  height: 16px;
+  background: var(--red-price);
+  color: var(--white);
+  font-size: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* Menu List */
+.menu-section {
+  background: var(--white);
+  margin: 12px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:active {
+  background: var(--pink-bg);
+}
+
+.menu-item .menu-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--pink-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.menu-item .menu-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.menu-item .menu-arrow {
+  color: var(--text-weak);
+  font-size: 14px;
+}
+
+.menu-item .menu-value {
+  font-size: 13px;
+  color: var(--text-weak);
+  margin-right: 8px;
+}
+
+/* ==================== Order List ==================== */
+.order-list {
+  padding: 0 12px;
+}
+
+.order-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-card);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.order-card-header .order-no {
+  font-size: 12px;
+  color: var(--text-weak);
+}
+
+.order-card-header .order-status {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pink-primary);
+}
+
+.order-card-body {
+  display: flex;
+  gap: 10px;
+}
+
+.order-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-sm);
+  background: var(--pink-mist);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.order-detail {
+  flex: 1;
+  min-width: 0;
+}
+
+.order-detail h4 {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-detail .order-spec {
+  font-size: 11px;
+  color: var(--text-weak);
+  margin-bottom: 6px;
+}
+
+.order-detail .order-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--red-price);
+}
+
+.order-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+}
+
+.order-btn {
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  border: 1px solid var(--border-light);
+  background: var(--white);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.order-btn.primary {
+  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
+  color: var(--white);
+  border: none;
+}
+
+/* ==================== Login / Register Modal ==================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 500;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-overlay.show {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 430px;
+  background: var(--white);
+  border-radius: 20px 20px 0 0;
+  padding: 24px 20px 40px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modal-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gray-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-weak);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  height: 44px;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--pink-ultra-light);
+  transition: border-color 0.2s;
+  outline: none;
+  font-family: var(--font-main);
+}
+
+.form-input:focus {
+  border-color: var(--pink-primary);
+  background: var(--white);
+}
+
+.form-input::placeholder {
+  color: var(--text-weak);
+}
+
+.btn-submit {
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.2s;
+  font-family: var(--font-main);
+}
+
+.btn-submit:active {
+  opacity: 0.85;
+}
+
+.form-switch {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-weak);
+}
+
+.form-switch a {
+  color: var(--pink-primary);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==================== Merchant Platform ==================== */
+.merchant-page {
+  display: none;
+  min-height: 100vh;
+  background: var(--gray-bg);
+}
+
+.merchant-page.active {
+  display: block;
+}
+
+.merchant-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  height: 52px;
+  background: var(--white);
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.merchant-nav .back-btn {
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-primary);
+  margin-right: 12px;
+}
+
+.merchant-nav .nav-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.merchant-nav .nav-action {
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--pink-primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Merchant Stats */
+.merchant-stats {
+  display: flex;
+  gap: 10px;
+  padding: 16px 12px;
+}
+
+.stat-card {
+  flex: 1;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card .stat-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--pink-primary);
+  margin-bottom: 4px;
+}
+
+.stat-card .stat-label {
+  font-size: 11px;
+  color: var(--text-weak);
+}
+
+/* Merchant Product List */
+.merchant-product-item {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  margin: 0 12px 10px;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  box-shadow: var(--shadow-card);
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.merchant-product-item:active {
+  transform: scale(0.98);
+}
+
+.mp-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  background: var(--pink-mist);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.mp-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mp-info h4 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mp-info .mp-meta {
+  font-size: 11px;
+  color: var(--text-weak);
+  margin-bottom: 4px;
+}
+
+.mp-info .mp-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--red-price);
+}
+
+.mp-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mp-btn {
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+
+.mp-btn.edit {
+  background: var(--pink-bg);
+  color: var(--pink-primary);
+}
+
+.mp-btn.off {
+  background: var(--gray-bg);
+  color: var(--text-weak);
+}
+
+.mp-btn.on {
+  background: #E8F8E8;
+  color: var(--green-success);
+}
+
+/* Merchant Edit Form */
+.merchant-edit-form {
+  background: var(--white);
+  margin: 12px;
+  border-radius: var(--radius-lg);
+  padding: 20px 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.edit-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.edit-row {
+  margin-bottom: 14px;
+}
+
+.edit-row label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.edit-row input,
+.edit-row textarea,
+.edit-row select {
+  width: 100%;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--pink-ultra-light);
+  outline: none;
+  font-family: var(--font-main);
+  transition: border-color 0.2s;
+}
+
+.edit-row input:focus,
+.edit-row textarea:focus,
+.edit-row select:focus {
+  border-color: var(--pink-primary);
+  background: var(--white);
+}
+
+.edit-row textarea {
+  height: 80px;
+  resize: none;
+}
+
+.image-upload-area {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.upload-slot {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  border: 2px dashed var(--pink-pale);
+  background: var(--pink-ultra-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  font-size: 11px;
+  color: var(--text-weak);
+  gap: 4px;
+}
+
+.upload-slot:hover {
+  border-color: var(--pink-primary);
+}
+
+.upload-slot .plus {
+  font-size: 24px;
+  color: var(--pink-pale);
+}
+
+.upload-slot.filled {
+  border: none;
+  background: var(--pink-mist);
+  font-size: 32px;
+}
+
+/* Merchant User List */
+.user-item {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  margin: 0 12px 10px;
+  border-radius: var(--radius-md);
+  padding: 14px 12px;
+  box-shadow: var(--shadow-card);
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--pink-mist);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-info h4 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.user-info .user-phone {
+  font-size: 12px;
+  color: var(--text-weak);
+}
+
+.user-info .user-address {
+  font-size: 11px;
+  color: var(--text-weak);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-order-count {
+  text-align: center;
+  padding: 4px 12px;
+  background: var(--pink-bg);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  color: var(--pink-primary);
+  font-weight: 600;
+}
+
+/* Merchant Tab Switch */
+.merchant-tabs {
+  display: flex;
+  background: var(--white);
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 52px;
+  z-index: 50;
+}
+
+.merchant-tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 14px;
+  color: var(--text-weak);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.merchant-tab.active {
+  color: var(--pink-primary);
+  font-weight: 600;
+}
+
+.merchant-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--pink-primary);
+}
+
+/* Switch Toggle */
+.switch-toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--border-light);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.switch-toggle.on {
+  background: var(--pink-primary);
+}
+
+.switch-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: transform 0.3s;
+}
+
+.switch-toggle.on::after {
+  transform: translateX(20px);
+}
+
+/* ==================== Floating Action Button ==================== */
+.fab {
+  position: fixed;
+  bottom: 80px;
+  right: calc(50% - 195px);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  z-index: 150;
+  transition: transform 0.2s;
+}
+
+.fab:active {
+  transform: scale(0.9);
+}
+
+/* ==================== Empty State ==================== */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-weak);
+}
+
+.empty-state .empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 13px;
+}
+
+/* ==================== Search Bar ==================== */
+.search-bar {
+  margin: 12px;
+  position: relative;
+}
+
+.search-bar input {
+  width: 100%;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--white);
+  padding: 0 16px 0 40px;
+  font-size: 13px;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-card);
+  outline: none;
+  font-family: var(--font-main);
+}
+
+.search-bar .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--text-weak);
+}
+
+/* ==================== Scrollbar Hide ==================== */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==================== Animations ==================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.float-anim {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ==================== Responsive ==================== */
+@media (min-width: 431px) {
+  .app-container {
+    box-shadow: 0 0 40px rgba(0,0,0,0.08);
+  }
+  .fab {
+    right: calc(50% - 195px);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== LAUNCH / PLATFORM SELECTION PAGE ==================== -->
+<div class="launch-page" id="launchPage">
+  <!-- Decorative floating circles -->
+  <div class="launch-deco launch-deco-1"></div>
+  <div class="launch-deco launch-deco-2"></div>
+  <div class="launch-deco launch-deco-3"></div>
+  <div class="launch-deco launch-deco-4"></div>
+
+  <!-- Brand -->
+  <div class="launch-brand">
+    <div class="launch-logo">🧸</div>
+    <h1>玩偶城</h1>
+    <p>发现你的专属玩偶伙伴</p>
+  </div>
+
+  <!-- Platform Selection -->
+  <div class="launch-cards">
+    <div class="launch-card" onclick="enterCustomerPlatform()" role="button" tabindex="0">
+      <div class="launch-card-icon customer">🛍️</div>
+      <div class="launch-card-text">
+        <h3>客户平台</h3>
+        <p>浏览商品、下单购买、管理订单</p>
+      </div>
+      <span class="launch-card-arrow">›</span>
+    </div>
+
+    <div class="launch-card" onclick="showInviteModal()" role="button" tabindex="0">
+      <div class="launch-card-icon merchant">🏪</div>
+      <div class="launch-card-text">
+        <h3>商家平台</h3>
+        <p>管理商品、处理订单、查看数据</p>
+      </div>
+      <span class="launch-card-arrow">🔒</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== INVITE CODE MODAL ==================== -->
+<div class="invite-modal-overlay" id="inviteModal">
+  <div class="invite-modal">
+    <div class="invite-icon">🔑</div>
+    <h3>商家入驻验证</h3>
+    <p class="invite-desc">请输入商家邀请码以进入管理后台</p>
+    <div class="invite-input-group">
+      <input class="invite-input" id="inviteCodeInput" type="text" placeholder="请输入邀请码" maxlength="8" autocomplete="off">
+      <div class="invite-error" id="inviteError">邀请码错误，请重新输入</div>
+    </div>
+    <div class="invite-actions">
+      <button class="invite-btn cancel" onclick="hideInviteModal()">取消</button>
+      <button class="invite-btn submit" onclick="verifyInviteCode()">验证进入</button>
+    </div>
+  </div>
+</div>
+
+<div class="app-container" id="app">
+
+  <!-- ==================== CUSTOMER: HOME PAGE ==================== -->
+  <div class="page active" id="page-home">
+    <div class="top-nav">
+      <span class="nav-title">🎀 玩偶城</span>
+    </div>
+
+    <!-- Swiper / Banner -->
+    <div class="swiper-container" id="swiper">
+      <div class="swiper-track" id="swiperTrack">
+        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFB6C1, #FF9A9E);">
+          <div class="slide-content">
+            <h3>🌸 新品上架</h3>
+            <p>春季限定 · 萌系玩偶系列</p>
+          </div>
+        </div>
+        <div class="swiper-slide" style="background: linear-gradient(135deg, #FECFEF, #FFD1DC);">
+          <div class="slide-content">
+            <h3>🎁 满减活动</h3>
+            <p>全场满99减20 · 限时特惠</p>
+          </div>
+        </div>
+        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFD1DC, #FFC0CB);">
+          <div class="slide-content">
+            <h3>⭐ 人气爆款</h3>
+            <p>累计销量10万+ · 好评如潮</p>
+          </div>
+        </div>
+        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFE4E1, #FFDAB9);">
+          <div class="slide-content">
+            <h3>🧸 会员专享</h3>
+            <p>注册即享新人8折优惠</p>
+          </div>
+        </div>
+        <div class="swiper-slide" style="background: linear-gradient(135deg, #FFC0CB, #FFB6C1);">
+          <div class="slide-content">
+            <h3>🎀 品质保证</h3>
+            <p>精选材质 · 安全放心</p>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-dots" id="swiperDots"></div>
+    </div>
+
+    <!-- Category Bar -->
+    <div class="category-bar">
+      <div class="category-item">
+        <div class="category-icon">🧸</div>
+        <span>毛绒玩偶</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon">🐰</div>
+        <span>动物系列</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon">🌸</div>
+        <span>花卉系列</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon">👑</div>
+        <span>公主系列</span>
+      </div>
+      <div class="category-item">
+        <div class="category-icon">🎁</div>
+        <span>新品推荐</span>
+      </div>
+    </div>
+
+    <!-- Hot Products -->
+    <div class="section-header">
+      <h2>热门推荐</h2>
+      <span class="more">查看全部 ›</span>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-img">
+          🧸
+          <span class="tag">热卖</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">超柔软小熊毛绒玩偶 抱枕靠垫可爱公仔</div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price"><span class="symbol">¥</span>39.9</span>
+              <span class="product-price-old">¥79.9</span>
+            </div>
+            <span class="product-sales">已售2.1万</span>
+          </div>
+          <button class="product-buy-btn">立即购买</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          🐰
+          <span class="tag">新品</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">垂耳兔毛绒公仔 柔软可拥抱 生日礼物</div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price"><span class="symbol">¥</span>29.9</span>
+              <span class="product-price-old">¥59.9</span>
+            </div>
+            <span class="product-sales">已售8,600</span>
+          </div>
+          <button class="product-buy-btn">立即购买</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          🌸
+        </div>
+        <div class="product-info">
+          <div class="product-name">樱花兔季节限定款 高颜值桌面摆件</div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price"><span class="symbol">¥</span>49.9</span>
+              <span class="product-price-old">¥89.9</span>
+            </div>
+            <span class="product-sales">已售5,200</span>
+          </div>
+          <button class="product-buy-btn">立即购买</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          🦊
+          <span class="tag">限时</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">小狐狸布偶 可爱动物系列 儿童礼物</div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price"><span class="symbol">¥</span>35.9</span>
+              <span class="product-price-old">¥69.9</span>
+            </div>
+            <span class="product-sales">已售3,800</span>
+          </div>
+          <button class="product-buy-btn">立即购买</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          🐼
+        </div>
+        <div class="product-info">
+          <div class="product-name">国宝熊猫玩偶 加大号抱枕 办公室午休</div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price"><span class="symbol">¥</span>59.9</span>
+              <span class="product-price-old">¥119</span>
+            </div>
+            <span class="product-sales">已售1.5万</span>
+          </div>
+          <button class="product-buy-btn">立即购买</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          🦄
+          <span class="tag">热卖</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">独角兽梦幻系列 彩虹尾巴毛绒公仔</div>
+          <div class="product-price-row">
+            <div>
+              <span class="product-price"><span class="symbol">¥</span>45.9</span>
+              <span class="product-price-old">¥89.9</span>
+            </div>
+            <span class="product-sales">已售6,700</span>
+          </div>
+          <button class="product-buy-btn">立即购买</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CUSTOMER: PROFILE PAGE ==================== -->
+  <div class="page" id="page-profile">
+    <div class="top-nav">
+      <span class="nav-title">我的</span>
+    </div>
+
+    <!-- Profile Header (40% of visible area) -->
+    <div class="profile-header" id="profileHeader">
+      <!-- Logged out state -->
+      <div class="profile-login-prompt" id="loginPrompt">
+        <div class="big-avatar">👤</div>
+        <p>登录后享受更多优惠</p>
+        <button class="btn-login" onclick="showModal('loginModal')">登录 / 注册</button>
+      </div>
+      <!-- Logged in state (hidden by default) -->
+      <div class="profile-user" id="loggedInUser" style="display:none;">
+        <div class="profile-avatar">🧸</div>
+        <div class="profile-info">
+          <h3>小仙女</h3>
+          <p>会员等级：普通会员</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Tabs -->
+    <div class="order-tabs">
+      <div class="order-tab">
+        <div class="tab-icon">💳</div>
+        <span>待付款</span>
+        <div class="badge">2</div>
+      </div>
+      <div class="order-tab">
+        <div class="tab-icon">📦</div>
+        <span>待发货</span>
+        <div class="badge">1</div>
+      </div>
+      <div class="order-tab">
+        <div class="tab-icon">🚚</div>
+        <span>待收货</span>
+      </div>
+      <div class="order-tab">
+        <div class="tab-icon">⭐</div>
+        <span>待评价</span>
+        <div class="badge">3</div>
+      </div>
+      <div class="order-tab">
+        <div class="tab-icon">🔄</div>
+        <span>退款</span>
+      </div>
+    </div>
+
+    <!-- Personal Info Menu -->
+    <div class="menu-section" style="margin-top: 12px;">
+      <div class="menu-item" onclick="showModal('addressModal')">
+        <div class="menu-icon">📍</div>
+        <span class="menu-text">收货地址</span>
+        <span class="menu-value">3个地址</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="showModal('phoneModal')">
+        <div class="menu-icon">📱</div>
+        <span class="menu-text">手机号</span>
+        <span class="menu-value">138****8888</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item">
+        <div class="menu-icon">🎫</div>
+        <span class="menu-text">优惠券</span>
+        <span class="menu-value" style="color: var(--red-price);">5张可用</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item">
+        <div class="menu-icon">❤️</div>
+        <span class="menu-text">我的收藏</span>
+        <span class="menu-value">12件</span>
+        <span class="menu-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- Order List (bottom section) -->
+    <div class="section-header" style="margin-top: 8px;">
+      <h2>我的订单</h2>
+      <span class="more">全部订单 ›</span>
+    </div>
+
+    <div class="order-list">
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-no">订单号：WD20260518001</span>
+          <span class="order-status">待发货</span>
+        </div>
+        <div class="order-card-body">
+          <div class="order-thumb">🧸</div>
+          <div class="order-detail">
+            <h4>超柔软小熊毛绒玩偶</h4>
+            <div class="order-spec">粉色 · 大号 × 1</div>
+            <div class="order-price"><span class="symbol">¥</span>39.9</div>
+          </div>
+        </div>
+        <div class="order-card-footer">
+          <button class="order-btn">查看详情</button>
+          <button class="order-btn primary">提醒发货</button>
+        </div>
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-no">订单号：WD20260515002</span>
+          <span class="order-status">已完成</span>
+        </div>
+        <div class="order-card-body">
+          <div class="order-thumb">🐰</div>
+          <div class="order-detail">
+            <h4>垂耳兔毛绒公仔</h4>
+            <div class="order-spec">白色 · 中号 × 2</div>
+            <div class="order-price"><span class="symbol">¥</span>59.8</div>
+          </div>
+        </div>
+        <div class="order-card-footer">
+          <button class="order-btn">再次购买</button>
+          <button class="order-btn primary">去评价</button>
+        </div>
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-no">订单号：WD20260510003</span>
+          <span class="order-status">待收货</span>
+        </div>
+        <div class="order-card-body">
+          <div class="order-thumb">🦊</div>
+          <div class="order-detail">
+            <h4>小狐狸布偶</h4>
+            <div class="order-spec">橙色 · 小号 × 1</div>
+            <div class="order-price"><span class="symbol">¥</span>35.9</div>
+          </div>
+        </div>
+        <div class="order-card-footer">
+          <button class="order-btn">查看物流</button>
+          <button class="order-btn primary">确认收货</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MERCHANT: DASHBOARD ==================== -->
+  <div class="merchant-page" id="page-merchant">
+    <div class="merchant-nav">
+      <span class="back-btn" onclick="switchToCustomer()">←</span>
+      <span class="nav-title">玩偶城 · 商家后台</span>
+      <span class="nav-action" onclick="switchToCustomer()">切换客户</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="merchant-stats">
+      <div class="stat-card">
+        <div class="stat-num">128</div>
+        <div class="stat-label">商品总数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2,456</div>
+        <div class="stat-label">累计订单</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">¥38.6万</div>
+        <div class="stat-label">总销售额</div>
+      </div>
+    </div>
+
+    <!-- Merchant Tabs -->
+    <div class="merchant-tabs">
+      <div class="merchant-tab active" onclick="switchMerchantTab(this, 'merchant-products')">商品管理</div>
+      <div class="merchant-tab" onclick="switchMerchantTab(this, 'merchant-users')">用户管理</div>
+      <div class="merchant-tab" onclick="switchMerchantTab(this, 'merchant-orders')">订单管理</div>
+    </div>
+
+    <!-- Products Section -->
+    <div id="merchant-products" class="merchant-section">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="搜索商品名称...">
+      </div>
+
+      <div class="merchant-product-item" onclick="showModal('editProductModal')">
+        <div class="mp-thumb">🧸</div>
+        <div class="mp-info">
+          <h4>超柔软小熊毛绒玩偶</h4>
+          <div class="mp-meta">库存: 356 · 已售: 21,000</div>
+          <div class="mp-price">¥39.9</div>
+        </div>
+        <div class="mp-actions">
+          <button class="mp-btn edit">编辑</button>
+          <button class="mp-btn on">上架中</button>
+        </div>
+      </div>
+
+      <div class="merchant-product-item">
+        <div class="mp-thumb">🐰</div>
+        <div class="mp-info">
+          <h4>垂耳兔毛绒公仔</h4>
+          <div class="mp-meta">库存: 128 · 已售: 8,600</div>
+          <div class="mp-price">¥29.9</div>
+        </div>
+        <div class="mp-actions">
+          <button class="mp-btn edit">编辑</button>
+          <button class="mp-btn on">上架中</button>
+        </div>
+      </div>
+
+      <div class="merchant-product-item">
+        <div class="mp-thumb">🌸</div>
+        <div class="mp-info">
+          <h4>樱花兔季节限定款</h4>
+          <div class="mp-meta">库存: 0 · 已售: 5,200</div>
+          <div class="mp-price">¥49.9</div>
+        </div>
+        <div class="mp-actions">
+          <button class="mp-btn edit">编辑</button>
+          <button class="mp-btn off">已售罄</button>
+        </div>
+      </div>
+
+      <div class="merchant-product-item">
+        <div class="mp-thumb">🦊</div>
+        <div class="mp-info">
+          <h4>小狐狸布偶</h4>
+          <div class="mp-meta">库存: 89 · 已售: 3,800</div>
+          <div class="mp-price">¥35.9</div>
+        </div>
+        <div class="mp-actions">
+          <button class="mp-btn edit">编辑</button>
+          <button class="mp-btn on">上架中</button>
+        </div>
+      </div>
+
+      <div class="merchant-product-item">
+        <div class="mp-thumb">🐼</div>
+        <div class="mp-info">
+          <h4>国宝熊猫玩偶</h4>
+          <div class="mp-meta">库存: 210 · 已售: 15,000</div>
+          <div class="mp-price">¥59.9</div>
+        </div>
+        <div class="mp-actions">
+          <button class="mp-btn edit">编辑</button>
+          <button class="mp-btn on">上架中</button>
+        </div>
+      </div>
+
+      <div class="merchant-product-item">
+        <div class="mp-thumb">🦄</div>
+        <div class="mp-info">
+          <h4>独角兽梦幻系列</h4>
+          <div class="mp-meta">库存: 45 · 已售: 6,700</div>
+          <div class="mp-price">¥45.9</div>
+        </div>
+        <div class="mp-actions">
+          <button class="mp-btn edit">编辑</button>
+          <button class="mp-btn on">上架中</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Section -->
+    <div id="merchant-users" class="merchant-section" style="display:none;">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="搜索用户昵称/手机号...">
+      </div>
+
+      <div class="user-item">
+        <div class="user-avatar">👧</div>
+        <div class="user-info">
+          <h4>小仙女</h4>
+          <div class="user-phone">138****8888</div>
+          <div class="user-address">📍 上海市浦东新区陆家嘴环路1000号</div>
+        </div>
+        <div class="user-order-count">8单</div>
+      </div>
+
+      <div class="user-item">
+        <div class="user-avatar">👩</div>
+        <div class="user-info">
+          <h4>甜甜圈</h4>
+          <div class="user-phone">159****6666</div>
+          <div class="user-address">📍 北京市朝阳区三里屯太古里</div>
+        </div>
+        <div class="user-order-count">5单</div>
+      </div>
+
+      <div class="user-item">
+        <div class="user-avatar">💁‍♀️</div>
+        <div class="user-info">
+          <h4>奶茶少女</h4>
+          <div class="user-phone">177****3333</div>
+          <div class="user-address">📍 广州市天河区天河路385号</div>
+        </div>
+        <div class="user-order-count">12单</div>
+      </div>
+
+      <div class="user-item">
+        <div class="user-avatar">👩‍🦰</div>
+        <div class="user-info">
+          <h4>草莓酱</h4>
+          <div class="user-phone">186****9999</div>
+          <div class="user-address">📍 深圳市南山区科技园南区</div>
+        </div>
+        <div class="user-order-count">3单</div>
+      </div>
+
+      <div class="user-item">
+        <div class="user-avatar">🧑</div>
+        <div class="user-info">
+          <h4>小太阳</h4>
+          <div class="user-phone">135****2222</div>
+          <div class="user-address">📍 杭州市西湖区文三路478号</div>
+        </div>
+        <div class="user-order-count">1单</div>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div id="merchant-orders" class="merchant-section" style="display:none;">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="搜索订单号...">
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-no">WD20260518001</span>
+          <span class="order-status" style="color: var(--orange-warm);">待发货</span>
+        </div>
+        <div class="order-card-body">
+          <div class="order-thumb">🧸</div>
+          <div class="order-detail">
+            <h4>超柔软小熊毛绒玩偶</h4>
+            <div class="order-spec">买家：小仙女 · 粉色大号 ×1</div>
+            <div class="order-price"><span class="symbol">¥</span>39.9</div>
+          </div>
+        </div>
+        <div class="order-card-footer">
+          <button class="order-btn">查看详情</button>
+          <button class="order-btn primary">去发货</button>
+        </div>
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-no">WD20260517004</span>
+          <span class="order-status" style="color: var(--green-success);">已完成</span>
+        </div>
+        <div class="order-card-body">
+          <div class="order-thumb">🦄</div>
+          <div class="order-detail">
+            <h4>独角兽梦幻系列</h4>
+            <div class="order-spec">买家：奶茶少女 · 彩虹款 ×2</div>
+            <div class="order-price"><span class="symbol">¥</span>91.8</div>
+          </div>
+        </div>
+        <div class="order-card-footer">
+          <button class="order-btn">查看详情</button>
+        </div>
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-header">
+          <span class="order-no">WD20260516005</span>
+          <span class="order-status" style="color: var(--red-price);">待处理</span>
+        </div>
+        <div class="order-card-body">
+          <div class="order-thumb">🐰</div>
+          <div class="order-detail">
+            <h4>垂耳兔毛绒公仔</h4>
+            <div class="order-spec">买家：甜甜圈 · 白色中号 ×1</div>
+            <div class="order-price"><span class="symbol">¥</span>29.9</div>
+          </div>
+        </div>
+        <div class="order-card-footer">
+          <button class="order-btn">查看详情</button>
+          <button class="order-btn primary">处理退款</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAB for adding product -->
+    <div class="fab" onclick="showModal('editProductModal')" title="添加商品">+</div>
+  </div>
+
+  <!-- ==================== BOTTOM TAB BAR ==================== -->
+  <div class="tab-bar" id="tabBar">
+    <div class="tab-item active" onclick="switchTab('home', this)" role="button" tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>首页</span>
+    </div>
+    <div class="tab-item" onclick="switchTab('profile', this)" role="button" tabindex="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>我的</span>
+    </div>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>登录 / 注册</h3>
+        <div class="modal-close" onclick="hideModal('loginModal')">✕</div>
+      </div>
+      <div class="form-group">
+        <label>手机号</label>
+        <input class="form-input" type="tel" placeholder="请输入手机号" maxlength="11">
+      </div>
+      <div class="form-group">
+        <label>验证码</label>
+        <input class="form-input" type="text" placeholder="请输入验证码" maxlength="6">
+      </div>
+      <button class="btn-submit" onclick="doLogin()">登录 / 注册</button>
+      <div class="form-switch">
+        首次登录将自动注册 · <a>查看用户协议</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Address Modal -->
+  <div class="modal-overlay" id="addressModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>收货地址管理</h3>
+        <div class="modal-close" onclick="hideModal('addressModal')">✕</div>
+      </div>
+      <div class="form-group">
+        <label>收货人</label>
+        <input class="form-input" type="text" placeholder="请输入收货人姓名" value="小仙女">
+      </div>
+      <div class="form-group">
+        <label>手机号</label>
+        <input class="form-input" type="tel" placeholder="请输入手机号" value="13888888888">
+      </div>
+      <div class="form-group">
+        <label>所在地区</label>
+        <input class="form-input" type="text" placeholder="省/市/区" value="上海市 浦东新区">
+      </div>
+      <div class="form-group">
+        <label>详细地址</label>
+        <input class="form-input" type="text" placeholder="街道、楼栋、门牌号" value="陆家嘴环路1000号">
+      </div>
+      <button class="btn-submit" onclick="hideModal('addressModal')">保存地址</button>
+    </div>
+  </div>
+
+  <!-- Phone Modal -->
+  <div class="modal-overlay" id="phoneModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>修改手机号</h3>
+        <div class="modal-close" onclick="hideModal('phoneModal')">✕</div>
+      </div>
+      <div class="form-group">
+        <label>当前手机号</label>
+        <input class="form-input" type="tel" value="138****8888" disabled>
+      </div>
+      <div class="form-group">
+        <label>新手机号</label>
+        <input class="form-input" type="tel" placeholder="请输入新手机号" maxlength="11">
+      </div>
+      <div class="form-group">
+        <label>验证码</label>
+        <input class="form-input" type="text" placeholder="请输入验证码" maxlength="6">
+      </div>
+      <button class="btn-submit" onclick="hideModal('phoneModal')">确认修改</button>
+    </div>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div class="modal-overlay" id="editProductModal">
+    <div class="modal-content" style="max-height: 85vh; overflow-y: auto;">
+      <div class="modal-header">
+        <h3>编辑商品</h3>
+        <div class="modal-close" onclick="hideModal('editProductModal')">✕</div>
+      </div>
+      <div class="edit-section-title">商品信息</div>
+      <div class="edit-row">
+        <label>商品名称</label>
+        <input type="text" placeholder="请输入商品名称" value="超柔软小熊毛绒玩偶">
+      </div>
+      <div class="edit-row">
+        <label>商品描述</label>
+        <textarea placeholder="请输入商品描述">精选优质面料，手感柔软亲肤，适合拥抱和陪伴。多种颜色可选，送礼自用两相宜。</textarea>
+      </div>
+      <div class="edit-row">
+        <label>商品价格 (¥)</label>
+        <input type="number" placeholder="请输入价格" value="39.9">
+      </div>
+      <div class="edit-row">
+        <label>库存数量</label>
+        <input type="number" placeholder="请输入库存" value="356">
+      </div>
+      <div class="edit-row">
+        <label>商品分类</label>
+        <select>
+          <option>毛绒玩偶</option>
+          <option>动物系列</option>
+          <option>花卉系列</option>
+          <option>公主系列</option>
+        </select>
+      </div>
+      <div class="edit-row">
+        <label>商品状态</label>
+        <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
+          <div class="switch-toggle on" onclick="this.classList.toggle('on')"></div>
+          <span style="font-size:13px; color:var(--text-secondary);">上架中</span>
+        </div>
+      </div>
+
+      <div class="edit-section-title" style="margin-top:20px;">商品图片 (最多5张)</div>
+      <div class="image-upload-area">
+        <div class="upload-slot filled">🧸</div>
+        <div class="upload-slot filled">🧸</div>
+        <div class="upload-slot filled">🧸</div>
+        <div class="upload-slot">
+          <span class="plus">+</span>
+          <span>上传图片</span>
+        </div>
+      </div>
+
+      <button class="btn-submit" style="margin-top:20px;" onclick="hideModal('editProductModal')">保存商品</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ==================== Launch Page Logic ====================
+const VALID_INVITE_CODES = ['WDC888', 'WD2026', 'MERCHANT'];
+
+function enterCustomerPlatform() {
+  document.getElementById('launchPage').classList.add('hidden');
+  // Show customer home page
+  switchTab('home', document.querySelectorAll('.tab-item')[0]);
+}
+
+function showInviteModal() {
+  document.getElementById('inviteModal').classList.add('show');
+  document.getElementById('inviteError').classList.remove('show');
+  document.getElementById('inviteCodeInput').value = '';
+  setTimeout(() => {
+    document.getElementById('inviteCodeInput').focus();
+  }, 300);
+}
+
+function hideInviteModal() {
+  document.getElementById('inviteModal').classList.remove('show');
+}
+
+function verifyInviteCode() {
+  const input = document.getElementById('inviteCodeInput');
+  const code = input.value.trim().toUpperCase();
+
+  if (code.length === 0) {
+    document.getElementById('inviteError').textContent = '请输入邀请码';
+    document.getElementById('inviteError').classList.add('show');
+    return;
+  }
+
+  if (VALID_INVITE_CODES.includes(code)) {
+    hideInviteModal();
+    // Hide launch page and enter merchant
+    document.getElementById('launchPage').classList.add('hidden');
+    switchToMerchant();
+  } else {
+    document.getElementById('inviteError').textContent = '邀请码错误，请重新输入';
+    document.getElementById('inviteError').classList.add('show');
+    input.value = '';
+    input.focus();
+  }
+}
+
+// Enter key support for invite code input
+document.getElementById('inviteCodeInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    verifyInviteCode();
+  }
+});
+
+// Close invite modal on overlay click
+document.getElementById('inviteModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    hideInviteModal();
+  }
+});
+
+// ==================== Tab Switching ====================
+function switchTab(tabName, el) {
+  // Hide all customer pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target page
+  document.getElementById('page-' + tabName).classList.add('active');
+  // Update tab bar
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  // Show tab bar
+  document.getElementById('tabBar').style.display = 'flex';
+  // Hide merchant page
+  document.getElementById('page-merchant').classList.remove('active');
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+
+function switchToMerchant() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-merchant').classList.add('active');
+  // Hide customer tab bar in merchant mode
+  document.getElementById('tabBar').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+
+function switchToCustomer() {
+  document.getElementById('page-merchant').classList.remove('active');
+  // Show customer tab bar
+  document.getElementById('tabBar').style.display = 'flex';
+  switchTab('home', document.querySelectorAll('.tab-item')[0]);
+}
+
+// ==================== Merchant Tab Switching ====================
+function switchMerchantTab(el, sectionId) {
+  document.querySelectorAll('.merchant-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.merchant-section').forEach(s => s.style.display = 'none');
+  document.getElementById(sectionId).style.display = 'block';
+}
+
+// ==================== Modal ====================
+function showModal(id) {
+  document.getElementById(id).classList.add('show');
+}
+
+function hideModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('show');
+    }
+  });
+});
+
+// ==================== Login Simulation ====================
+function doLogin() {
+  hideModal('loginModal');
+  document.getElementById('loginPrompt').style.display = 'none';
+  document.getElementById('loggedInUser').style.display = 'flex';
+}
+
+// ==================== Swiper ====================
+(function() {
+  const track = document.getElementById('swiperTrack');
+  const dotsContainer = document.getElementById('swiperDots');
+  const slides = track.querySelectorAll('.swiper-slide');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+  let startX = 0;
+  let isDragging = false;
+  let autoPlayTimer;
+
+  // Create dots
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'swiper-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    updateDots();
+  }
+
+  function updateDots() {
+    dotsContainer.querySelectorAll('.swiper-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    goToSlide(currentSlide);
+  }
+
+  // Auto play
+  function startAutoPlay() {
+    autoPlayTimer = setInterval(nextSlide, 3500);
+  }
+
+  function stopAutoPlay() {
+    clearInterval(autoPlayTimer);
+  }
+
+  startAutoPlay();
+
+  // Touch events
+  const container = document.getElementById('swiper');
+
+  container.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    stopAutoPlay();
+  }, { passive: true });
+
+  container.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && currentSlide < totalSlides - 1) {
+        goToSlide(currentSlide + 1);
+      } else if (diff < 0 && currentSlide > 0) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+    startAutoPlay();
+  });
+
+  // Mouse events for desktop
+  container.addEventListener('mousedown', (e) => {
+    startX = e.clientX;
+    isDragging = true;
+    stopAutoPlay();
+    e.preventDefault();
+  });
+
+  container.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+  });
+
+  container.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const endX = e.clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && currentSlide < totalSlides - 1) {
+        goToSlide(currentSlide + 1);
+      } else if (diff < 0 && currentSlide > 0) {
+        goToSlide(currentSlide - 1);
+      }
+    }
+    startAutoPlay();
+  });
+
+  container.addEventListener('mouseleave', () => {
+    if (isDragging) {
+      isDragging = false;
+      startAutoPlay();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
