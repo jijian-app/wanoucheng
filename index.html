@@ -2276,7 +2276,7 @@ function selectPayMethod(method) {
     icon.className = 'pay-jump-icon';
     icon.style.background = 'linear-gradient(135deg, #07C160, #2DC100)';
     icon.innerHTML = '微';
-    text.textContent = '点击按钮可跳转到微信，或直接扫码支付';
+    text.textContent = '点击下方按钮快速打开微信';
     qrPlaceholderIcon.style.background = 'linear-gradient(135deg, #07C160, #2DC100)';
     qrPlaceholderIcon.innerHTML = '微';
     qrHint.innerHTML = '请使用微信扫码支付 ¥<span id="payQRAmount">' + qrAmount.textContent + '</span>';
@@ -2284,7 +2284,7 @@ function selectPayMethod(method) {
     icon.className = 'pay-jump-icon';
     icon.style.background = 'linear-gradient(135deg, #1677FF, #0055FF)';
     icon.innerHTML = '支';
-    text.textContent = '点击按钮可跳转到支付宝，或直接扫码支付';
+    text.textContent = '点击下方按钮快速打开支付宝';
     qrPlaceholderIcon.style.background = 'linear-gradient(135deg, #1677FF, #0055FF)';
     qrPlaceholderIcon.innerHTML = '支';
     qrHint.innerHTML = '请使用支付宝扫码支付 ¥<span id="payQRAmount">' + qrAmount.textContent + '</span>';
@@ -2299,6 +2299,27 @@ function selectPayMethod(method) {
     qrImg.style.display = 'none';
     qrPlaceholder.style.display = 'block';
   }
+  
+  // 预加载支付链接（减少跳转延迟）
+  var links = window.AppData.paymentLinks || { wechat: '', alipay: '' };
+  var link = method === 'wechat' ? links.wechat : links.alipay;
+  if (link) {
+    // 预加载：创建隐藏iframe提前建立连接
+    var preloadId = 'preload-' + method;
+    var existing = document.getElementById(preloadId);
+    if (existing) existing.remove();
+    
+    var iframe = document.createElement('iframe');
+    iframe.id = preloadId;
+    iframe.style.display = 'none';
+    iframe.src = 'about:blank';
+    document.body.appendChild(iframe);
+    
+    // 延迟加载实际链接，让浏览器预解析
+    setTimeout(function() {
+      iframe.src = link;
+    }, 100);
+  }
 }
 
 function jumpToPay() {
@@ -2310,17 +2331,49 @@ function jumpToPay() {
   var links = window.AppData.paymentLinks || { wechat: '', alipay: '' };
   var link = selectedPayMethod === 'wechat' ? links.wechat : links.alipay;
 
-  if (link) {
-    // 有收款链接，直接跳转
-    window.location.href = link;
-    showToast('正在跳转到支付页面...');
-  } else {
-    // 没有设置收款链接，显示提示
-    if (selectedPayMethod === 'wechat') {
-      showToast('商家尚未设置微信收款链接');
-    } else {
-      showToast('商家尚未设置支付宝收款链接');
-    }
+  if (!link) {
+    showToast('商家尚未设置' + (selectedPayMethod === 'wechat' ? '微信' : '支付宝') + '收款链接');
+    return;
+  }
+
+  // 显示跳转中提示
+  showToast('正在打开支付APP...');
+  
+  // 优化跳转：使用多种方式尝试
+  var startTime = Date.now();
+  var jumped = false;
+  
+  // 方式1：直接跳转（最快）
+  window.location.href = link;
+  
+  // 方式2：对于微信，尝试使用 scheme 跳转（更稳定）
+  if (selectedPayMethod === 'wechat' && link.indexOf('wxp://') === 0) {
+    // 已经是 scheme，上面已经跳转
+  } else if (selectedPayMethod === 'wechat') {
+    // 如果是网页链接，尝试转换为 scheme
+    setTimeout(function() {
+      if (!jumped && Date.now() - startTime < 3000) {
+        // 备用：尝试 universal link
+        var iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = link;
+        document.body.appendChild(iframe);
+        setTimeout(function() {
+          document.body.removeChild(iframe);
+        }, 2000);
+      }
+    }, 100);
+  }
+  
+  // 方式3：支付宝使用 scheme 优化
+  if (selectedPayMethod === 'alipay' && link.indexOf('https://') === 0) {
+    // 尝试提取 scheme 跳转
+    var alipayScheme = link.replace('https://', 'alipays://');
+    setTimeout(function() {
+      if (!jumped && Date.now() - startTime < 2000) {
+        window.location.href = alipayScheme;
+      }
+    }, 300);
   }
 }
 
