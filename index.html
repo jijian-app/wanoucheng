@@ -31,6 +31,17 @@
   --radius-xl: 20px;
   --radius-full: 999px;
   --font-main: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  /* 即简品牌变量 */
+  --jj-primary: #222222;
+  --jj-accent: #FF6B81;
+  --jj-bg: #FAFAFA;
+  --jj-white: #FFFFFF;
+  --jj-text: #333333;
+  --jj-weak: #999999;
+  --jj-border: #EEEEEE;
+  --jj-radius: 12px;
+  --jj-shadow: 0 2px 16px rgba(0,0,0,.06);
+  --jj-font: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(--text-primary); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
@@ -335,6 +346,657 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
 .stat-edit-row input { width:120px; height:36px; border:1.5px solid var(--border-light); border-radius:var(--radius-sm); padding:0 10px; font-size:14px; text-align:right; color:var(--pink-primary); font-weight:600; outline:none; font-family:var(--font-main); }
 .stat-edit-row input:focus { border-color:var(--pink-primary); }
 
+/* ==================== 即简品牌Logo ==================== */
+/* 即简品牌logo - 深色方块+白字 */
+.jj-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--jj-primary);
+  letter-spacing: 1px;
+}
+.jj-logo .jj-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #222, #444);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 900;
+}
+/* 启动页即简品牌logo */
+.launch-logo .jj-mark {
+  width: 88px;
+  height: 88px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #222, #444);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  color: #fff;
+  font-weight: 900;
+  box-shadow: 0 8px 32px rgba(34,34,34,0.3);
+  animation: logoFloat 3s ease-in-out infinite;
+}
+/* 个人中心品牌头像 */
+.profile-avatar .jj-mark {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #222, #444);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  font-weight: 900;
+}
+/* 商家导航品牌标识 */
+.merchant-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--jj-primary);
+}
+.merchant-brand .jj-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #222, #444);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 900;
+}
+
+/* ==================== 商品详情页 ==================== */
+/* 商品详情页全屏覆盖层 */
+.product-detail-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: var(--pink-bg);
+  max-width: 430px;
+  margin: 0 auto;
+  overflow-y: auto;
+  animation: pageIn 0.3s ease;
+}
+.product-detail-overlay.show {
+  display: block;
+}
+.product-detail-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+  font-size: 17px;
+  font-weight: 600;
+}
+.product-detail-nav .nav-back {
+  position: absolute;
+  left: 16px;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+.product-detail-nav .nav-action {
+  position: absolute;
+  right: 16px;
+  font-size: 20px;
+  cursor: pointer;
+}
+/* 商品图片轮播 */
+.detail-swiper {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  background: var(--pink-mist);
+}
+.detail-swiper-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s ease;
+}
+.detail-swiper-slide {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+}
+.detail-swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detail-swiper-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+.detail-swiper-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.5);
+  transition: all 0.3s;
+}
+.detail-swiper-dot.active {
+  width: 18px;
+  background: var(--white);
+}
+.detail-swiper-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.detail-swiper-arrow.prev { left: 10px; }
+.detail-swiper-arrow.next { right: 10px; }
+/* 商品详情内容 */
+.detail-content {
+  padding: 16px;
+  padding-bottom: 80px;
+}
+.detail-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.detail-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--red-price);
+}
+.detail-price .symbol {
+  font-size: 16px;
+}
+.detail-sales {
+  font-size: 13px;
+  color: var(--text-weak);
+}
+.detail-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.detail-tag {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  background: var(--pink-bg);
+  color: var(--pink-primary);
+}
+.detail-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.detail-section {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card);
+}
+.detail-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+.detail-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+/* 规格选择 */
+.detail-spec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  cursor: pointer;
+}
+.detail-spec:not(:last-child) {
+  border-bottom: 1px solid var(--border-light);
+}
+.detail-spec-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.detail-spec-value {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.detail-spec-arrow {
+  font-size: 14px;
+  color: var(--text-weak);
+  margin-left: 8px;
+}
+/* 数量选择 */
+.detail-qty-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+.detail-qty-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.detail-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.detail-qty-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border-light);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+.detail-qty-btn:active {
+  background: var(--pink-bg);
+}
+.detail-qty-num {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 30px;
+  text-align: center;
+}
+/* 底部操作栏 */
+.detail-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 60px;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 10px;
+  border-top: 1px solid var(--border-light);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  z-index: 450;
+}
+.detail-action-btn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-full);
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-main);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.detail-action-btn:active {
+  opacity: 0.85;
+}
+.detail-action-btn.service {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+.detail-action-btn.favorite {
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+.detail-action-btn.favorite.active {
+  border-color: var(--pink-primary);
+  color: var(--pink-primary);
+}
+.detail-action-btn.cart {
+  background: var(--orange-warm);
+  color: var(--white);
+}
+.detail-action-btn.buy {
+  background: linear-gradient(135deg, var(--pink-primary), var(--pink-light));
+  color: var(--white);
+  flex: 1;
+}
+
+/* ==================== 支付弹窗 ==================== */
+.pay-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(0,0,0,0.5);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.pay-modal-overlay.show {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+.pay-modal {
+  width: 100%;
+  max-width: 340px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes modalPop { from{opacity:0;transform:scale(0.85);} to{opacity:1;transform:scale(1);} }
+.pay-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+.pay-modal-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.pay-modal-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gray-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-weak);
+}
+.pay-modal-body {
+  padding: 20px;
+}
+.pay-order-info {
+  background: var(--pink-bg);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.pay-order-amount {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--red-price);
+}
+.pay-order-amount .symbol {
+  font-size: 16px;
+}
+.pay-order-desc {
+  font-size: 12px;
+  color: var(--text-weak);
+  margin-top: 4px;
+}
+/* 支付方式选择 */
+.pay-methods {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.pay-method {
+  flex: 1;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+.pay-method:active {
+  transform: scale(0.98);
+}
+.pay-method.selected {
+  border-color: var(--pink-primary);
+  background: var(--pink-ultra-light);
+}
+.pay-method-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.pay-method-icon.wechat {
+  background: linear-gradient(135deg, #07C160, #2DC100);
+}
+.pay-method-icon.alipay {
+  background: linear-gradient(135deg, #1677FF, #0055FF);
+}
+.pay-method-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+/* 二维码区域 */
+.pay-qr-area {
+  display: none;
+  text-align: center;
+  padding: 16px;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+}
+.pay-qr-area.show {
+  display: block;
+}
+.pay-qr-placeholder {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 12px;
+  background: var(--gray-bg);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.pay-qr-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pay-qr-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+.pay-qr-icon.wechat {
+  background: linear-gradient(135deg, #07C160, #2DC100);
+}
+.pay-qr-icon.alipay {
+  background: linear-gradient(135deg, #1677FF, #0055FF);
+}
+.pay-qr-text {
+  font-size: 14px;
+  color: var(--text-weak);
+}
+.pay-qr-tip {
+  font-size: 12px;
+  color: var(--text-weak);
+  margin-top: 8px;
+}
+.pay-confirm-btn {
+  width: 100%;
+  height: 46px;
+  background: linear-gradient(135deg, var(--green-success), #73D13D);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: opacity 0.2s;
+}
+.pay-confirm-btn:active {
+  opacity: 0.85;
+}
+
+/* ==================== 商家收款码管理 ==================== */
+.merchant-settings-section {
+  background: var(--white);
+  margin: 12px;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+.merchant-settings-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qr-code-upload {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.qr-code-item {
+  flex: 1;
+  min-width: 140px;
+}
+.qr-code-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.qr-code-label .icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.qr-code-label .icon.wechat {
+  background: linear-gradient(135deg, #07C160, #2DC100);
+  color: white;
+}
+.qr-code-label .icon.alipay {
+  background: linear-gradient(135deg, #1677FF, #0055FF);
+  color: white;
+}
+.qr-code-upload-slot {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px dashed var(--pink-pale);
+  border-radius: var(--radius-md);
+  background: var(--pink-ultra-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.qr-code-upload-slot:hover {
+  border-color: var(--pink-primary);
+}
+.qr-code-upload-slot.filled {
+  border-style: solid;
+  border-color: var(--border-light);
+  background: var(--white);
+}
+.qr-code-upload-slot .plus {
+  font-size: 32px;
+  color: var(--pink-pale);
+  margin-bottom: 4px;
+}
+.qr-code-upload-slot .text {
+  font-size: 12px;
+  color: var(--text-weak);
+}
+.qr-code-upload-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.qr-code-upload-slot .delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+.qr-code-upload-slot input[type="file"] {
+  display: none;
+}
+
 /* ==================== Scrollbar & Responsive ==================== */
 ::-webkit-scrollbar { display:none; }
 @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
@@ -354,13 +1016,15 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
   <div class="launch-deco launch-deco-3"></div>
   <div class="launch-deco launch-deco-4"></div>
   <div class="launch-brand">
-    <div class="launch-logo">🧸</div>
+    <div class="launch-logo"><div class="jj-mark">即简</div></div>
     <h1>玩偶城</h1>
     <p>发现你的专属玩偶伙伴</p>
   </div>
   <div class="launch-cards">
     <div class="launch-card" onclick="enterCustomerPlatform()" role="button" tabindex="0">
-      <div class="launch-card-icon customer">🛍️</div>
+      <div class="launch-card-icon customer">
+        <div class="jj-logo"><div class="jj-mark">即</div></div>
+      </div>
       <div class="launch-card-text"><h3>客户平台</h3><p>浏览商品、下单购买、管理订单</p></div>
       <span class="launch-card-arrow">›</span>
     </div>
@@ -393,7 +1057,10 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
 
   <!-- 客户首页 -->
   <div class="page active" id="page-home">
-    <div class="top-nav"><span class="nav-title">🎀 玩偶城</span></div>
+    <div class="top-nav">
+      <div class="jj-logo" style="position:absolute;left:16px;"><div class="jj-mark">即</div></div>
+      <span class="nav-title">玩偶城</span>
+    </div>
     <div class="swiper-container" id="swiper">
       <div class="swiper-track" id="swiperTrack"></div>
       <div class="swiper-dots" id="swiperDots"></div>
@@ -405,15 +1072,20 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
 
   <!-- 客户个人中心 -->
   <div class="page" id="page-profile">
-    <div class="top-nav"><span class="nav-title">我的</span></div>
+    <div class="top-nav">
+      <div class="jj-logo" style="position:absolute;left:16px;"><div class="jj-mark">即</div></div>
+      <span class="nav-title">我的</span>
+    </div>
     <div class="profile-header" id="profileHeader">
       <div class="profile-login-prompt" id="loginPrompt">
-        <div class="big-avatar">👤</div>
+        <div class="big-avatar">
+          <div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:72px;height:72px;font-size:32px;border-radius:50%;">即简</div></div>
+        </div>
         <p>登录后享受更多优惠</p>
         <button class="btn-login" onclick="showModal('loginModal')">登录 / 注册</button>
       </div>
       <div class="profile-user" id="loggedInUser" style="display:none;">
-        <div class="profile-avatar" id="profileAvatar">🧸</div>
+        <div class="profile-avatar" id="profileAvatar"><div class="jj-mark">即简</div></div>
         <div class="profile-info"><h3 id="profileNickname">用户</h3><p>会员等级：普通会员</p></div>
       </div>
     </div>
@@ -456,7 +1128,9 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
   <div class="merchant-page" id="page-merchant">
     <div class="merchant-nav">
       <span class="back-btn" onclick="switchToCustomer()">←</span>
-      <span class="nav-title">玩偶城 · 商家后台</span>
+      <span class="nav-title">
+        <span class="merchant-brand"><span class="jj-mark">即</span> 商家后台</span>
+      </span>
       <span class="nav-action" onclick="switchToCustomer()">切换客户</span>
     </div>
     <div class="merchant-stats" id="merchantStats"></div>
@@ -465,6 +1139,7 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
       <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-users')">用户管理</div>
       <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-orders')">订单管理</div>
       <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-carousel')">轮播图</div>
+      <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-settings')">收款码</div>
     </div>
     <div id="merchant-products" class="merchant-section">
       <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="搜索商品名称..." id="merchantProductSearch" oninput="renderMerchantProducts()"></div>
@@ -482,6 +1157,41 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
       <div style="padding:12px;">
         <button class="btn-submit" style="margin-bottom:12px;" onclick="openCarouselAddModal()">+ 添加轮播图</button>
         <div id="carouselManageList"></div>
+      </div>
+    </div>
+    <!-- 商家收款码管理 -->
+    <div id="merchant-settings" class="merchant-section" style="display:none;">
+      <div class="merchant-settings-section">
+        <div class="merchant-settings-title">💳 收款码管理</div>
+        <p style="font-size:12px;color:var(--text-weak);margin-bottom:14px;">上传您的微信和支付宝收款码，客户下单时将显示对应的收款二维码</p>
+        <div class="qr-code-upload">
+          <div class="qr-code-item">
+            <div class="qr-code-label">
+              <span class="icon wechat">微</span>
+              微信收款码
+            </div>
+            <div class="qr-code-upload-slot" id="wechatQRSlot" onclick="document.getElementById('wechatQRInput').click()">
+              <input type="file" id="wechatQRInput" accept="image/*" onchange="handleQRCodeUpload(this,'wechat')">
+              <span class="plus" id="wechatQRPlus">+</span>
+              <span class="text" id="wechatQRText">点击上传</span>
+              <img id="wechatQRPreview" style="display:none;">
+              <span class="delete-btn" id="wechatQRDelete" style="display:none;" onclick="event.stopPropagation();deleteQRCode('wechat')">✕</span>
+            </div>
+          </div>
+          <div class="qr-code-item">
+            <div class="qr-code-label">
+              <span class="icon alipay">支</span>
+              支付宝收款码
+            </div>
+            <div class="qr-code-upload-slot" id="alipayQRSlot" onclick="document.getElementById('alipayQRInput').click()">
+              <input type="file" id="alipayQRInput" accept="image/*" onchange="handleQRCodeUpload(this,'alipay')">
+              <span class="plus" id="alipayQRPlus">+</span>
+              <span class="text" id="alipayQRText">点击上传</span>
+              <img id="alipayQRPreview" style="display:none;">
+              <span class="delete-btn" id="alipayQRDelete" style="display:none;" onclick="event.stopPropagation();deleteQRCode('alipay')">✕</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="fab" onclick="openProductEditModal(null)" title="添加商品">+</div>
@@ -627,6 +1337,65 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
     </div>
   </div>
 
+  <!-- 商品详情页全屏覆盖层 -->
+  <div class="product-detail-overlay" id="productDetailPage">
+    <div class="product-detail-nav">
+      <span class="nav-back" onclick="closeProductDetail()">←</span>
+      <span class="nav-title" id="detailNavTitle">商品详情</span>
+      <span class="nav-action" onclick="goToCart()">🛒</span>
+    </div>
+    <div id="productDetailContent"></div>
+  </div>
+
+  <!-- 支付弹窗 -->
+  <div class="pay-modal-overlay" id="payModal">
+    <div class="pay-modal">
+      <div class="pay-modal-header">
+        <h3>选择支付方式</h3>
+        <div class="pay-modal-close" onclick="closePayModal()">✕</div>
+      </div>
+      <div class="pay-modal-body">
+        <div class="pay-order-info">
+          <div class="pay-order-amount"><span class="symbol">¥</span><span id="payAmount">0.00</span></div>
+          <div class="pay-order-desc" id="payOrderNo">订单号：--</div>
+        </div>
+        <div class="pay-methods">
+          <div class="pay-method" id="payWechatMethod" onclick="selectPayMethod('wechat')">
+            <div class="pay-method-icon wechat">微</div>
+            <div class="pay-method-name">微信支付</div>
+          </div>
+          <div class="pay-method" id="payAlipayMethod" onclick="selectPayMethod('alipay')">
+            <div class="pay-method-icon alipay">支</div>
+            <div class="pay-method-name">支付宝</div>
+          </div>
+        </div>
+        <!-- 微信二维码区域 -->
+        <div class="pay-qr-area" id="wechatQRPayArea">
+          <div class="pay-qr-placeholder">
+            <img id="wechatPayQR" src="" alt="微信收款码" style="display:none;">
+            <div id="wechatPayPlaceholder">
+              <div class="pay-qr-icon wechat">微</div>
+            </div>
+          </div>
+          <div class="pay-qr-text" id="wechatPayText">请使用微信扫码支付</div>
+          <div class="pay-qr-tip">支付成功后请点击下方按钮确认</div>
+        </div>
+        <!-- 支付宝二维码区域 -->
+        <div class="pay-qr-area" id="alipayQRPayArea">
+          <div class="pay-qr-placeholder">
+            <img id="alipayPayQR" src="" alt="支付宝收款码" style="display:none;">
+            <div id="alipayPayPlaceholder">
+              <div class="pay-qr-icon alipay">支</div>
+            </div>
+          </div>
+          <div class="pay-qr-text" id="alipayPayText">请使用支付宝扫码支付</div>
+          <div class="pay-qr-tip">支付成功后请点击下方按钮确认</div>
+        </div>
+        <button class="pay-confirm-btn" id="payConfirmBtn" onclick="confirmPayment()">我已支付</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -657,17 +1426,45 @@ var DEFAULT_CAROUSEL = ['p1','p2','p4','p5','p6'];
 var DEFAULT_STATS = {productCount:128,orderCount:2456,totalSales:386000};
 
 // ==================== 数据管理 ====================
+// 数据初始化 - 包含支付收款码
 function loadData(){
   try{
     var saved=localStorage.getItem('wanoucheng_data');
     if(saved){
       var p=JSON.parse(saved);
-      window.AppData={products:p.products||JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),orders:p.orders||JSON.parse(JSON.stringify(DEFAULT_ORDERS)),users:p.users||JSON.parse(JSON.stringify(DEFAULT_USERS)),currentUser:p.currentUser||null,carousel:p.carousel||DEFAULT_CAROUSEL.slice(),stats:p.stats||{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales}};
+      window.AppData={
+        products:p.products||JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),
+        orders:p.orders||JSON.parse(JSON.stringify(DEFAULT_ORDERS)),
+        users:p.users||JSON.parse(JSON.stringify(DEFAULT_USERS)),
+        currentUser:p.currentUser||null,
+        carousel:p.carousel||DEFAULT_CAROUSEL.slice(),
+        stats:p.stats||{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales},
+        // 新增：支付收款码
+        paymentQRCodes:p.paymentQRCodes||{wechat:'',alipay:''}
+      };
     }else{
-      window.AppData={products:JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),orders:JSON.parse(JSON.stringify(DEFAULT_ORDERS)),users:JSON.parse(JSON.stringify(DEFAULT_USERS)),currentUser:null,carousel:DEFAULT_CAROUSEL.slice(),stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales}};
+      window.AppData={
+        products:JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),
+        orders:JSON.parse(JSON.stringify(DEFAULT_ORDERS)),
+        users:JSON.parse(JSON.stringify(DEFAULT_USERS)),
+        currentUser:null,
+        carousel:DEFAULT_CAROUSEL.slice(),
+        stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales},
+        paymentQRCodes:{wechat:'',alipay:''}
+      };
       saveData();
     }
-  }catch(e){window.AppData={products:JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),orders:JSON.parse(JSON.stringify(DEFAULT_ORDERS)),users:JSON.parse(JSON.stringify(DEFAULT_USERS)),currentUser:null,carousel:DEFAULT_CAROUSEL.slice(),stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales}};}
+  }catch(e){
+    window.AppData={
+      products:JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),
+      orders:JSON.parse(JSON.stringify(DEFAULT_ORDERS)),
+      users:JSON.parse(JSON.stringify(DEFAULT_USERS)),
+      currentUser:null,
+      carousel:DEFAULT_CAROUSEL.slice(),
+      stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales},
+      paymentQRCodes:{wechat:'',alipay:''}
+    };
+  }
 }
 function saveData(){try{localStorage.setItem('wanoucheng_data',JSON.stringify(window.AppData));}catch(e){showToast('存储空间不足');}}
 function genId(){return 'id_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);}
@@ -777,7 +1574,7 @@ function renderSwiper(){
       var hasImg=p.images&&p.images.length>0;
       var bgStyle=hasImg?'':'background:linear-gradient(135deg,#FFB6C1,#FF9A9E);';
       var imgHtml=hasImg?'<img src="'+p.images[0]+'" alt="" style="width:100%;height:100%;object-fit:cover;">':'';
-      var emojiHtml=hasImg?'':'<div style="font-size:64px;">'+(p.emoji||'🧸')+'</div>';
+      var emojiHtml=hasImg?'':'<div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:100px;height:100px;font-size:64px;border-radius:16px;">'+(p.emoji||'🐻')+'</div></div>';
       var nm=p.name.length>15?p.name.substring(0,15)+'...':p.name;
       html+='<div class="swiper-slide" style="'+bgStyle+'">'+imgHtml+emojiHtml+'<div class="slide-content"><h3>'+nm+'</h3><p>¥'+p.price+'</p></div></div>';
     }else{
@@ -817,30 +1614,37 @@ function renderProductGrid(){
   var html='';
   for(var i=0;i<ps.length;i++){
     var p=ps[i];
-    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="'+p.name+'">':(p.emoji||'🧸');
+    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="'+p.name+'">':'<div class="jj-logo" style="display:flex;"><div class="jj-mark" style="font-size:48px;width:80px;height:80px;">'+p.emoji+'</div></div>';
     var tag=p.sold>10000?'<span class="tag">热卖</span>':p.category==='新品上市'?'<span class="tag">新品</span>':p.category==='季节限定'?'<span class="tag">限定</span>':'';
-    html+='<div class="product-card" onclick="buyProduct(\''+p.id+'\')"><div class="product-img">'+img+tag+'</div><div class="product-info"><div class="product-name">'+p.name+'</div><div class="product-price-row"><div><span class="product-price"><span class="symbol">¥</span>'+p.price+'</span></div><span class="product-sales">已售'+formatSales(p.sold)+'</span></div><button class="product-buy-btn" onclick="event.stopPropagation();buyProduct(\''+p.id+'\')">立即购买</button></div></div>';
+    // 整个卡片可点击打开详情
+    html+='<div class="product-card" onclick="openProductDetail(\''+p.id+'\')"><div class="product-img">'+img+tag+'</div><div class="product-info"><div class="product-name">'+p.name+'</div><div class="product-price-row"><div><span class="product-price"><span class="symbol">¥</span>'+p.price+'</span></div><span class="product-sales">已售'+formatSales(p.sold)+'</span></div><button class="product-buy-btn" onclick="event.stopPropagation();buyProduct(\''+p.id+'\')">立即购买</button></div></div>';
   }
   g.innerHTML=html;
 }
 
-// 购买
+// 购买商品 - 创建订单并打开支付弹窗
 function buyProduct(pid){
   var u=getCurrentUser();if(!u){showToast('请先登录');showModal('loginModal');return;}
   var p=window.AppData.products.find(function(x){return x.id===pid;});if(!p)return;
   var addr=u.addresses.find(function(a){return a.isDefault;})||u.addresses[0];
   if(!addr){showToast('请先添加收货地址');showModal('addressModal');return;}
+  // 创建待支付订单
   var o={id:genId(),orderNo:genOrderNo(),userId:u.id,userName:u.nickname,userPhone:maskPhone(u.phone),userAddress:addr.detail,
-    items:[{productId:p.id,name:p.name.length>20?p.name.substring(0,20)+'...':p.name,price:p.price,qty:1,spec:'默认规格',image:p.images&&p.images[0]?p.images[0]:'',emoji:p.emoji||'🧸'}],
+    items:[{productId:p.id,name:p.name.length>20?p.name.substring(0,20)+'...':p.name,price:p.price,qty:1,spec:'默认规格',image:p.images&&p.images[0]?p.images[0]:'',emoji:p.emoji||'🐻'}],
     totalAmount:p.price,status:'pending',logistics:{company:'',trackingNo:''},createdAt:nowStr(),paidAt:'',shippedAt:'',completedAt:''};
-  window.AppData.orders.push(o);p.sold+=1;saveData();showToast('下单成功，请去支付');renderProfile();
+  window.AppData.orders.push(o);p.sold+=1;saveData();
+  // 打开支付弹窗
+  openPayModal(o);
+  renderProfile();
 }
 
 // ==================== 个人中心 ====================
 function renderProfile(){
   var u=getCurrentUser(),lp=document.getElementById('loginPrompt'),lu=document.getElementById('loggedInUser');
   if(u){lp.style.display='none';lu.style.display='flex';document.getElementById('profileNickname').textContent=u.nickname;
-    var av=document.getElementById('profileAvatar');av.innerHTML=u.avatar?'<img src="'+u.avatar+'" alt="">':'🧸';
+    var av=document.getElementById('profileAvatar');
+    // 使用即简品牌logo作为默认头像
+    av.innerHTML='<div class="jj-mark">即简</div>';
     document.getElementById('phoneDisplay').textContent=maskPhone(u.phone);document.getElementById('addressCount').textContent=u.addresses.length+'个地址';
   }else{lp.style.display='block';lu.style.display='none';document.getElementById('phoneDisplay').textContent='未绑定';document.getElementById('addressCount').textContent='0个地址';}
   renderOrderTabs();renderProfileOrders();
@@ -869,11 +1673,11 @@ function renderProfileOrders(){
 
 function renderOrderCard(o,isCustomer){
   var item=o.items[0];
-  var img=item.image?'<img src="'+item.image+'" alt="">':(item.emoji||'🧸');
+  var img=item.image?'<img src="'+item.image+'" alt="">':'<div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:72px;height:72px;font-size:32px;border-radius:8px;">'+(item.emoji||'🐻')+'</div></div>';
   var st=ORDER_STATUS_MAP[o.status]||o.status,sc=ORDER_STATUS_COLOR[o.status]||'var(--pink-primary)';
   var fb='';
   if(isCustomer){
-    if(o.status==='pending')fb='<button class="order-btn" onclick="event.stopPropagation();cancelOrder(\''+o.id+'\')">取消订单</button><button class="order-btn primary" onclick="event.stopPropagation();payOrder(\''+o.id+'\')">去支付</button>';
+    if(o.status==='pending')fb='<button class="order-btn" onclick="event.stopPropagation();cancelOrder(\''+o.id+'\')">取消订单</button><button class="order-btn primary" onclick="event.stopPropagation();openPayModalFromOrder(\''+o.id+'\')">去支付</button>';
     else if(o.status==='paid')fb='<button class="order-btn" onclick="event.stopPropagation();">提醒发货</button>';
     else if(o.status==='shipped')fb='<button class="order-btn" onclick="event.stopPropagation();">查看物流</button><button class="order-btn primary" onclick="event.stopPropagation();confirmReceive(\''+o.id+'\')">确认收货</button>';
     else if(o.status==='completed')fb='<button class="order-btn" onclick="event.stopPropagation();">再次购买</button><button class="order-btn primary" onclick="event.stopPropagation();">去评价</button>';
@@ -915,14 +1719,14 @@ function openOrderDetail(oid){
   h+='<div class="order-detail-section"><div class="section-title">商品信息</div>';
   for(var ii=0;ii<o.items.length;ii++){
     var item=o.items[ii];
-    var img=item.image?'<img src="'+item.image+'" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">':'<div style="width:60px;height:60px;border-radius:8px;background:var(--pink-mist);display:flex;align-items:center;justify-content:center;font-size:28px;">'+(item.emoji||'🧸')+'</div>';
+    var img=item.image?'<img src="'+item.image+'" style="width:60px;height:60px;border-radius:8px;object-fit:cover;">':'<div style="width:60px;height:60px;border-radius:8px;background:var(--pink-mist);display:flex;align-items:center;justify-content:center;"><div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:40px;height:40px;font-size:20px;">'+(item.emoji||'🐻')+'</div></div></div>';
     h+='<div class="order-detail-item">'+img+'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:500;margin-bottom:4px;">'+item.name+'</div><div style="font-size:11px;color:var(--text-weak);">'+item.spec+' × '+item.qty+'</div></div><div style="font-size:15px;font-weight:700;color:var(--red-price);">¥'+(item.price*item.qty).toFixed(1)+'</div></div>';
   }
   h+='</div>';
   h+='<div class="order-detail-section"><div class="section-title">订单信息</div><div class="detail-info-row"><span class="label">订单编号</span><span class="value">'+o.orderNo+'</span></div><div class="detail-info-row"><span class="label">下单时间</span><span class="value">'+(o.createdAt||'--')+'</span></div><div class="detail-info-row"><span class="label">支付时间</span><span class="value">'+(o.paidAt||'--')+'</span></div><div class="detail-info-row"><span class="label">发货时间</span><span class="value">'+(o.shippedAt||'--')+'</span></div><div class="detail-info-row"><span class="label">完成时间</span><span class="value">'+(o.completedAt||'--')+'</span></div><div class="detail-info-row"><span class="label">支付方式</span><span class="value">在线支付</span></div><div class="detail-info-row" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-light);"><span class="label" style="font-weight:600;">订单总额</span><span class="value" style="font-size:18px;font-weight:700;color:var(--red-price);">¥'+o.totalAmount+'</span></div></div>';
   document.getElementById('orderDetailContent').innerHTML=h;
   var fb='';
-  if(o.status==='pending')fb='<button class="order-btn" onclick="cancelOrder(\''+o.id+'\');closeOrderDetailPage();">取消订单</button><button class="order-btn primary" onclick="payOrder(\''+o.id+'\');closeOrderDetailPage();">去支付</button>';
+  if(o.status==='pending')fb='<button class="order-btn" onclick="cancelOrder(\''+o.id+'\');closeOrderDetailPage();">取消订单</button><button class="order-btn primary" onclick="openPayModalFromOrder(\''+o.id+'\');closeOrderDetailPage();">去支付</button>';
   else if(o.status==='paid')fb='<button class="order-btn">提醒发货</button>';
   else if(o.status==='shipped')fb='<button class="order-btn">查看物流</button><button class="order-btn primary" onclick="confirmReceive(\''+o.id+'\');closeOrderDetailPage();">确认收货</button>';
   else if(o.status==='completed')fb='<button class="order-btn">再次购买</button><button class="order-btn primary">去评价</button>';
@@ -932,6 +1736,18 @@ function openOrderDetail(oid){
 function closeOrderDetailPage(){document.getElementById('orderDetailPage').classList.remove('show');}
 
 // ==================== 订单操作 ====================
+// 从订单卡片打开支付弹窗
+function openPayModalFromOrder(oid) {
+  var o = window.AppData.orders.find(function(x) { return x.id === oid; });
+  if (!o) return;
+  if (o.status !== 'pending') {
+    showToast('该订单已支付或已取消');
+    return;
+  }
+  openPayModal(o);
+}
+
+// 旧的payOrder函数保留用于兼容（直接标记已支付）
 function payOrder(oid){var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;o.status='paid';o.paidAt=nowStr();saveData();showToast('支付成功');renderProfile();renderOrderListPage();}
 function cancelOrder(oid){var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;o.status='cancelled';saveData();showToast('订单已取消');renderProfile();renderOrderListPage();}
 function confirmReceive(oid){var o=window.AppData.orders.find(function(x){return x.id===oid;});if(!o)return;o.status='completed';o.completedAt=nowStr();saveData();showToast('已确认收货');renderProfile();renderOrderListPage();}
@@ -964,7 +1780,7 @@ function updatePhone(){
 }
 
 // ==================== 商家平台 ====================
-function renderMerchantPage(){renderMerchantStats();renderMerchantProducts();renderMerchantUsers();renderMerchantOrders();renderCarouselManage();}
+function renderMerchantPage(){renderMerchantStats();renderMerchantProducts();renderMerchantUsers();renderMerchantOrders();renderCarouselManage();renderQRCodesInMerchantSettings();}
 
 function renderMerchantStats(){
   var s=window.AppData.stats;
@@ -982,7 +1798,7 @@ function renderMerchantProducts(){
   var html='';
   for(var i=0;i<ps.length;i++){
     var p=ps[i];
-    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="">':(p.emoji||'🧸');
+    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="">':'<div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:64px;height:64px;font-size:28px;">'+(p.emoji||'🐻')+'</div></div>';
     html+='<div class="merchant-product-item"><div class="mp-thumb">'+img+'</div><div class="mp-info"><h4>'+p.name+'</h4><div class="mp-meta">库存: '+p.stock+' · 已售: '+formatSales(p.sold)+'</div><div class="mp-price">¥'+p.price+'</div></div><div class="mp-actions"><button class="mp-btn edit" onclick="event.stopPropagation();openProductEditModal(\''+p.id+'\')">编辑</button><button class="mp-btn '+(p.status==='on'?'on':'off')+'" onclick="event.stopPropagation();toggleProductStatus(\''+p.id+'\')">'+(p.status==='on'?'上架中':'已下架')+'</button></div></div>';
   }
   c.innerHTML=html;
@@ -1079,7 +1895,7 @@ function renderMerchantOrders(){
   var html='';
   for(var i=0;i<orders.length;i++){
     var o=orders[i];var item=o.items[0];
-    var img=item.image?'<img src="'+item.image+'" alt="">':(item.emoji||'🧸');
+    var img=item.image?'<img src="'+item.image+'" alt="">':'<div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:72px;height:72px;font-size:32px;border-radius:8px;">'+(item.emoji||'🐻')+'</div></div>';
     var st=ORDER_STATUS_MAP[o.status]||o.status,sc=ORDER_STATUS_COLOR[o.status]||'var(--pink-primary)';
     var fb='<button class="order-btn" onclick="event.stopPropagation();openMerchantOrderDetail(\''+o.id+'\')">查看详情</button>';
     if(o.status==='paid')fb+='<button class="order-btn primary" onclick="event.stopPropagation();openShipModal(\''+o.id+'\')">去发货</button>';
@@ -1114,7 +1930,7 @@ function openMerchantOrderDetail(oid){
   h+='<div style="font-size:14px;font-weight:600;margin-bottom:8px;">买家信息</div><div style="background:var(--pink-bg);border-radius:var(--radius-sm);padding:10px;margin-bottom:12px;font-size:13px;"><div>'+o.userName+' '+o.userPhone+'</div><div style="color:var(--text-weak);margin-top:4px;">'+o.userAddress+'</div></div>';
   for(var ii=0;ii<o.items.length;ii++){
     var item=o.items[ii];
-    var img=item.image?'<img src="'+item.image+'" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">':'<div style="width:50px;height:50px;border-radius:8px;background:var(--pink-mist);display:flex;align-items:center;justify-content:center;font-size:24px;">'+(item.emoji||'🧸')+'</div>';
+    var img=item.image?'<img src="'+item.image+'" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">':'<div style="width:50px;height:50px;border-radius:8px;background:var(--pink-mist);display:flex;align-items:center;justify-content:center;"><div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:36px;height:36px;font-size:18px;">'+(item.emoji||'🐻')+'</div></div></div>';
     h+='<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-light);">'+img+'<div style="flex:1;"><div style="font-size:13px;">'+item.name+'</div><div style="font-size:11px;color:var(--text-weak);">'+item.spec+' × '+item.qty+'</div></div><div style="font-size:14px;font-weight:700;color:var(--red-price);">¥'+(item.price*item.qty).toFixed(1)+'</div></div>';
   }
   if(o.logistics&&o.logistics.company)h+='<div style="margin-top:12px;font-size:13px;"><div style="color:var(--text-weak);">物流：'+o.logistics.company+' '+o.logistics.trackingNo+'</div></div>';
@@ -1133,7 +1949,7 @@ function renderCarouselManage(){
     var pid=carousel[i];
     var p=window.AppData.products.find(function(x){return x.id===pid;});
     if(!p)continue;
-    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="">':(p.emoji||'🧸');
+    var img=p.images&&p.images.length>0?'<img src="'+p.images[0]+'" alt="">':'<div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:60px;height:60px;font-size:24px;">'+(p.emoji||'🐻')+'</div></div>';
     html+='<div class="carousel-manage-item"><div class="cm-thumb">'+img+'</div><div class="cm-info"><h4>'+p.name+'</h4><div style="font-size:11px;color:var(--text-weak);">¥'+p.price+'</div></div><div class="cm-actions"><button class="cm-btn del" onclick="removeCarouselItem('+i+')">删除</button></div></div>';
   }
   c.innerHTML=html;
@@ -1154,6 +1970,308 @@ function addCarouselItem(){
   window.AppData.carousel.push(pid);saveData();hideModal('carouselAddModal');renderCarouselManage();showToast('轮播图已添加');
 }
 function removeCarouselItem(i){window.AppData.carousel.splice(i,1);saveData();renderCarouselManage();showToast('轮播图已删除');}
+
+// ==================== 商品详情页 ====================
+var currentDetailProduct = null;
+var detailSwiperState = { current: 0, total: 0 };
+
+function openProductDetail(pid) {
+  var p = window.AppData.products.find(function(x) { return x.id === pid; });
+  if (!p) return;
+  currentDetailProduct = p;
+  
+  // 渲染商品详情内容
+  var imgs = p.images && p.images.length > 0 ? p.images : [];
+  var totalSlides = imgs.length > 0 ? imgs.length : 1;
+  
+  var html = '';
+  // 图片轮播
+  html += '<div class="detail-swiper" id="detailSwiper">';
+  html += '<div class="detail-swiper-track" id="detailSwiperTrack">';
+  if (imgs.length > 0) {
+    for (var i = 0; i < imgs.length; i++) {
+      html += '<div class="detail-swiper-slide"><img src="' + imgs[i] + '" alt=""></div>';
+    }
+  } else {
+    html += '<div class="detail-swiper-slide"><div class="jj-logo" style="display:flex;"><div class="jj-mark" style="width:150px;height:150px;font-size:80px;">' + p.emoji + '</div></div></div>';
+  }
+  html += '</div>';
+  // 箭头
+  if (totalSlides > 1) {
+    html += '<div class="detail-swiper-arrow prev" onclick="detailSwiperPrev()">‹</div>';
+    html += '<div class="detail-swiper-arrow next" onclick="detailSwiperNext()">›</div>';
+  }
+  // 点
+  html += '<div class="detail-swiper-dots" id="detailSwiperDots">';
+  for (var i = 0; i < totalSlides; i++) {
+    html += '<div class="detail-swiper-dot' + (i === 0 ? ' active' : '') + '" onclick="goToDetailSlide(' + i + ')"></div>';
+  }
+  html += '</div></div>';
+  
+  // 内容
+  html += '<div class="detail-content">';
+  // 价格和销量
+  html += '<div class="detail-price-row"><span class="detail-price"><span class="symbol">¥</span>' + p.price + '</span><span class="detail-sales">已售 ' + formatSales(p.sold) + '</span></div>';
+  // 标签
+  html += '<div class="detail-tags">';
+  if (p.sold > 10000) html += '<span class="detail-tag">热卖</span>';
+  if (p.category) html += '<span class="detail-tag">' + p.category + '</span>';
+  if (p.stock > 0) html += '<span class="detail-tag">库存 ' + p.stock + '</span>';
+  else html += '<span class="detail-tag" style="background:#FFE4E1;color:#999;">缺货</span>';
+  html += '</div>';
+  // 名称
+  html += '<div class="detail-title">' + p.name + '</div>';
+  // 描述
+  html += '<div class="detail-section"><div class="detail-section-title">商品详情</div><div class="detail-desc">' + (p.description || '暂无详细描述') + '</div></div>';
+  // 规格选择
+  html += '<div class="detail-section"><div class="detail-section-title">规格选择</div>';
+  html += '<div class="detail-spec" onclick="showToast(\'规格选择功能开发中\')"><span class="detail-spec-label">规格</span><span class="detail-spec-value">默认规格</span><span class="detail-spec-arrow">›</span></div>';
+  html += '</div>';
+  // 数量选择
+  html += '<div class="detail-section"><div class="detail-section-title">购买数量</div>';
+  html += '<div class="detail-qty-row"><span class="detail-qty-label">购买数量</span>';
+  html += '<div class="detail-qty-control"><span class="detail-qty-btn" onclick="changeDetailQty(-1)">−</span><span class="detail-qty-num" id="detailQtyNum">1</span><span class="detail-qty-btn" onclick="changeDetailQty(1)">+</span></div>';
+  html += '</div></div>';
+  html += '</div>';
+  
+  // 底部操作栏
+  html += '<div class="detail-action-bar">';
+  html += '<button class="detail-action-btn service" onclick="showToast(\'客服功能开发中\')">💬</button>';
+  html += '<button class="detail-action-btn favorite" id="detailFavoriteBtn" onclick="toggleDetailFavorite()">❤️</button>';
+  html += '<button class="detail-action-btn cart" onclick="buyProduct(\'' + p.id + '\')">加入购物车</button>';
+  html += '<button class="detail-action-btn buy" onclick="buyProduct(\'' + p.id + '\')">立即购买</button>';
+  html += '</div>';
+  
+  document.getElementById('productDetailContent').innerHTML = html;
+  document.getElementById('detailNavTitle').textContent = p.name.length > 10 ? p.name.substring(0, 10) + '...' : p.name;
+  
+  // 初始化轮播
+  detailSwiperState = { current: 0, total: totalSlides };
+  
+  // 显示详情页
+  document.getElementById('productDetailPage').classList.add('show');
+  window.scrollTo(0, 0);
+}
+
+function closeProductDetail() {
+  document.getElementById('productDetailPage').classList.remove('show');
+  currentDetailProduct = null;
+}
+
+function detailSwiperPrev() {
+  if (detailSwiperState.current > 0) {
+    detailSwiperState.current--;
+    goToDetailSlide(detailSwiperState.current);
+  }
+}
+
+function detailSwiperNext() {
+  if (detailSwiperState.current < detailSwiperState.total - 1) {
+    detailSwiperState.current++;
+    goToDetailSlide(detailSwiperState.current);
+  }
+}
+
+function goToDetailSlide(idx) {
+  detailSwiperState.current = idx;
+  document.getElementById('detailSwiperTrack').style.transform = 'translateX(-' + (idx * 100) + '%)';
+  document.querySelectorAll('#detailSwiperDots .detail-swiper-dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === idx);
+  });
+}
+
+var detailQty = 1;
+
+function changeDetailQty(delta) {
+  var maxQty = currentDetailProduct ? currentDetailProduct.stock : 99;
+  detailQty = Math.max(1, Math.min(maxQty, detailQty + delta));
+  document.getElementById('detailQtyNum').textContent = detailQty;
+}
+
+function toggleDetailFavorite() {
+  var btn = document.getElementById('detailFavoriteBtn');
+  btn.classList.toggle('active');
+  if (btn.classList.contains('active')) {
+    showToast('已添加到收藏');
+  } else {
+    showToast('已取消收藏');
+  }
+}
+
+function goToCart() {
+  closeProductDetail();
+  // 可以切换到购物车tab，如果存在的话
+  showToast('购物车功能开发中');
+}
+
+// ==================== 支付弹窗 ====================
+var currentPayOrder = null;
+var selectedPayMethod = null;
+
+function openPayModal(order) {
+  currentPayOrder = order;
+  selectedPayMethod = null;
+  
+  // 设置订单信息
+  document.getElementById('payAmount').textContent = order.totalAmount.toFixed(2);
+  document.getElementById('payOrderNo').textContent = '订单号：' + order.orderNo;
+  
+  // 重置选择状态
+  document.getElementById('payWechatMethod').classList.remove('selected');
+  document.getElementById('payAlipayMethod').classList.remove('selected');
+  
+  // 隐藏二维码区域
+  document.getElementById('wechatQRPayArea').classList.remove('show');
+  document.getElementById('alipayQRPayArea').classList.remove('show');
+  
+  // 加载收款码
+  loadPaymentQRCodes();
+  
+  // 显示弹窗
+  document.getElementById('payModal').classList.add('show');
+}
+
+function closePayModal() {
+  document.getElementById('payModal').classList.remove('show');
+  currentPayOrder = null;
+  selectedPayMethod = null;
+}
+
+function loadPaymentQRCodes() {
+  var qrCodes = window.AppData.paymentQRCodes || { wechat: '', alipay: '' };
+  
+  // 微信收款码
+  var wechatImg = document.getElementById('wechatPayQR');
+  var wechatPlaceholder = document.getElementById('wechatPayPlaceholder');
+  if (qrCodes.wechat) {
+    wechatImg.src = qrCodes.wechat;
+    wechatImg.style.display = 'block';
+    wechatPlaceholder.style.display = 'none';
+  } else {
+    wechatImg.style.display = 'none';
+    wechatPlaceholder.style.display = 'flex';
+  }
+  
+  // 支付宝收款码
+  var alipayImg = document.getElementById('alipayPayQR');
+  var alipayPlaceholder = document.getElementById('alipayPayPlaceholder');
+  if (qrCodes.alipay) {
+    alipayImg.src = qrCodes.alipay;
+    alipayImg.style.display = 'block';
+    alipayPlaceholder.style.display = 'none';
+  } else {
+    alipayImg.style.display = 'none';
+    alipayPlaceholder.style.display = 'flex';
+  }
+}
+
+function selectPayMethod(method) {
+  selectedPayMethod = method;
+  
+  // 更新选择状态
+  document.getElementById('payWechatMethod').classList.toggle('selected', method === 'wechat');
+  document.getElementById('payAlipayMethod').classList.toggle('selected', method === 'alipay');
+  
+  // 显示对应二维码
+  document.getElementById('wechatQRPayArea').classList.toggle('show', method === 'wechat');
+  document.getElementById('alipayQRPayArea').classList.toggle('show', method === 'alipay');
+}
+
+function confirmPayment() {
+  if (!selectedPayMethod) {
+    showToast('请选择支付方式');
+    return;
+  }
+  if (!currentPayOrder) return;
+  
+  // 更新订单状态为已付款
+  var order = window.AppData.orders.find(function(o) { return o.id === currentPayOrder.id; });
+  if (order) {
+    order.status = 'paid';
+    order.paidAt = nowStr();
+    saveData();
+  }
+  
+  // 关闭支付弹窗
+  closePayModal();
+  
+  // 显示成功提示
+  showToast('支付成功');
+  
+  // 更新界面
+  renderProfile();
+  renderOrderListPage();
+}
+
+// 点击空白关闭支付弹窗
+document.getElementById('payModal').addEventListener('click', function(e) {
+  if (e.target === this) closePayModal();
+});
+
+// ==================== 商家收款码管理 ====================
+function handleQRCodeUpload(input, type) {
+  var file = input.files[0];
+  if (!file) return;
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var base64 = e.target.result;
+    
+    // 保存到AppData
+    if (!window.AppData.paymentQRCodes) {
+      window.AppData.paymentQRCodes = { wechat: '', alipay: '' };
+    }
+    window.AppData.paymentQRCodes[type] = base64;
+    saveData();
+    
+    // 更新预览
+    updateQRCodePreview(type, base64);
+    showToast(type === 'wechat' ? '微信收款码已上传' : '支付宝收款码已上传');
+  };
+  reader.readAsDataURL(file);
+  
+  // 清空input，允许重复选择同一文件
+  input.value = '';
+}
+
+function updateQRCodePreview(type, base64) {
+  var slot = document.getElementById(type + 'QRSlot');
+  var preview = document.getElementById(type + 'QRPreview');
+  var plus = document.getElementById(type + 'QRPlus');
+  var text = document.getElementById(type + 'QRText');
+  var delBtn = document.getElementById(type + 'QRDelete');
+  
+  if (base64) {
+    slot.classList.add('filled');
+    preview.src = base64;
+    preview.style.display = 'block';
+    plus.style.display = 'none';
+    text.style.display = 'none';
+    delBtn.style.display = 'flex';
+  } else {
+    slot.classList.remove('filled');
+    preview.style.display = 'none';
+    plus.style.display = 'block';
+    text.style.display = 'block';
+    delBtn.style.display = 'none';
+  }
+}
+
+function deleteQRCode(type) {
+  if (!window.AppData.paymentQRCodes) {
+    window.AppData.paymentQRCodes = { wechat: '', alipay: '' };
+  }
+  window.AppData.paymentQRCodes[type] = '';
+  saveData();
+  updateQRCodePreview(type, '');
+  showToast(type === 'wechat' ? '微信收款码已删除' : '支付宝收款码已删除');
+}
+
+function renderQRCodesInMerchantSettings() {
+  var qrCodes = window.AppData.paymentQRCodes || { wechat: '', alipay: '' };
+  updateQRCodePreview('wechat', qrCodes.wechat);
+  updateQRCodePreview('alipay', qrCodes.alipay);
+}
 
 // ==================== 初始化 ====================
 loadData();
