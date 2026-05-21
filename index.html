@@ -930,6 +930,46 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
 .pay-done-btn:active {
   background: var(--gray-bg);
 }
+/* 支付收款码显示区域 */
+.pay-qr-show {
+  margin: 16px 0;
+  text-align: center;
+}
+.pay-qr-img-wrap {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 12px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--gray-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pay-qr-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pay-qr-placeholder {
+  text-align: center;
+  color: var(--text-weak);
+}
+.pay-qr-placeholder .pay-qr-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  font-size: 24px;
+  color: #fff;
+}
+.pay-qr-hint {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
 
 /* ==================== 商家收款码管理 ==================== */
 .merchant-settings-section {
@@ -1441,7 +1481,18 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
           <div class="pay-jump-icon" id="payJumpIcon"></div>
           <p id="payJumpText">点击确认后将跳转到支付APP完成付款</p>
         </div>
-        <button class="pay-confirm-btn" id="payConfirmBtn" onclick="jumpToPay()">确认支付</button>
+        <!-- 收款码图片区域（选择支付方式后显示） -->
+        <div class="pay-qr-show" id="payQRShow" style="display:none;">
+          <div class="pay-qr-img-wrap" id="payQRImgWrap">
+            <img id="payQRImg" src="" alt="收款码">
+            <div class="pay-qr-placeholder" id="payQRPlaceholder">
+              <div class="pay-qr-icon" id="payQRPlaceholderIcon">微</div>
+              <p>商家未上传收款码</p>
+            </div>
+          </div>
+          <p class="pay-qr-hint" id="payQRHint">请使用微信扫码支付 ¥<span id="payQRAmount">0.00</span></p>
+        </div>
+        <button class="pay-confirm-btn" id="payConfirmBtn" onclick="jumpToPay()">跳转到APP支付</button>
         <button class="pay-done-btn" onclick="confirmPayment()">我已完成付款</button>
       </div>
     </div>
@@ -2180,8 +2231,9 @@ function openPayModal(order) {
   document.getElementById('payWechatMethod').classList.remove('selected');
   document.getElementById('payAlipayMethod').classList.remove('selected');
 
-  // 隐藏跳转提示
+  // 隐藏跳转提示和收款码区域
   document.getElementById('payJumpTip').style.display = 'none';
+  document.getElementById('payQRShow').style.display = 'none';
 
   // 显示弹窗
   document.getElementById('payModal').classList.add('show');
@@ -2206,16 +2258,46 @@ function selectPayMethod(method) {
   var text = document.getElementById('payJumpText');
   tip.style.display = 'flex';
 
+  // 显示收款码图片
+  var qrShow = document.getElementById('payQRShow');
+  var qrImg = document.getElementById('payQRImg');
+  var qrPlaceholder = document.getElementById('payQRPlaceholder');
+  var qrPlaceholderIcon = document.getElementById('payQRPlaceholderIcon');
+  var qrHint = document.getElementById('payQRHint');
+  var qrAmount = document.getElementById('payQRAmount');
+  
+  var qrcodes = window.AppData.paymentQRCodes || { wechat: '', alipay: '' };
+  var qrCode = method === 'wechat' ? qrcodes.wechat : qrcodes.alipay;
+  
+  qrShow.style.display = 'block';
+  qrAmount.textContent = currentPayOrder ? currentPayOrder.totalAmount.toFixed(2) : '0.00';
+
   if (method === 'wechat') {
     icon.className = 'pay-jump-icon';
     icon.style.background = 'linear-gradient(135deg, #07C160, #2DC100)';
     icon.innerHTML = '微';
-    text.textContent = '点击确认后将跳转到微信完成付款';
+    text.textContent = '点击按钮可跳转到微信，或直接扫码支付';
+    qrPlaceholderIcon.style.background = 'linear-gradient(135deg, #07C160, #2DC100)';
+    qrPlaceholderIcon.innerHTML = '微';
+    qrHint.innerHTML = '请使用微信扫码支付 ¥<span id="payQRAmount">' + qrAmount.textContent + '</span>';
   } else {
     icon.className = 'pay-jump-icon';
     icon.style.background = 'linear-gradient(135deg, #1677FF, #0055FF)';
     icon.innerHTML = '支';
-    text.textContent = '点击确认后将跳转到支付宝完成付款';
+    text.textContent = '点击按钮可跳转到支付宝，或直接扫码支付';
+    qrPlaceholderIcon.style.background = 'linear-gradient(135deg, #1677FF, #0055FF)';
+    qrPlaceholderIcon.innerHTML = '支';
+    qrHint.innerHTML = '请使用支付宝扫码支付 ¥<span id="payQRAmount">' + qrAmount.textContent + '</span>';
+  }
+
+  // 显示收款码图片或占位符
+  if (qrCode) {
+    qrImg.src = qrCode;
+    qrImg.style.display = 'block';
+    qrPlaceholder.style.display = 'none';
+  } else {
+    qrImg.style.display = 'none';
+    qrPlaceholder.style.display = 'block';
   }
 }
 
