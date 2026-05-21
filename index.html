@@ -888,6 +888,48 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
 .pay-confirm-btn:active {
   opacity: 0.85;
 }
+/* 支付跳转提示 */
+.pay-jump-tip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--pink-ultra-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  text-align: left;
+}
+.pay-jump-tip .pay-jump-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.pay-jump-tip p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+/* 已完成付款按钮 */
+.pay-done-btn {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  color: var(--text-weak);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-family: var(--font-main);
+}
+.pay-done-btn:active {
+  background: var(--gray-bg);
+}
 
 /* ==================== 商家收款码管理 ==================== */
 .merchant-settings-section {
@@ -1139,7 +1181,7 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
       <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-users')">用户管理</div>
       <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-orders')">订单管理</div>
       <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-carousel')">轮播图</div>
-      <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-settings')">收款码</div>
+      <div class="merchant-tab" onclick="switchMerchantTab(this,'merchant-settings')">收款设置</div>
     </div>
     <div id="merchant-products" class="merchant-section">
       <div class="search-bar"><span class="search-icon">🔍</span><input type="text" placeholder="搜索商品名称..." id="merchantProductSearch" oninput="renderMerchantProducts()"></div>
@@ -1159,10 +1201,36 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
         <div id="carouselManageList"></div>
       </div>
     </div>
-    <!-- 商家收款码管理 -->
+    <!-- 商家收款设置 -->
     <div id="merchant-settings" class="merchant-section" style="display:none;">
       <div class="merchant-settings-section">
-        <div class="merchant-settings-title">💳 收款码管理</div>
+        <div class="merchant-settings-title">🔗 收款链接设置</div>
+        <p style="font-size:12px;color:var(--text-weak);margin-bottom:14px;">设置您的收款链接，客户支付时将自动跳转到对应APP完成付款</p>
+
+        <div style="margin-bottom:16px;">
+          <div class="qr-code-label">
+            <span class="icon wechat">微</span>
+            微信收款链接
+          </div>
+          <input type="url" id="wechatPayLink" placeholder="输入微信收款链接，如：weixin://..."
+            style="width:100%;height:40px;border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0 12px;font-size:13px;margin-top:8px;font-family:var(--font-main);"
+            oninput="savePaymentLinks()">
+          <p style="font-size:11px;color:var(--text-weak);margin-top:4px;">在微信中打开"收付款"→"二维码收款"→保存二维码图片→使用二维码识别工具获取链接</p>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div class="qr-code-label">
+            <span class="icon alipay">支</span>
+            支付宝收款链接
+          </div>
+          <input type="url" id="alipayPayLink" placeholder="输入支付宝收款链接，如：https://qr.alipay.com/..."
+            style="width:100%;height:40px;border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:0 12px;font-size:13px;margin-top:8px;font-family:var(--font-main);"
+            oninput="savePaymentLinks()">
+          <p style="font-size:11px;color:var(--text-weak);margin-top:4px;">在支付宝中打开"收钱"→保存收款码→使用二维码识别工具获取链接</p>
+        </div>
+      </div>
+      <div class="merchant-settings-section">
+        <div class="merchant-settings-title">备选：上传收款码图片（客户需手动扫码）</div>
         <p style="font-size:12px;color:var(--text-weak);margin-bottom:14px;">上传您的微信和支付宝收款码，客户下单时将显示对应的收款二维码</p>
         <div class="qr-code-upload">
           <div class="qr-code-item">
@@ -1351,7 +1419,7 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
   <div class="pay-modal-overlay" id="payModal">
     <div class="pay-modal">
       <div class="pay-modal-header">
-        <h3>选择支付方式</h3>
+        <h3>确认支付</h3>
         <div class="pay-modal-close" onclick="closePayModal()">✕</div>
       </div>
       <div class="pay-modal-body">
@@ -1369,29 +1437,12 @@ html, body { font-family:var(--font-main); background:var(--pink-bg); color:var(
             <div class="pay-method-name">支付宝</div>
           </div>
         </div>
-        <!-- 微信二维码区域 -->
-        <div class="pay-qr-area" id="wechatQRPayArea">
-          <div class="pay-qr-placeholder">
-            <img id="wechatPayQR" src="" alt="微信收款码" style="display:none;">
-            <div id="wechatPayPlaceholder">
-              <div class="pay-qr-icon wechat">微</div>
-            </div>
-          </div>
-          <div class="pay-qr-text" id="wechatPayText">请使用微信扫码支付</div>
-          <div class="pay-qr-tip">支付成功后请点击下方按钮确认</div>
+        <div class="pay-jump-tip" id="payJumpTip" style="display:none;">
+          <div class="pay-jump-icon" id="payJumpIcon"></div>
+          <p id="payJumpText">点击确认后将跳转到支付APP完成付款</p>
         </div>
-        <!-- 支付宝二维码区域 -->
-        <div class="pay-qr-area" id="alipayQRPayArea">
-          <div class="pay-qr-placeholder">
-            <img id="alipayPayQR" src="" alt="支付宝收款码" style="display:none;">
-            <div id="alipayPayPlaceholder">
-              <div class="pay-qr-icon alipay">支</div>
-            </div>
-          </div>
-          <div class="pay-qr-text" id="alipayPayText">请使用支付宝扫码支付</div>
-          <div class="pay-qr-tip">支付成功后请点击下方按钮确认</div>
-        </div>
-        <button class="pay-confirm-btn" id="payConfirmBtn" onclick="confirmPayment()">我已支付</button>
+        <button class="pay-confirm-btn" id="payConfirmBtn" onclick="jumpToPay()">确认支付</button>
+        <button class="pay-done-btn" onclick="confirmPayment()">我已完成付款</button>
       </div>
     </div>
   </div>
@@ -1440,7 +1491,9 @@ function loadData(){
         carousel:p.carousel||DEFAULT_CAROUSEL.slice(),
         stats:p.stats||{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales},
         // 新增：支付收款码
-        paymentQRCodes:p.paymentQRCodes||{wechat:'',alipay:''}
+        paymentQRCodes:p.paymentQRCodes||{wechat:'',alipay:''},
+        // 新增：收款链接（自动跳转支付APP）
+        paymentLinks:p.paymentLinks||{wechat:'',alipay:''}
       };
     }else{
       window.AppData={
@@ -1450,7 +1503,8 @@ function loadData(){
         currentUser:null,
         carousel:DEFAULT_CAROUSEL.slice(),
         stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales},
-        paymentQRCodes:{wechat:'',alipay:''}
+        paymentQRCodes:{wechat:'',alipay:''},
+        paymentLinks:{wechat:'',alipay:''}
       };
       saveData();
     }
@@ -1462,7 +1516,8 @@ function loadData(){
       currentUser:null,
       carousel:DEFAULT_CAROUSEL.slice(),
       stats:{productCount:DEFAULT_STATS.productCount,orderCount:DEFAULT_STATS.orderCount,totalSales:DEFAULT_STATS.totalSales},
-      paymentQRCodes:{wechat:'',alipay:''}
+      paymentQRCodes:{wechat:'',alipay:''},
+      paymentLinks:{wechat:'',alipay:''}
     };
   }
 }
@@ -1524,6 +1579,11 @@ function switchMerchantTab(el,id){
   el.classList.add('active');
   document.querySelectorAll('.merchant-section').forEach(function(s){s.style.display='none';});
   document.getElementById(id).style.display='block';
+  // 切换到收款设置时加载收款链接和收款码
+  if(id==='merchant-settings'){
+    loadPaymentLinks();
+    renderQRCodesInMerchantSettings();
+  }
 }
 
 // ==================== 弹窗 ====================
@@ -2111,22 +2171,18 @@ var selectedPayMethod = null;
 function openPayModal(order) {
   currentPayOrder = order;
   selectedPayMethod = null;
-  
+
   // 设置订单信息
   document.getElementById('payAmount').textContent = order.totalAmount.toFixed(2);
   document.getElementById('payOrderNo').textContent = '订单号：' + order.orderNo;
-  
+
   // 重置选择状态
   document.getElementById('payWechatMethod').classList.remove('selected');
   document.getElementById('payAlipayMethod').classList.remove('selected');
-  
-  // 隐藏二维码区域
-  document.getElementById('wechatQRPayArea').classList.remove('show');
-  document.getElementById('alipayQRPayArea').classList.remove('show');
-  
-  // 加载收款码
-  loadPaymentQRCodes();
-  
+
+  // 隐藏跳转提示
+  document.getElementById('payJumpTip').style.display = 'none';
+
   // 显示弹窗
   document.getElementById('payModal').classList.add('show');
 }
@@ -2137,53 +2193,58 @@ function closePayModal() {
   selectedPayMethod = null;
 }
 
-function loadPaymentQRCodes() {
-  var qrCodes = window.AppData.paymentQRCodes || { wechat: '', alipay: '' };
-  
-  // 微信收款码
-  var wechatImg = document.getElementById('wechatPayQR');
-  var wechatPlaceholder = document.getElementById('wechatPayPlaceholder');
-  if (qrCodes.wechat) {
-    wechatImg.src = qrCodes.wechat;
-    wechatImg.style.display = 'block';
-    wechatPlaceholder.style.display = 'none';
-  } else {
-    wechatImg.style.display = 'none';
-    wechatPlaceholder.style.display = 'flex';
-  }
-  
-  // 支付宝收款码
-  var alipayImg = document.getElementById('alipayPayQR');
-  var alipayPlaceholder = document.getElementById('alipayPayPlaceholder');
-  if (qrCodes.alipay) {
-    alipayImg.src = qrCodes.alipay;
-    alipayImg.style.display = 'block';
-    alipayPlaceholder.style.display = 'none';
-  } else {
-    alipayImg.style.display = 'none';
-    alipayPlaceholder.style.display = 'flex';
-  }
-}
-
 function selectPayMethod(method) {
   selectedPayMethod = method;
-  
+
   // 更新选择状态
   document.getElementById('payWechatMethod').classList.toggle('selected', method === 'wechat');
   document.getElementById('payAlipayMethod').classList.toggle('selected', method === 'alipay');
-  
-  // 显示对应二维码
-  document.getElementById('wechatQRPayArea').classList.toggle('show', method === 'wechat');
-  document.getElementById('alipayQRPayArea').classList.toggle('show', method === 'alipay');
+
+  // 显示跳转提示
+  var tip = document.getElementById('payJumpTip');
+  var icon = document.getElementById('payJumpIcon');
+  var text = document.getElementById('payJumpText');
+  tip.style.display = 'flex';
+
+  if (method === 'wechat') {
+    icon.className = 'pay-jump-icon';
+    icon.style.background = 'linear-gradient(135deg, #07C160, #2DC100)';
+    icon.innerHTML = '微';
+    text.textContent = '点击确认后将跳转到微信完成付款';
+  } else {
+    icon.className = 'pay-jump-icon';
+    icon.style.background = 'linear-gradient(135deg, #1677FF, #0055FF)';
+    icon.innerHTML = '支';
+    text.textContent = '点击确认后将跳转到支付宝完成付款';
+  }
 }
 
-function confirmPayment() {
+function jumpToPay() {
   if (!selectedPayMethod) {
     showToast('请选择支付方式');
     return;
   }
+
+  var links = window.AppData.paymentLinks || { wechat: '', alipay: '' };
+  var link = selectedPayMethod === 'wechat' ? links.wechat : links.alipay;
+
+  if (link) {
+    // 有收款链接，直接跳转
+    window.location.href = link;
+    showToast('正在跳转到支付页面...');
+  } else {
+    // 没有设置收款链接，显示提示
+    if (selectedPayMethod === 'wechat') {
+      showToast('商家尚未设置微信收款链接');
+    } else {
+      showToast('商家尚未设置支付宝收款链接');
+    }
+  }
+}
+
+function confirmPayment() {
   if (!currentPayOrder) return;
-  
+
   // 更新订单状态为已付款
   var order = window.AppData.orders.find(function(o) { return o.id === currentPayOrder.id; });
   if (order) {
@@ -2191,10 +2252,10 @@ function confirmPayment() {
     order.paidAt = nowStr();
     saveData();
   }
-  
+
   // 关闭支付弹窗
   closePayModal();
-  
+
   // 显示成功提示
   showToast('支付成功');
   
@@ -2207,6 +2268,22 @@ function confirmPayment() {
 document.getElementById('payModal').addEventListener('click', function(e) {
   if (e.target === this) closePayModal();
 });
+
+// ==================== 收款链接管理 ====================
+function savePaymentLinks() {
+  if (!window.AppData.paymentLinks) window.AppData.paymentLinks = { wechat: '', alipay: '' };
+  window.AppData.paymentLinks.wechat = document.getElementById('wechatPayLink').value.trim();
+  window.AppData.paymentLinks.alipay = document.getElementById('alipayPayLink').value.trim();
+  saveData();
+}
+
+function loadPaymentLinks() {
+  var links = window.AppData.paymentLinks || { wechat: '', alipay: '' };
+  var wechatInput = document.getElementById('wechatPayLink');
+  var alipayInput = document.getElementById('alipayPayLink');
+  if (wechatInput) wechatInput.value = links.wechat || '';
+  if (alipayInput) alipayInput.value = links.alipay || '';
+}
 
 // ==================== 商家收款码管理 ====================
 function handleQRCodeUpload(input, type) {
